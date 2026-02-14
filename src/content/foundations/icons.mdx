@@ -1,0 +1,49 @@
+---
+title: Icons
+description: Stroke-based icon library with consistent scaling across four sizes. All icons use a 24px canonical viewBox.
+---
+
+The icon system provides **51 icons** (47 stroked + 4 filled) sourced from the Figma design system. All icons share a single 24px SVG source and scale to other sizes via props.
+
+## How it works
+
+Every icon is a React component that accepts a `size` prop and automatically adjusts its `strokeWidth` to stay optically consistent.
+
+```tsx
+import { IconSearch, IconCheck } from "@/components/icons";
+
+// Named size tokens
+<IconSearch size="sm" />  // 16px, stroke 1.5
+<IconSearch size="md" />  // 20px, stroke 1.75
+<IconSearch size="lg" />  // 24px, stroke 2 (default)
+<IconSearch size="xl" />  // 32px, stroke 2.25
+
+// Override stroke manually
+<IconSearch size="lg" strokeWidth={1.5} />
+
+// Arbitrary numeric size
+<IconSearch size={18} />
+```
+
+## Accessibility
+
+Icons are **decorative by default** (`aria-hidden="true"`). Add `aria-label` or `title` to make them accessible:
+
+```tsx
+// Decorative (hidden from screen readers)
+<IconSearch size="lg" />
+
+// Accessible (role="img")
+<IconSearch size="lg" aria-label="Search" />
+<IconSearch size="lg" title="Search" />
+```
+
+## Color
+
+All icons use `currentColor` by default. Set color via Tailwind text utilities or the `color` prop:
+
+```tsx
+<IconCheck className="text-green-60" />
+<IconAlertCircle className="text-red-60" />
+<IconSearch color="#4D24C7" />
+```

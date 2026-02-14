@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDocBySlug, getAllDocs } from "@/lib/mdx";
 import { MdxRenderer } from "@/components/docs/MdxRenderer";
 import { TypographySpecimen } from "@/components/docs/TypographySpecimen";
+import { IconGallery } from "@/components/docs/IconGallery";
 
 export async function generateStaticParams() {
   const docs = getAllDocs("foundations");
@@ -56,6 +57,11 @@ export default async function FoundationPage({
       {slug === "typography" && (
         <div className="mt-10">
           <TypographySpecimen />
+        </div>
+      )}
+      {slug === "icons" && (
+        <div className="mt-10">
+          <IconGallery />
         </div>
       )}
     </article>

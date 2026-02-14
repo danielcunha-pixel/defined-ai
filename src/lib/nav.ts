@@ -39,6 +39,11 @@ export const navigation: NavSection[] = [
         href: "/foundations/colors",
         description: "Brand palette, semantic colors, and usage guidelines",
       },
+      {
+        title: "Icons",
+        href: "/foundations/icons",
+        description: "Stroke-based icon library with consistent size scaling",
+      },
     ],
   },
   {
@@ -73,6 +78,11 @@ export const navigation: NavSection[] = [
         title: "Tooltip",
         href: "/components/tooltip",
         description: "Contextual text label on hover or focus",
+      },
+      {
+        title: "Checkbox",
+        href: "/components/checkbox",
+        description: "Toggle control with checked, unchecked, and indeterminate states",
       },
     ],
   },
