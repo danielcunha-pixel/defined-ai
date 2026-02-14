@@ -32,6 +32,12 @@ import {
   TooltipWithTextDemo,
   TooltipToolbarDemo,
 } from "@/components/demos/tooltip-demo";
+import {
+  CheckboxDemo,
+  CheckboxStatesDemo,
+  CheckboxWithLabelDemo,
+  CheckboxGroupDemo,
+} from "@/components/demos/checkbox-demo";
 
 // ============================================
 // Component page definitions
@@ -412,6 +418,110 @@ const componentDefs: Record<string, ComponentDef> = {
       "Tooltip content is announced by screen readers when the trigger receives focus",
       "Always add aria-label to icon-only triggers so the button is accessible even without the tooltip",
       "Tooltip does not trap focus — it is purely informational",
+    ],
+  },
+  checkbox: {
+    previews: [
+      {
+        title: "Default",
+        demo: <CheckboxDemo />,
+        code: `<label className="flex items-start gap-sp-12 cursor-pointer">
+  <Checkbox id="terms" />
+  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+    Accept terms and conditions
+  </span>
+</label>`,
+      },
+      {
+        title: "States",
+        demo: <CheckboxStatesDemo />,
+        code: `{/* Unchecked */}
+<Checkbox />
+
+{/* Checked */}
+<Checkbox defaultChecked />
+
+{/* Indeterminate */}
+<Checkbox checked="indeterminate" />
+
+{/* Disabled unchecked */}
+<Checkbox disabled />
+
+{/* Disabled checked */}
+<Checkbox disabled defaultChecked />
+
+{/* Disabled indeterminate */}
+<Checkbox disabled checked="indeterminate" />`,
+      },
+      {
+        title: "With Labels",
+        demo: <CheckboxWithLabelDemo />,
+        code: `<label className="flex items-start gap-sp-12 cursor-pointer">
+  <Checkbox id="marketing" />
+  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+    Receive marketing emails
+  </span>
+</label>
+
+<label className="flex items-start gap-sp-12 cursor-pointer">
+  <Checkbox id="analytics" defaultChecked />
+  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+    Allow analytics tracking
+  </span>
+</label>`,
+      },
+      {
+        title: "Group with Indeterminate",
+        demo: <CheckboxGroupDemo />,
+        code: `const [selected, setSelected] = useState<string[]>(["read"]);
+
+const allChecked = items.every(item => selected.includes(item.id));
+const someChecked = items.some(item => selected.includes(item.id));
+
+<Checkbox
+  checked={allChecked ? true : someChecked ? "indeterminate" : false}
+  onCheckedChange={toggleAll}
+/>
+
+{items.map(item => (
+  <Checkbox
+    checked={selected.includes(item.id)}
+    onCheckedChange={() => toggle(item.id)}
+  />
+))}`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "checked", type: 'boolean | "indeterminate"', description: "Controlled checked state" },
+          { name: "defaultChecked", type: "boolean", default: "false", description: "Initial checked state (uncontrolled)" },
+          { name: "onCheckedChange", type: '(checked: boolean | "indeterminate") => void', description: "Callback when checked state changes" },
+          { name: "disabled", type: "boolean", default: "false", description: "Whether the checkbox is disabled" },
+          { name: "required", type: "boolean", default: "false", description: "Whether the checkbox is required in a form" },
+          { name: "name", type: "string", description: "Name attribute for form submission" },
+          { name: "value", type: "string", default: '"on"', description: "Value attribute for form submission" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Always pair checkboxes with a visible label. Use a <label> element wrapping both the checkbox and text for a larger click target." },
+        { type: "dont", text: "Use a checkbox without a label. Standalone checkboxes are ambiguous and inaccessible." },
+      ],
+      [
+        { type: "do", text: "Use the indeterminate state for parent checkboxes that represent a partially-selected group of children." },
+        { type: "dont", text: "Use the indeterminate state to represent an unknown or loading value. Use a spinner or skeleton instead." },
+      ],
+    ],
+    accessibility: [
+      "Checkbox uses role=\"checkbox\" with aria-checked for screen readers",
+      "Supports three aria-checked values: true, false, and mixed (indeterminate)",
+      "Keyboard: Space toggles the checkbox state",
+      "Always associate with a label using <label> wrapper or htmlFor/id",
+      "Focus states use a visible ring (ring-2 ring-purple-70/50)",
+      "Disabled checkboxes set aria-disabled and are excluded from tab order",
     ],
   },
 };
