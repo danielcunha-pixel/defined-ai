@@ -1,26 +1,411 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================
+   DESIGN SYSTEM TOKENS - Defined.ai
+   Source: Figma Design System - Components
+   ============================================ */
 
 @theme inline {
+  /* --- Fonts --- */
+  --font-sans: var(--font-satoshi), "Satoshi Variable", "Satoshi", sans-serif;
+  --font-heading: var(--font-satoshi), "Satoshi Variable", "Satoshi", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* --- Brand Colors --- */
+
+  /* Grey */
+  --color-grey-5: #F9F9FB;
+  --color-grey-10: #F3F3F7;
+  --color-grey-20: #E6E5EB;
+  --color-grey-30: #CCC9D6;
+  --color-grey-40: #B2AEC1;
+  --color-grey-50: #9C97B0;
+  --color-grey-60: #78708F;
+  --color-grey-70: #645C7A;
+  --color-grey-80: #57506C;
+  --color-grey-90: #403956;
+  --color-grey-100: #120F19;
+
+  /* Transparency Grey */
+  --color-t-grey-2: #120F1905;
+  --color-t-grey-5: #120F190D;
+  --color-t-grey-10: #120F191A;
+  --color-t-grey-15: #120F1926;
+  --color-t-grey-20: #120F1933;
+  --color-t-grey-30: #120F194D;
+  --color-t-grey-40: #120F1966;
+  --color-t-grey-50: #120F1980;
+  --color-t-grey-60: #120F1999;
+  --color-t-grey-70: #120F19B2;
+  --color-t-grey-80: #120F19CC;
+  --color-t-grey-90: #120F19E5;
+
+  /* Transparency White */
+  --color-t-white-2: #FFFFFF05;
+  --color-t-white-5: #FFFFFF0D;
+  --color-t-white-10: #FFFFFF1A;
+  --color-t-white-15: #FFFFFF26;
+  --color-t-white-20: #FFFFFF33;
+  --color-t-white-30: #FFFFFF4D;
+  --color-t-white-40: #FFFFFF66;
+  --color-t-white-50: #FFFFFF80;
+  --color-t-white-60: #FFFFFF99;
+  --color-t-white-70: #FFFFFFB2;
+  --color-t-white-80: #FFFFFFCC;
+  --color-t-white-90: #FFFFFFE5;
+
+  /* Purple */
+  --color-purple-10: #E7E1FA;
+  --color-purple-20: #D6CBF6;
+  --color-purple-30: #BBA9EF;
+  --color-purple-40: #987DE8;
+  --color-purple-50: #7652E0;
+  --color-purple-60: #5427D8;
+  --color-purple-70: #4D24C7;
+  --color-purple-80: #431FAD;
+  --color-purple-90: #321782;
+  --color-purple-100: #11082B;
+
+  /* Blue */
+  --color-blue-10: #DEEEF8;
+  --color-blue-20: #C1DFF1;
+  --color-blue-30: #A3D0EB;
+  --color-blue-40: #57A8DB;
+  --color-blue-50: #2A93D5;
+  --color-blue-60: #1D87C9;
+  --color-blue-70: #126AA1;
+  --color-blue-80: #0A4C76;
+  --color-blue-90: #042E49;
+  --color-blue-100: #001F33;
+
+  /* Green */
+  --color-green-10: #E0F2CF;
+  --color-green-20: #CCE9AF;
+  --color-green-30: #B2E085;
+  --color-green-40: #99DB57;
+  --color-green-50: #7FD52A;
+  --color-green-60: #73C91D;
+  --color-green-70: #59A112;
+  --color-green-80: #40760A;
+  --color-green-90: #264904;
+  --color-green-100: #1A3300;
+
+  /* Orange */
+  --color-orange-10: #FFECDC;
+  --color-orange-20: #FEDEC2;
+  --color-orange-30: #FEC99A;
+  --color-orange-40: #FEAD67;
+  --color-orange-50: #FD9235;
+  --color-orange-60: #FD7702;
+  --color-orange-70: #E56D00;
+  --color-orange-80: #984701;
+  --color-orange-90: #653001;
+  --color-orange-100: #482201;
+
+  /* Red */
+  --color-red-10: #FFE1DC;
+  --color-red-20: #FECBC2;
+  --color-red-30: #FEA99A;
+  --color-red-40: #FE7E67;
+  --color-red-50: #F5593D;
+  --color-red-60: #FF2600;
+  --color-red-70: #CC1F00;
+  --color-red-80: #991700;
+  --color-red-90: #660F00;
+  --color-red-100: #330800;
+
+  /* Pink */
+  --color-pink-10: #FFDCEE;
+  --color-pink-20: #FEC2E3;
+  --color-pink-30: #FE9AD0;
+  --color-pink-40: #FE67B8;
+  --color-pink-50: #FD35A0;
+  --color-pink-60: #FD0288;
+  --color-pink-70: #CA026D;
+  --color-pink-80: #980152;
+  --color-pink-90: #650137;
+  --color-pink-100: #480127;
+
+  /* --- Spacing --- */
+  --spacing-none: 0px;
+  --spacing-sp-1: 1px;
+  --spacing-sp-2: 2px;
+  --spacing-sp-4: 4px;
+  --spacing-sp-6: 6px;
+  --spacing-sp-8: 8px;
+  --spacing-sp-10: 10px;
+  --spacing-sp-12: 12px;
+  --spacing-sp-14: 14px;
+  --spacing-sp-16: 16px;
+  --spacing-sp-18: 18px;
+  --spacing-sp-20: 20px;
+  --spacing-sp-22: 22px;
+  --spacing-sp-24: 24px;
+  --spacing-sp-28: 28px;
+  --spacing-sp-32: 32px;
+  --spacing-sp-36: 36px;
+  --spacing-sp-40: 40px;
+  --spacing-sp-44: 44px;
+  --spacing-sp-48: 48px;
+  --spacing-sp-56: 56px;
+  --spacing-sp-60: 60px;
+  --spacing-sp-64: 64px;
+  --spacing-sp-72: 72px;
+  --spacing-sp-80: 80px;
+  --spacing-sp-96: 96px;
+  --spacing-sp-104: 104px;
+  --spacing-sp-112: 112px;
+  --spacing-sp-128: 128px;
+
+  /* --- Border Radius --- */
+  --radius-none: 0px;
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-24: 24px;
+  --radius-32: 32px;
+  --radius-full: 9999px;
+
+  /* shadcn radius aliases */
+  --radius-sm: var(--radius-4);
+  --radius-md: var(--radius-6);
+  --radius-lg: var(--radius-8);
+  --radius-xl: var(--radius-12);
+  --radius-2xl: var(--radius-16);
+  --radius-3xl: var(--radius-24);
+  --radius-4xl: var(--radius-32);
+
+  /* --- shadcn semantic color mappings --- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --- shadcn semantic tokens mapped to Defined.ai brand --- */
+:root {
+  --background: #FFFFFF;
+  --foreground: #120F19;
+  --card: #FFFFFF;
+  --card-foreground: #120F19;
+  --popover: #FFFFFF;
+  --popover-foreground: #120F19;
+  --primary: #4D24C7;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F3F3F7;
+  --secondary-foreground: #120F19;
+  --muted: #F3F3F7;
+  --muted-foreground: #645C7A;
+  --accent: #E7E1FA;
+  --accent-foreground: #11082B;
+  --destructive: #FF2600;
+  --border: #E6E5EB;
+  --input: #E6E5EB;
+  --ring: #4D24C7;
+  --chart-1: #4D24C7;
+  --chart-2: #FD7702;
+  --chart-3: #1D87C9;
+  --chart-4: #73C91D;
+  --chart-5: #FD0288;
+  --sidebar: #F9F9FB;
+  --sidebar-foreground: #120F19;
+  --sidebar-primary: #4D24C7;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E7E1FA;
+  --sidebar-accent-foreground: #11082B;
+  --sidebar-border: #E6E5EB;
+  --sidebar-ring: #4D24C7;
+}
+
+.dark {
+  --background: #120F19;
+  --foreground: #F3F3F7;
+  --card: #403956;
+  --card-foreground: #F3F3F7;
+  --popover: #403956;
+  --popover-foreground: #F3F3F7;
+  --primary: #7652E0;
+  --primary-foreground: #FFFFFF;
+  --secondary: #403956;
+  --secondary-foreground: #F3F3F7;
+  --muted: #403956;
+  --muted-foreground: #9C97B0;
+  --accent: #321782;
+  --accent-foreground: #E7E1FA;
+  --destructive: #F5593D;
+  --border: #120F1933;
+  --input: #120F194D;
+  --ring: #7652E0;
+  --chart-1: #7652E0;
+  --chart-2: #FD9235;
+  --chart-3: #2A93D5;
+  --chart-4: #7FD52A;
+  --chart-5: #FD35A0;
+  --sidebar: #403956;
+  --sidebar-foreground: #F3F3F7;
+  --sidebar-primary: #7652E0;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #321782;
+  --sidebar-accent-foreground: #E7E1FA;
+  --sidebar-border: #120F1933;
+  --sidebar-ring: #7652E0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================
+   TEXT STYLES - Defined.ai  (v2)
+   Source: Figma Design System - Components
+
+   NEW SYSTEM:
+   - Size/line-height: ds-text-{scale}  (font-family, font-size, line-height, letter-spacing)
+   - Weight: font-regular | font-medium | font-semibold | font-bold
+   - Compose: class="ds-text-heading-lg font-semibold"
+
+   LEGACY (deprecated):
+   - typo-desktop-* / typo-mobile-* kept as aliases — will be removed in a future version
+   ============================================ */
+
+@layer utilities {
+
+  /* ==========================================
+     SIZE CLASSES  (v2)
+     Prefix: ds-text-* to avoid Tailwind text-* collisions
+     Sets: font-family, font-size, line-height, letter-spacing
+     Does NOT set font-weight — pair with font-* utility
+     ========================================== */
+
+  /* --- Display --- */
+  .ds-text-display-xl  { font-family: var(--font-heading); font-size: 56px; line-height: 64px; letter-spacing: 0; }
+  .ds-text-display-lg  { font-family: var(--font-heading); font-size: 48px; line-height: 58px; letter-spacing: 0; }
+
+  /* --- Headings --- */
+  .ds-text-heading-xl  { font-family: var(--font-heading); font-size: 32px; line-height: 40px; letter-spacing: 0; }
+  .ds-text-heading-lg  { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; }
+  .ds-text-heading-md  { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; }
+  .ds-text-heading-sm  { font-family: var(--font-heading); font-size: 18px; line-height: 26px; letter-spacing: 0; }
+  .ds-text-heading-xs  { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; }
+
+  /* --- Body --- */
+  .ds-text-body-lg     { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; }
+  .ds-text-body-md     { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0.04em; }
+  .ds-text-body-sm     { font-family: var(--font-sans); font-size: 12px; line-height: 20px; letter-spacing: 0.04em; }
+
+  /* --- UI / Interactive --- */
+  .ds-text-ui-button-lg { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
+  .ds-text-ui-button-md { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; }
+  .ds-text-ui-tag       { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; }
+  .ds-text-ui-link-lg   { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
+  .ds-text-ui-link-md   { font-family: var(--font-sans); font-size: 15px; line-height: 15px; letter-spacing: 0.02em; }
+  .ds-text-ui-link-sm   { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; }
+
+  /* Notification indicator (utility, not in main scale) */
+  .ds-text-notification { font-family: var(--font-sans); font-size: 11px; line-height: 15px; letter-spacing: 0.04em; }
+
+
+  /* ==========================================
+     WEIGHT UTILITIES
+     ========================================== */
+  .font-regular  { font-weight: 400; }
+  .font-medium   { font-weight: 500; }
+  .font-semibold { font-weight: 600; }
+  .font-bold     { font-weight: 700; }
+
+
+  /* ==========================================
+     LEGACY ALIASES  (deprecated — do not use in new code)
+     Each maps to the exact same values as before.
+     ========================================== */
+
+  /* Desktop — Headings */
+  .typo-desktop-h1             { font-family: var(--font-heading); font-size: 56px; line-height: 64px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h2             { font-family: var(--font-heading); font-size: 48px; line-height: 58px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h3             { font-family: var(--font-heading); font-size: 32px; line-height: 40px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h4-semi-bold   { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h4-regular     { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; font-weight: 400; }
+  .typo-desktop-h5-semi-bold   { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h5-regular     { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; font-weight: 400; }
+  .typo-desktop-h5-regular-2   { font-family: var(--font-heading); font-size: 22px; line-height: 32px; letter-spacing: 0; font-weight: 400; }
+  .typo-desktop-h6-bold        { font-family: var(--font-heading); font-size: 18px; line-height: 26px; letter-spacing: 0; font-weight: 700; }
+  .typo-desktop-h6-semi-bold   { font-family: var(--font-heading); font-size: 18px; line-height: 26px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-h6-regular     { font-family: var(--font-heading); font-size: 18px; line-height: 26px; letter-spacing: 0; font-weight: 400; }
+  .typo-desktop-h7             { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; font-weight: 600; }
+
+  /* Desktop — Body */
+  .typo-desktop-paragraph-semi-bold { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-paragraph-regular   { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; font-weight: 400; }
+  .typo-desktop-small-text          { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0.04em; font-weight: 400; }
+  .typo-desktop-xsmall-text         { font-family: var(--font-sans); font-size: 12px; line-height: 20px; letter-spacing: 0.04em; font-weight: 400; }
+
+  /* Desktop — Interactive */
+  .typo-desktop-button-large          { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-button-medium         { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; font-weight: 600; }
+  .typo-desktop-tag                   { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; font-weight: 500; }
+  .typo-desktop-notification-indicator { font-family: var(--font-sans); font-size: 11px; line-height: 15px; letter-spacing: 0.04em; font-weight: 400; }
+  .typo-desktop-link-h5               { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; font-weight: 500; }
+  .typo-desktop-link-paragraph         { font-family: var(--font-sans); font-size: 15px; line-height: 15px; letter-spacing: 0.02em; font-weight: 500; }
+  .typo-desktop-link-small-text        { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; font-weight: 500; }
+
+  /* Mobile — Legacy aliases (unchanged values) */
+  .typo-mobile-tag                 { font-family: var(--font-sans); font-size: 13px; line-height: normal; letter-spacing: 0.04em; font-weight: 500; }
+  .typo-mobile-h1                  { font-family: var(--font-heading); font-size: 40px; line-height: 48px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h2                  { font-family: var(--font-heading); font-size: 32px; line-height: 40px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h3                  { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h4-semi-bold        { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h4-regular          { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; font-weight: 400; }
+  .typo-mobile-h5-semi-bold        { font-family: var(--font-heading); font-size: 18px; line-height: 22px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h5-regular          { font-family: var(--font-heading); font-size: 18px; line-height: 22px; letter-spacing: 0; font-weight: 400; }
+  .typo-mobile-h6-bold             { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; font-weight: 700; }
+  .typo-mobile-h6-semi-bold        { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-h6-regular          { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; font-weight: 400; }
+  .typo-mobile-h7                  { font-family: var(--font-heading); font-size: 15px; line-height: 18px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-paragraph-regular   { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0; font-weight: 400; }
+  .typo-mobile-paragraph-semi-bold { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0; font-weight: 600; }
+  .typo-mobile-small-text-regular  { font-family: var(--font-sans); font-size: 13px; line-height: 16px; letter-spacing: 0.02em; font-weight: 400; }
+  .typo-mobile-small-text-semi-bold { font-family: var(--font-sans); font-size: 13px; line-height: 16px; letter-spacing: 0.02em; font-weight: 600; }
+  .typo-mobile-xsmall-text         { font-family: var(--font-sans); font-size: 12px; line-height: 16px; letter-spacing: 0.04em; font-weight: 400; }
+  .typo-mobile-link-h5             { font-family: var(--font-sans); font-size: 16px; line-height: 16px; letter-spacing: 0; font-weight: 500; }
+  .typo-mobile-link-paragraph      { font-family: var(--font-sans); font-size: 14px; line-height: 15px; letter-spacing: 0; font-weight: 500; }
+  .typo-mobile-link-small-text     { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.02em; font-weight: 500; }
 }

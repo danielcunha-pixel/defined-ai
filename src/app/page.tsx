@@ -1,65 +1,96 @@
-import Image from "next/image";
+import Link from "next/link";
+import { navigation } from "@/lib/nav";
+import { ArrowRight, Palette, Layers, Component, LayoutGrid } from "lucide-react";
+
+const sectionIcons: Record<string, React.ReactNode> = {
+  Foundations: <Palette className="size-5 text-purple-60" />,
+  Tokens: <Layers className="size-5 text-blue-60" />,
+  Components: <Component className="size-5 text-green-60" />,
+};
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="flex flex-col gap-12">
+      {/* Hero */}
+      <div className="flex flex-col gap-4">
+        <div className="inline-flex items-center gap-2 self-start rounded-full bg-purple-10 px-3 py-1">
+          <div className="size-2 rounded-full bg-purple-60" />
+          <span className="ds-text-body-sm font-medium text-purple-70">
+            Design System v1.0
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <h1 className="ds-text-display-lg font-semibold text-grey-100">
+          Defined.ai Design System
+        </h1>
+        <p className="ds-text-heading-sm font-regular text-grey-60 max-w-xl">
+          A comprehensive component library and design guidelines for building
+          consistent, accessible, and beautiful interfaces at Defined.ai.
+        </p>
+      </div>
+
+      {/* Quick links grid */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {navigation
+          .filter((s) => s.title !== "Getting Started")
+          .map((section) => (
+            <div key={section.title} className="flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                {sectionIcons[section.title] || (
+                  <LayoutGrid className="size-5 text-grey-50" />
+                )}
+                <h2 className="ds-text-heading-xs font-semibold text-grey-100">
+                  {section.title}
+                </h2>
+              </div>
+              <div className="flex flex-col rounded-[12px] border border-grey-20 overflow-hidden divide-y divide-grey-10">
+                {section.items.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="group flex items-center justify-between px-4 py-3 transition-colors hover:bg-grey-5"
+                  >
+                    <div className="flex flex-col gap-0.5">
+                      <span className="ds-text-body-md font-medium text-grey-100">
+                        {item.title}
+                      </span>
+                      {item.description && (
+                        <span className="ds-text-body-sm font-regular text-grey-50 line-clamp-1">
+                          {item.description}
+                        </span>
+                      )}
+                    </div>
+                    <ArrowRight className="size-4 text-grey-30 transition-transform group-hover:translate-x-0.5 group-hover:text-purple-60" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+      </div>
+
+      {/* Getting started */}
+      <div className="rounded-[12px] border border-purple-20 bg-purple-10/30 p-6">
+        <h2 className="ds-text-heading-sm font-semibold text-grey-100 mb-2">
+          Quick Start
+        </h2>
+        <p className="ds-text-body-lg font-regular text-grey-70 mb-4">
+          Import components directly from <code className="rounded bg-grey-10 px-1.5 py-0.5 text-[13px] font-medium text-purple-70">@/components/ui</code> and use them with the design tokens defined in the system.
+        </p>
+        <div className="overflow-x-auto rounded-[8px] border border-grey-20 bg-grey-100 p-4">
+          <pre className="text-sm leading-relaxed">
+            <code className="text-grey-30">
+{`import { Button } from "@/components/ui/button"
+
+export function MyComponent() {
+  return (
+    <Button variant="primary" size="md">
+      Get Started
+    </Button>
+  )
+}`}
+            </code>
+          </pre>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

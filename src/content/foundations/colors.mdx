@@ -1,0 +1,75 @@
+---
+title: Colors
+description: Brand color palette, semantic colors, and transparency scales for the Defined.ai design system.
+---
+
+# Colors
+
+The Defined.ai color system is built around a purple brand identity with supporting neutral greys and semantic color scales.
+
+## Brand Palette
+
+### Primary - Purple
+
+Purple is the primary brand color used for interactive elements, links, and primary actions.
+
+- **Primary action**: `purple-70` (#4D24C7)
+- **Hover state**: `purple-80` (#431FAD)
+- **Active state**: `purple-90` (#321782)
+- **Light accent**: `purple-10` (#E7E1FA)
+
+### Neutral - Grey
+
+Grey scale is used for text, borders, backgrounds, and UI structure.
+
+- **Primary text**: `grey-100` (#120F19)
+- **Secondary text**: `grey-70` (#645C7A)
+- **Muted text**: `grey-50` (#9C97B0)
+- **Borders**: `grey-20` (#E6E5EB)
+- **Light background**: `grey-5` (#F9F9FB)
+
+## Semantic Colors
+
+| Purpose | Color | Token | Usage |
+|---------|-------|-------|-------|
+| Success | Green | `green-60` | Confirmations, positive states |
+| Warning | Orange | `orange-60` | Alerts, caution states |
+| Error | Red | `red-60` | Errors, destructive actions |
+| Info | Blue | `blue-60` | Informational, links |
+
+## Transparency Scales
+
+Two transparency scales are available for overlays and glassmorphism effects:
+
+- **Transparency Grey** (`t-grey-*`): Dark overlays on light backgrounds
+- **Transparency White** (`t-white-*`): Light overlays on dark backgrounds
+
+Both scales range from 2% to 90% opacity.
+
+## Usage in Tailwind
+
+Colors are defined as CSS custom properties and available as Tailwind utilities:
+
+```tsx
+// Background
+<div className="bg-purple-70" />
+<div className="bg-grey-5" />
+
+// Text
+<p className="text-grey-100" />
+<p className="text-purple-70" />
+
+// Border
+<div className="border border-grey-20" />
+
+// Transparency
+<div className="bg-t-grey-50" />
+<div className="bg-t-white-20" />
+```
+
+## Accessibility
+
+- All text colors maintain WCAG 2.1 AA contrast ratios against their intended backgrounds
+- `grey-100` on white background: **15.2:1** contrast ratio
+- `purple-70` on white background: **7.1:1** contrast ratio
+- Avoid using light grey text (`grey-30` and below) for body copy

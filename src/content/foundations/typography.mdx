@@ -1,0 +1,33 @@
+---
+title: Typography
+description: Size roles, weight utilities, and text style guidelines for the Defined.ai design system.
+---
+
+The Defined.ai design system uses **Satoshi Variable** as its primary typeface, loaded locally via `next/font/local`.
+
+- **Primary font**: Satoshi Variable (`--font-satoshi`)
+- **Monospace**: System monospace stack
+
+## How it works
+
+Every text style is built from two independent classes:
+
+1. **Size role** (`ds-text-*`) — sets font-family, font-size, line-height, and letter-spacing.
+2. **Weight utility** (`font-regular`, `font-medium`, `font-semibold`, `font-bold`) — sets font-weight only.
+
+Combine them to produce the final style:
+
+```tsx
+<h1 className="ds-text-display-xl font-semibold text-grey-100">
+  Page Title
+</h1>
+<p className="ds-text-body-lg font-regular text-grey-60">
+  Body paragraph text.
+</p>
+```
+
+> The `ds-text-` prefix avoids collisions with Tailwind's built-in `text-*` utilities and `tailwind-merge`.
+
+### Migrating from v1
+
+Old `typo-desktop-*` classes are kept as deprecated aliases. Replace them with the new size + weight pair. See the **Legacy Mapping** table on the [Tokens page](/tokens) for the full list.
