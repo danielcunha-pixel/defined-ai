@@ -61,12 +61,17 @@ export function PlaygroundControl({
   }
 
   if (control.type === 'number') {
+    const resolvedValue =
+      typeof value === 'number' || typeof value === 'string'
+        ? value
+        : control.defaultValue;
+
     return (
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-grey-80">{label}</label>
         <input
           type="number"
-          value={value === undefined ? control.defaultValue : value}
+          value={resolvedValue}
           onChange={(e) => onChange(Number(e.target.value))}
           min={control.min}
           max={control.max}
