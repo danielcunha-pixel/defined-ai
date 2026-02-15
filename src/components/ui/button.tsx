@@ -20,7 +20,8 @@ const buttonVariants = cva(
           "bg-purple-70 text-white",
           "shadow-[0px_2px_4px_0px_rgba(18,15,25,0.3),0px_0.5px_1px_0px_rgba(18,15,25,0.4)]",
           "after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0px_-1px_0px_0px_rgba(0,0,0,0.7)] after:pointer-events-none",
-          "hover:bg-purple-80 active:bg-purple-90",
+          "hover:bg-purple-80 hover:shadow-[0px_2px_4px_0px_rgba(18,15,25,0.3),0px_0.5px_1px_0px_rgba(18,15,25,0.4)]",
+          "active:bg-purple-90 active:shadow-none active:after:shadow-none",
         ].join(" "),
         secondary: [
           "bg-grey-60 text-white",
