@@ -63,8 +63,8 @@ const buttonVariants = cva(
         link: "text-purple-70 underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-9 gap-sp-8 px-sp-14 ds-text-ui-button-md font-semibold",
-        md: "h-10 gap-sp-8 px-sp-14 ds-text-ui-button-md font-semibold",
+        sm: "h-9 gap-sp-4 px-sp-14 ds-text-ui-button-md font-semibold",
+        md: "h-10 gap-sp-6 px-sp-14 ds-text-ui-button-md font-semibold",
         lg: "h-11 gap-sp-8 px-sp-18 ds-text-ui-button-md font-semibold",
         xl: "h-14 px-sp-24 ds-text-ui-button-lg font-semibold",
         "icon-sm": "size-9",
