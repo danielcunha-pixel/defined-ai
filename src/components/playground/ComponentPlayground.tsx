@@ -103,11 +103,16 @@ export function ComponentPlayground({
 
   // Copy props to clipboard
   const copyPropsToClipboard = () => {
-    // Exclude state, iconPlacement, and data-simulate-state from props (they're simulation/layout only, not real props)
-    const propsForClipboard = { ...finalProps };
-    delete (propsForClipboard as any).state;
-    delete (propsForClipboard as any).iconPlacement;
-    delete (propsForClipboard as any)["data-simulate-state"];
+    // Build props from componentProps (which has icon placeholders)
+    const propsForClipboard = { ...componentProps };
+
+    // Remove __preview* internal props
+    Object.keys(propsForClipboard).forEach((key) => {
+      if (key.startsWith('__preview')) {
+        delete (propsForClipboard as any)[key];
+      }
+    });
+
     const json = JSON.stringify(propsForClipboard, null, 2);
     navigator.clipboard.writeText(json);
   };
@@ -126,6 +131,61 @@ export function ComponentPlayground({
   const componentProps = { ...finalProps };
   delete (componentProps as any).state;
   delete (componentProps as any).iconPlacement;
+
+  // For Button component: derive icon props from iconPlacement (single source of truth)
+  // Never pass multiple icon props simultaneously
+  if (componentName === 'Button') {
+    // Remove any existing icon props first
+    delete (componentProps as any).leadingIcon;
+    delete (componentProps as any).trailingIcon;
+    delete (componentProps as any).icon;
+
+    // Derive icon props based on iconPlacement (single source of truth)
+    // Use a placeholder object so JSON serialization shows the structure
+    const iconPlacement = finalProps.iconPlacement;
+    const iconPlaceholder = { /* replace with your icon component */ };
+
+    if (iconPlacement === 'left') {
+      (componentProps as any).leadingIcon = iconPlaceholder;
+    } else if (iconPlacement === 'right') {
+      (componentProps as any).trailingIcon = iconPlaceholder;
+    } else if (iconPlacement === 'none' && finalProps.iconOnly) {
+      // Icon-only variant: use generic icon prop
+      (componentProps as any).icon = iconPlaceholder;
+    }
+
+    // Development guard: ensure only one icon prop is present
+    if (process.env.NODE_ENV === 'development') {
+      const iconPropsPresent = [
+        (componentProps as any).leadingIcon,
+        (componentProps as any).trailingIcon,
+        (componentProps as any).icon,
+      ].filter(Boolean).length;
+
+      if (iconPropsPresent > 1) {
+        console.error(
+          '[ComponentPlayground] Bug: Multiple icon props passed to Button. ' +
+          'iconPlacement is the single source of truth. ' +
+          'This should never happen. Please report this bug.'
+        );
+      }
+    }
+
+    // For preview rendering: create actual JSX icon to pass to component
+    const mockIconJSX = (
+      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+      </svg>
+    );
+
+    if (iconPlacement === 'left') {
+      (componentProps as any).__previewLeadingIcon = mockIconJSX;
+    } else if (iconPlacement === 'right') {
+      (componentProps as any).__previewTrailingIcon = mockIconJSX;
+    } else if (iconPlacement === 'none' && finalProps.iconOnly) {
+      (componentProps as any).__previewIcon = mockIconJSX;
+    }
+  }
 
   if (!mounted) {
     return null;
@@ -218,9 +278,20 @@ export function ComponentPlayground({
             {/* State classes are applied directly via className from buttonStateClasses.ts */}
             {componentName === 'Button' ? (
               <Component
-                {...componentProps}
+                {...{
+                  // Spread componentProps but exclude __preview* props and icon placeholders
+                  ...Object.fromEntries(
+                    Object.entries(componentProps).filter(
+                      ([key]) => !key.startsWith('__preview')
+                    )
+                  ),
+                  // Add actual JSX icon props for preview rendering
+                  leadingIcon: (componentProps as any).__previewLeadingIcon,
+                  trailingIcon: (componentProps as any).__previewTrailingIcon,
+                  icon: (componentProps as any).__previewIcon,
+                }}
                 className={cn(
-                  componentProps.className,
+                  (componentProps as any).className,
                   // Apply square size for icon-only buttons
                   finalProps.iconOnly ? getIconOnlySize((finalProps.size as string) || 'md') : '',
                   getStateClasses(
@@ -229,17 +300,7 @@ export function ComponentPlayground({
                   )
                 )}
               >
-                {(finalProps.iconPlacement === 'left' || finalProps.iconPlacement === 'right') && !finalProps.iconOnly && (
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                )}
                 {!finalProps.iconOnly && 'Button'}
-                {(finalProps.iconPlacement === 'right' || finalProps.iconOnly) && (
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                )}
               </Component>
             ) : (
               <Component {...componentProps}>Component</Component>
@@ -253,7 +314,7 @@ export function ComponentPlayground({
               {JSON.stringify(
                 Object.fromEntries(
                   Object.entries(componentProps).filter(
-                    ([, v]) => v !== undefined
+                    ([key, v]) => v !== undefined && !key.startsWith('__preview')
                   )
                 ),
                 null,
