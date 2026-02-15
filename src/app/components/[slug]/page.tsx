@@ -6,6 +6,7 @@ import { PropsTable } from "@/components/docs/PropsTable";
 import { DoDont } from "@/components/docs/DoDont";
 import { CodeBlock } from "@/components/docs/CodeBlock";
 import { highlightCode } from "@/lib/highlight";
+import { ComponentPlayground } from "@/components/playground";
 
 // Demo components
 import {
@@ -15,6 +16,8 @@ import {
   ButtonDisabledDemo,
   ButtonDarkDemo,
 } from "@/components/demos/button-demo";
+import { Button } from "@/components/ui/button";
+import { buttonPlaygroundConfig } from "@/components/ui/button.playground";
 import {
   InputDemo,
   InputStatesDemo,
@@ -546,6 +549,22 @@ export default async function ComponentPage({
               </li>
             ))}
           </ul>
+
+          {/* Interactive Playground (Button only) */}
+          {slug === "button" && (
+            <div className="mt-8">
+              <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 border-b border-grey-10 pb-2">
+                Playground
+              </h2>
+              <div className="mt-6">
+                <ComponentPlayground
+                  Component={Button}
+                  playground={buttonPlaygroundConfig}
+                  componentName="Button"
+                />
+              </div>
+            </div>
+          )}
         </>
       )}
     </article>
