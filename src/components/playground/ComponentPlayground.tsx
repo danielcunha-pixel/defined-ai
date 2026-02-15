@@ -4,6 +4,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PlaygroundConfig } from './types';
 import { PlaygroundControl } from './PlaygroundControl';
+import { getStateClasses } from './buttonStateClasses';
+import { cn } from '@/lib/utils';
 
 interface ComponentPlaygroundProps {
   Component: React.ComponentType<any>;
@@ -101,10 +103,11 @@ export function ComponentPlayground({
 
   // Copy props to clipboard
   const copyPropsToClipboard = () => {
-    // Exclude state and iconPlacement from props (they're simulation/layout only, not real props)
+    // Exclude state, iconPlacement, and data-simulate-state from props (they're simulation/layout only, not real props)
     const propsForClipboard = { ...finalProps };
     delete (propsForClipboard as any).state;
     delete (propsForClipboard as any).iconPlacement;
+    delete (propsForClipboard as any)["data-simulate-state"];
     const json = JSON.stringify(propsForClipboard, null, 2);
     navigator.clipboard.writeText(json);
   };
@@ -204,54 +207,41 @@ export function ComponentPlayground({
           {/* Preview with state simulation */}
           <div className="text-xs text-grey-60 font-medium">PREVIEW</div>
 
-          {/* State simulation wrapper with styles for different states */}
+          {/* Preview with state simulation via className injection */}
           <div
-            data-state={simulationState}
             className="flex items-center justify-center min-h-64 bg-gradient-to-br from-grey-5 to-grey-10 rounded-[8px] border border-grey-20 p-4"
             style={{
               // Disable interaction in preview - it's simulation only
               pointerEvents: 'none',
             }}
           >
-            {/* Inline styles for state simulation on the button */}
-            <style>{`
-              [data-state="hover"] button {
-                background-color: var(--color-purple-80);
-                box-shadow: 0px 2px 4px 0px rgba(18,15,25,0.3), 0px 0.5px 1px 0px rgba(18,15,25,0.4);
-              }
-              [data-state="focus"] button {
-                outline: 2px solid rgba(147, 112, 219, 0.5);
-                outline-offset: 2px;
-              }
-              [data-state="pressed"] button {
-                background-color: var(--color-purple-90);
-                box-shadow: none;
-              }
-              [data-state="disabled"] button {
-                opacity: 0.5;
-                pointer-events: none;
-              }
-            `}</style>
-            <Component {...componentProps}>
-              {/* Render button with optional icon based on iconPlacement */}
-              {componentName === 'Button' ? (
-                <>
-                  {(finalProps.iconPlacement === 'left' || finalProps.iconPlacement === 'right') && !finalProps.iconOnly && (
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                  {!finalProps.iconOnly && 'Button'}
-                  {(finalProps.iconPlacement === 'right' || finalProps.iconOnly) && (
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                </>
-              ) : (
-                'Component'
-              )}
-            </Component>
+            {/* State classes are applied directly via className from buttonStateClasses.ts */}
+            {componentName === 'Button' ? (
+              <Component
+                {...componentProps}
+                className={cn(
+                  componentProps.className,
+                  getStateClasses(
+                    (finalProps.variant as any) || 'primary',
+                    simulationState
+                  )
+                )}
+              >
+                {(finalProps.iconPlacement === 'left' || finalProps.iconPlacement === 'right') && !finalProps.iconOnly && (
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                )}
+                {!finalProps.iconOnly && 'Button'}
+                {(finalProps.iconPlacement === 'right' || finalProps.iconOnly) && (
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </Component>
+            ) : (
+              <Component {...componentProps}>Component</Component>
+            )}
           </div>
 
           {/* Props Display */}
