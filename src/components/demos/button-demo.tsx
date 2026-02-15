@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Plus, Download } from "lucide-react";
-import { IconChevronRight } from "@/components/icons";
+import { IconChevronRight, IconCheck, IconDownloadCloud } from "@/components/icons";
 
 export function ButtonDemo() {
   return (
@@ -34,15 +33,15 @@ export function ButtonWithIconsDemo() {
         <IconChevronRight size="sm" />
       </Button>
       <Button variant="secondary" size="md">
-        <Plus className="size-4" />
+        <IconCheck size="sm" />
         Add item
       </Button>
       <Button variant="tertiary" size="md">
-        <Download className="size-4" />
+        <IconDownloadCloud size="sm" />
         Download
       </Button>
       <Button variant="tertiary" size="icon-md">
-        <Plus className="size-5" />
+        <IconCheck size="sm" />
       </Button>
     </div>
   );
