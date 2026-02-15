@@ -63,42 +63,18 @@ const buttonVariants = cva(
         destructive: "bg-red-60 text-white hover:bg-red-70 active:bg-red-80",
       },
       size: {
-        sm: "h-9 gap-2 ds-text-ui-button-md font-semibold",
-        md: "h-10 gap-2 ds-text-ui-button-md font-semibold",
-        lg: "h-11 gap-2 ds-text-ui-button-md font-semibold",
-        xl: "h-14 gap-2.5 ds-text-ui-button-lg font-semibold",
+        sm: "h-9 gap-2 px-sp-14 ds-text-ui-button-md font-semibold",
+        md: "h-10 gap-2 px-sp-14 ds-text-ui-button-md font-semibold",
+        lg: "h-11 gap-2 px-sp-18 ds-text-ui-button-md font-semibold",
+        xl: "h-14 gap-2.5 px-sp-24 ds-text-ui-button-lg font-semibold",
         "icon-sm": "size-9",
         "icon-md": "size-10",
         "icon-lg": "size-11",
       },
-      iconPlacement: {
-        none: "",
-        left: "",
-        right: "",
-      },
     },
-    compoundVariants: [
-      // Size sm + icon placement
-      { size: "sm", iconPlacement: "none", class: "px-sp-14" },
-      { size: "sm", iconPlacement: "left", class: "pl-sp-10 pr-sp-14" },
-      { size: "sm", iconPlacement: "right", class: "pl-sp-14 pr-sp-10" },
-      // Size md + icon placement
-      { size: "md", iconPlacement: "none", class: "px-sp-14" },
-      { size: "md", iconPlacement: "left", class: "pl-sp-12 pr-sp-14" },
-      { size: "md", iconPlacement: "right", class: "pl-sp-14 pr-sp-12" },
-      // Size lg + icon placement
-      { size: "lg", iconPlacement: "none", class: "px-sp-18" },
-      { size: "lg", iconPlacement: "left", class: "pl-sp-14 pr-sp-18" },
-      { size: "lg", iconPlacement: "right", class: "pl-sp-18 pr-sp-14" },
-      // Size xl + icon placement (no icon support, fallback to symmetric)
-      { size: "xl", iconPlacement: "none", class: "px-sp-24" },
-      { size: "xl", iconPlacement: "left", class: "px-sp-24" },
-      { size: "xl", iconPlacement: "right", class: "px-sp-24" },
-    ],
     defaultVariants: {
       variant: "primary",
       size: "md",
-      iconPlacement: "none",
     },
   }
 )
@@ -107,7 +83,6 @@ function Button({
   className,
   variant = "primary",
   size = "md",
-  iconPlacement = "none",
   asChild = false,
   ...props
 }: React.ComponentProps<"button"> &
@@ -121,8 +96,7 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      data-icon-placement={iconPlacement}
-      className={cn(buttonVariants({ variant, size, iconPlacement, className }))}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
   )

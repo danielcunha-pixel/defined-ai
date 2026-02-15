@@ -185,8 +185,6 @@
   /* --- shadcn semantic color mappings --- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
@@ -220,8 +218,6 @@
 :root {
   --background: #FFFFFF;
   --foreground: #120F19;
-  --card: #FFFFFF;
-  --card-foreground: #120F19;
   --popover: #FFFFFF;
   --popover-foreground: #120F19;
   --primary: #4D24C7;
@@ -254,8 +250,6 @@
 .dark {
   --background: #120F19;
   --foreground: #F3F3F7;
-  --card: #403956;
-  --card-foreground: #F3F3F7;
   --popover: #403956;
   --popover-foreground: #F3F3F7;
   --primary: #7652E0;
@@ -408,4 +402,45 @@
   .typo-mobile-link-h5             { font-family: var(--font-sans); font-size: 16px; line-height: 16px; letter-spacing: 0; font-weight: 500; }
   .typo-mobile-link-paragraph      { font-family: var(--font-sans); font-size: 14px; line-height: 15px; letter-spacing: 0; font-weight: 500; }
   .typo-mobile-link-small-text     { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.02em; font-weight: 500; }
+
+  /* ==========================================
+     BUTTON ICON PLACEMENT (Auto-detect with :has())
+     Applies asymmetric padding based on icon position
+     ========================================== */
+
+  /* Size sm - icon left */
+  [data-slot="button"][data-size="sm"]:has(> svg:first-child),
+  [data-slot="button"][data-size="sm"]:has(> [class*="icon"]:first-child) {
+    @apply pl-sp-10 pr-sp-14;
+  }
+
+  /* Size sm - icon right */
+  [data-slot="button"][data-size="sm"]:has(> svg:last-child),
+  [data-slot="button"][data-size="sm"]:has(> [class*="icon"]:last-child) {
+    @apply pl-sp-14 pr-sp-10;
+  }
+
+  /* Size md - icon left */
+  [data-slot="button"][data-size="md"]:has(> svg:first-child),
+  [data-slot="button"][data-size="md"]:has(> [class*="icon"]:first-child) {
+    @apply pl-sp-12 pr-sp-14;
+  }
+
+  /* Size md - icon right */
+  [data-slot="button"][data-size="md"]:has(> svg:last-child),
+  [data-slot="button"][data-size="md"]:has(> [class*="icon"]:last-child) {
+    @apply pl-sp-14 pr-sp-12;
+  }
+
+  /* Size lg - icon left */
+  [data-slot="button"][data-size="lg"]:has(> svg:first-child),
+  [data-slot="button"][data-size="lg"]:has(> [class*="icon"]:first-child) {
+    @apply pl-sp-14 pr-sp-18;
+  }
+
+  /* Size lg - icon right */
+  [data-slot="button"][data-size="lg"]:has(> svg:last-child),
+  [data-slot="button"][data-size="lg"]:has(> [class*="icon"]:last-child) {
+    @apply pl-sp-18 pr-sp-14;
+  }
 }
