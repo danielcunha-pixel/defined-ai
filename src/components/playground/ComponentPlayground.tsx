@@ -204,28 +204,34 @@ export function ComponentPlayground({
           {/* Preview with state simulation */}
           <div className="text-xs text-grey-60 font-medium">PREVIEW</div>
 
-          {/* State simulation wrapper */}
+          {/* State simulation wrapper with styles for different states */}
           <div
             data-state={simulationState}
             className="flex items-center justify-center min-h-64 bg-gradient-to-br from-grey-5 to-grey-10 rounded-[8px] border border-grey-20 p-4"
             style={{
               // Disable interaction in preview - it's simulation only
               pointerEvents: 'none',
-              // Simulate states via CSS
-              ...(simulationState === 'hover' && {
-                backgroundColor: 'rgba(243, 243, 246, 0.8)',
-              }),
-              ...(simulationState === 'focus' && {
-                boxShadow: '0 0 0 2px rgba(147, 112, 219, 0.3) inset',
-              }),
-              ...(simulationState === 'pressed' && {
-                backgroundColor: 'rgba(229, 229, 235, 1)',
-              }),
-              ...(simulationState === 'disabled' && {
-                opacity: 0.6,
-              }),
             }}
           >
+            {/* Inline styles for state simulation on the button */}
+            <style>{`
+              [data-state="hover"] button {
+                background-color: var(--color-purple-80);
+                box-shadow: 0px 2px 4px 0px rgba(18,15,25,0.3), 0px 0.5px 1px 0px rgba(18,15,25,0.4);
+              }
+              [data-state="focus"] button {
+                outline: 2px solid rgba(147, 112, 219, 0.5);
+                outline-offset: 2px;
+              }
+              [data-state="pressed"] button {
+                background-color: var(--color-purple-90);
+                box-shadow: none;
+              }
+              [data-state="disabled"] button {
+                opacity: 0.5;
+                pointer-events: none;
+              }
+            `}</style>
             <Component {...componentProps}>
               {/* Render button with optional icon based on iconPlacement */}
               {componentName === 'Button' ? (
