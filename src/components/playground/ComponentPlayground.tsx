@@ -101,9 +101,10 @@ export function ComponentPlayground({
 
   // Copy props to clipboard
   const copyPropsToClipboard = () => {
-    // Exclude state from props (it's simulation only)
+    // Exclude state and iconPlacement from props (they're simulation/layout only, not real props)
     const propsForClipboard = { ...finalProps };
     delete (propsForClipboard as any).state;
+    delete (propsForClipboard as any).iconPlacement;
     const json = JSON.stringify(propsForClipboard, null, 2);
     navigator.clipboard.writeText(json);
   };
@@ -117,9 +118,11 @@ export function ComponentPlayground({
   // State for simulation (not a real prop passed to Component)
   const simulationState = String(finalProps.state || 'enabled');
 
-  // Props passed to component (exclude state)
+  // Props passed to component (exclude state and iconPlacement)
+  // State is purely for visual simulation via CSS, not a real component prop
   const componentProps = { ...finalProps };
   delete (componentProps as any).state;
+  delete (componentProps as any).iconPlacement;
 
   if (!mounted) {
     return null;
@@ -206,6 +209,8 @@ export function ComponentPlayground({
             data-state={simulationState}
             className="flex items-center justify-center min-h-64 bg-gradient-to-br from-grey-5 to-grey-10 rounded-[8px] border border-grey-20 p-4"
             style={{
+              // Disable interaction in preview - it's simulation only
+              pointerEvents: 'none',
               // Simulate states via CSS
               ...(simulationState === 'hover' && {
                 backgroundColor: 'rgba(243, 243, 246, 0.8)',
@@ -222,7 +227,24 @@ export function ComponentPlayground({
             }}
           >
             <Component {...componentProps}>
-              {componentName === 'Button' ? 'Button' : 'Component'}
+              {/* Render button with optional icon based on iconPlacement */}
+              {componentName === 'Button' ? (
+                <>
+                  {(finalProps.iconPlacement === 'left' || finalProps.iconPlacement === 'right') && !finalProps.iconOnly && (
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  {!finalProps.iconOnly && 'Button'}
+                  {(finalProps.iconPlacement === 'right' || finalProps.iconOnly) && (
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                </>
+              ) : (
+                'Component'
+              )}
             </Component>
           </div>
 

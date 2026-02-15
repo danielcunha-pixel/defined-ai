@@ -20,8 +20,6 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
     state: 'enabled',
     iconPlacement: 'none',
     iconOnly: false,
-    inverted: false,
-    disabled: false,
   },
 
   controls: {
@@ -51,6 +49,7 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
     },
 
     // State: Visual state simulation (not a real prop)
+    // Includes "Disabled" as a visual state option
     state: {
       type: 'select',
       options: [
@@ -64,7 +63,7 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
     },
 
     // Icon: Single control for icon placement
-    // Maps to iconPlacement prop: 'none' | 'left' | 'right'
+    // Playground handles rendering the icon based on this value
     iconPlacement: {
       type: 'select',
       options: [
@@ -77,18 +76,6 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
 
     // Icon only: Hide text, show icon only
     iconOnly: {
-      type: 'boolean',
-      defaultValue: false,
-    },
-
-    // Inverted: For use on dark/colored backgrounds
-    inverted: {
-      type: 'boolean',
-      defaultValue: false,
-    },
-
-    // Disabled: Standard disabled state
-    disabled: {
       type: 'boolean',
       defaultValue: false,
     },
