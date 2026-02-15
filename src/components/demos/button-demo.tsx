@@ -40,7 +40,7 @@ export function ButtonWithIconsDemo() {
         <IconDownloadCloud size="md" />
         Download
       </Button>
-      <Button variant="tertiary" size="icon-md">
+      <Button variant="tertiary" size="icon-md" aria-label="Add item">
         <IconCheck size="md" />
       </Button>
     </div>

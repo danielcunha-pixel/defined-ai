@@ -1,8 +1,11 @@
+"use client"
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { validateIconConfig, logIconValidationError } from "./button.validation"
 
 const buttonVariants = cva(
@@ -89,6 +92,7 @@ function Button({
   trailingIcon,
   icon,
   iconOnly = false,
+  tooltipContent,
   children,
   ...props
 }: React.ComponentProps<"button"> &
@@ -98,6 +102,7 @@ function Button({
     trailingIcon?: React.ReactNode
     icon?: React.ReactNode
     iconOnly?: boolean
+    tooltipContent?: React.ReactNode
   }) {
   // Validate icon configuration (development mode warning)
   const iconValidation = validateIconConfig({ leadingIcon, trailingIcon, icon, iconOnly });
@@ -106,23 +111,88 @@ function Button({
   }
 
   const Comp = asChild ? Slot.Root : "button"
+  const isIconSize = typeof size === "string" && size.startsWith("icon-")
+  const isIconOnlyButton = iconOnly || isIconSize
+  const labelRef = React.useRef<HTMLSpanElement | null>(null)
+  const [isLabelTruncated, setIsLabelTruncated] = React.useState(false)
 
   // Determine which icon to render (single icon only)
   const displayIcon = leadingIcon || trailingIcon || icon
 
-  return (
+  React.useEffect(() => {
+    if (isIconOnlyButton) {
+      setIsLabelTruncated(false)
+      return
+    }
+
+    const measureTruncation = () => {
+      const label = labelRef.current
+      if (!label) {
+        setIsLabelTruncated(false)
+        return
+      }
+      setIsLabelTruncated(label.scrollWidth > label.clientWidth + 1)
+    }
+
+    measureTruncation()
+
+    if (!labelRef.current || typeof ResizeObserver === "undefined") {
+      return
+    }
+
+    const observer = new ResizeObserver(measureTruncation)
+    observer.observe(labelRef.current)
+    window.addEventListener("resize", measureTruncation)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", measureTruncation)
+    }
+  }, [children, className, isIconOnlyButton, size, variant])
+
+  const buttonElement = (
     <Comp
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
-      {leadingIcon && <>{leadingIcon}</>}
-      {!iconOnly && children}
-      {trailingIcon && <>{trailingIcon}</>}
-      {iconOnly && displayIcon}
+      {iconOnly ? (
+        <>{displayIcon}</>
+      ) : (
+        <>
+          {leadingIcon && <>{leadingIcon}</>}
+          <span ref={labelRef} data-slot="button-label" className="min-w-0 max-w-full truncate">
+            {children}
+          </span>
+          {trailingIcon && <>{trailingIcon}</>}
+        </>
+      )}
     </Comp>
+  )
+
+  const accessibleLabel =
+    typeof props["aria-label"] === "string" ? props["aria-label"] : undefined
+  const textLabel = typeof children === "string" ? children : undefined
+  const tooltipLabel = tooltipContent ?? accessibleLabel ?? textLabel
+
+  const shouldShowTooltip =
+    !props.disabled &&
+    !!tooltipLabel &&
+    (isIconOnlyButton || isLabelTruncated)
+
+  if (shouldShowTooltip) {
+    return (
+      <Tooltip delayDuration={200}>
+        <TooltipTrigger asChild>{buttonElement}</TooltipTrigger>
+        <TooltipContent>{tooltipLabel}</TooltipContent>
+      </Tooltip>
+    )
+  }
+
+  return (
+    buttonElement
   )
 }
 

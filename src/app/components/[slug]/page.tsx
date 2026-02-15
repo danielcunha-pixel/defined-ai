@@ -4,9 +4,11 @@ import { MdxRenderer } from "@/components/docs/MdxRenderer";
 import { ComponentPreview } from "@/components/docs/ComponentPreview";
 import { PropsTable } from "@/components/docs/PropsTable";
 import { DoDont } from "@/components/docs/DoDont";
-import { CodeBlock } from "@/components/docs/CodeBlock";
 import { highlightCode } from "@/lib/highlight";
 import { ButtonPlaygroundWrapper } from "@/components/playground/ButtonPlaygroundWrapper";
+import { DropdownPlaygroundWrapper } from "@/components/playground/DropdownPlaygroundWrapper";
+import { InputPlaygroundWrapper } from "@/components/playground/InputPlaygroundWrapper";
+import { Tag } from "@/components/ui/tag";
 
 // Demo components
 import {
@@ -17,9 +19,15 @@ import {
   ButtonDarkDemo,
 } from "@/components/demos/button-demo";
 import {
+  DropdownDemo,
+  DropdownStatesDemo,
+  DropdownSizesDemo,
+  DropdownInlineDemo,
+} from "@/components/demos/dropdown-demo";
+import {
   InputDemo,
+  InputSizesDemo,
   InputStatesDemo,
-  InputWithLabelDemo,
 } from "@/components/demos/input-demo";
 import {
   TooltipDemo,
@@ -33,6 +41,16 @@ import {
   CheckboxWithLabelDemo,
   CheckboxGroupDemo,
 } from "@/components/demos/checkbox-demo";
+import {
+  ChipVariantsDemo,
+  ChipStatesDemo,
+} from "@/components/demos/chip-demo";
+import {
+  TagVariantsDemo,
+  TagDarkerDemo,
+  TagInvertedDemo,
+  TagTruncationDemo,
+} from "@/components/demos/tag-demo";
 
 // ============================================
 // Component page definitions
@@ -149,41 +167,130 @@ const componentDefs: Record<string, ComponentDef> = {
       "Keyboard: Enter and Space trigger button actions",
     ],
   },
+  dropdown: {
+    previews: [
+      {
+        title: "Default",
+        demo: <DropdownDemo />,
+        code: `<Dropdown
+  size="medium"
+  style="default"
+  label="Label"
+  helperText="Helper text"
+  placeholder="Choose an option"
+/>`,
+      },
+      {
+        title: "States",
+        demo: <DropdownStatesDemo />,
+        code: `<Dropdown previewState="enabled" label="Enabled" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown previewState="hover" label="Hover" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown previewState="pressed" label="Pressed" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown previewState="focus" label="Focus" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown previewState="active" open label="Active" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown previewState="disabled" label="Disabled" helperText="Helper text" placeholder="Choose an option" />`,
+      },
+      {
+        title: "Sizes",
+        demo: <DropdownSizesDemo />,
+        code: `<Dropdown size="small" label="Small" helperText="Helper text" placeholder="Choose an option" />
+<Dropdown size="medium" label="Medium" helperText="Helper text" placeholder="Choose an option" />`,
+      },
+      {
+        title: "Inline",
+        demo: <DropdownInlineDemo />,
+        code: `<Dropdown style="inline" size="small" label="Label" placeholder="Choose an option" />
+<Dropdown style="inline" size="medium" value="option-1" />
+<Dropdown style="inline" size="medium" previewState="focus" open value="option-1" />`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "size", type: '"small" | "medium"', default: '"medium"', description: "Size variant from Figma" },
+          { name: "style", type: '"default" | "inline"', default: '"default"', description: "Layout style variant from Figma" },
+          { name: "previewState", type: '"enabled" | "hover" | "pressed" | "focus" | "active" | "disabled"', description: "Docs-only static visual state override for QA previews" },
+          { name: "open", type: "boolean", description: "Controlled open state for the menu" },
+          { name: "menuAlignment", type: '"left" | "right"', default: '"left"', description: "Menu alignment relative to trigger" },
+          { name: "label", type: "string", default: '"Label"', description: "Visible field label" },
+          { name: "helperText", type: "string", default: '"Helper text"', description: "Helper text under default style" },
+          { name: "placeholder", type: "string", default: '"Choose an option"', description: "Placeholder text when no option is selected" },
+          { name: "showSearch", type: "boolean", default: "true", description: "Shows the menu search input row" },
+          { name: "searchPlaceholder", type: "string", default: '"Search..."', description: "Placeholder text for the search input" },
+          { name: "options", type: "Array<{ label: string; value: string }>", description: "Menu options" },
+          { name: "value", type: "string", description: "Controlled selected option value" },
+          { name: "defaultValue", type: "string", description: "Initial selected option value (uncontrolled)" },
+          { name: "onValueChange", type: "(value: string) => void", description: "Called when an option is selected" },
+          { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when the menu opens or closes" },
+          { name: "disabled", type: "boolean", default: "false", description: "Disables interaction and applies disabled visuals" },
+          { name: "className", type: "string", description: "Additional trigger classes" },
+          { name: "containerClassName", type: "string", description: "Additional root container classes" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Use Dropdown when users must pick one option from a fixed list." },
+        { type: "dont", text: "Use Dropdown for free-form text entry. Use Text input instead." },
+      ],
+      [
+        { type: "do", text: "Use the default style in form layouts and the inline style in compact toolbars." },
+        { type: "dont", text: "Mix helper text-heavy layouts with inline style where horizontal space is constrained." },
+      ],
+    ],
+    accessibility: [
+      "Trigger uses a combobox-style button with aria-expanded and aria-controls",
+      "Menu uses role=listbox and options expose aria-selected",
+      "Keyboard interaction supports Arrow keys, Enter, Home/End, and Escape",
+      "Search row is a real text input and filters options live",
+      "Focus state uses the purple 2px border token from Figma",
+      "Disabled state blocks interaction and uses muted token colors",
+      "Supports controlled and uncontrolled selection and open state",
+    ],
+  },
   input: {
     previews: [
       {
         title: "Default",
         demo: <InputDemo />,
-        code: `<Input placeholder="Enter your email" type="email" />`,
+        code: `<Input
+  label="Label"
+  placeholder="Placeholder text"
+  helperText="Helper text"
+  size="small"
+/>`,
       },
       {
         title: "States",
         demo: <InputStatesDemo />,
-        code: `<Input placeholder="Default" />
-<Input placeholder="Disabled" disabled />
-<Input placeholder="Invalid" aria-invalid="true" />`,
+        code: `<Input label="Enabled" placeholder="Placeholder text" helperText="Helper text" state="enabled" />
+<Input label="Hover" placeholder="Placeholder text" helperText="Helper text" state="hover" />
+<Input label="Pressed" placeholder="Placeholder text" helperText="Helper text" state="pressed" />
+<Input label="Disabled" placeholder="Placeholder text" helperText="Helper text" state="disabled" />
+<Input label="Read-only" defaultValue="Placeholder filled" helperText="Helper text" state="read-only" />
+<Input label="Error" placeholder="Placeholder text" state="error" errorMessage="Error message" />`,
       },
       {
-        title: "With Label & Helper Text",
-        demo: <InputWithLabelDemo />,
-        code: `<div className="flex flex-col gap-1.5">
-  <label htmlFor="email" className="ds-text-body-md font-medium">
-    Email
-  </label>
-  <Input id="email" placeholder="you@example.com" type="email" />
-  <p className="ds-text-body-sm font-regular text-grey-50">
-    We'll never share your email.
-  </p>
-</div>`,
+        title: "Sizes",
+        demo: <InputSizesDemo />,
+        code: `<Input label="Small" placeholder="Placeholder text" helperText="Helper text" size="small" />
+<Input label="Medium" placeholder="Placeholder text" helperText="Helper text" size="medium" />
+<Input label="Large" placeholder="Placeholder text" helperText="Helper text" size="large" />`,
       },
     ],
     propsTables: [
       {
         props: [
           { name: "type", type: "string", default: '"text"', description: "HTML input type (text, email, password, etc.)" },
+          { name: "size", type: '"small" | "medium" | "large"', default: '"small"', description: "Input height variant from Figma" },
+          { name: "state", type: '"enabled" | "hover" | "pressed" | "disabled" | "error" | "read-only"', description: "Static visual state override for previews" },
+          { name: "label", type: "string", description: "Label text above the input area" },
+          { name: "helperText", type: "string", description: "Helper text shown below when not in error state" },
+          { name: "errorMessage", type: "string", default: '"Error message"', description: "Message shown when state is error" },
           { name: "placeholder", type: "string", description: "Placeholder text shown when empty" },
           { name: "disabled", type: "boolean", default: "false", description: "Whether the input is disabled" },
-          { name: "aria-invalid", type: "boolean", description: "Marks the input as invalid with error styling" },
+          { name: "readOnly", type: "boolean", default: "false", description: "Makes the field read-only" },
+          { name: "aria-invalid", type: "boolean", description: "Marks the input as invalid and maps to error visuals" },
           { name: "className", type: "string", description: "Additional CSS classes" },
         ],
       },
@@ -194,16 +301,16 @@ const componentDefs: Record<string, ComponentDef> = {
         { type: "dont", text: "Use placeholder text as the only label. Users lose context once they start typing." },
       ],
       [
-        { type: "do", text: "Use the appropriate input type (email, password, tel) for better mobile keyboard support and validation." },
-        { type: "dont", text: "Use type=\"text\" for everything. Missing type hints degrades mobile UX and accessibility." },
+        { type: "do", text: "Use error state for validation failures and keep helper text concise and supportive." },
+        { type: "dont", text: "Show both helper and error messages at once; error text should take precedence." },
       ],
     ],
     accessibility: [
-      "Always associate inputs with a <label> using htmlFor/id",
-      "Use aria-invalid for error states",
-      "Use aria-describedby to connect helper/error text",
-      "Focus states use a visible ring for keyboard users",
-      "Disabled inputs are excluded from tab order automatically",
+      "Input remains a native <input> element for keyboard and screen-reader compatibility",
+      "Label text is rendered above the field and should describe expected input clearly",
+      "Use aria-invalid or state=\"error\" for validation error presentation",
+      "Disabled and read-only states are both supported and visually distinct",
+      "Focus state uses a 2px focus border token to match Figma",
     ],
   },
   tooltip: {
@@ -254,17 +361,23 @@ const componentDefs: Record<string, ComponentDef> = {
       {
         title: "With Inline Text",
         demo: <TooltipWithTextDemo />,
-        code: `<Tooltip>
-  <TooltipTrigger asChild>
-    <span className="inline-flex items-center gap-1 ds-text-body-md font-medium text-grey-70 cursor-default">
-      Hover me
-      <Info className="size-3.5 text-grey-40" />
-    </span>
-  </TooltipTrigger>
-  <TooltipContent>
-    This is additional context that appears on hover.
-  </TooltipContent>
-</Tooltip>`,
+        code: `<span className="inline-flex items-center gap-1 ds-text-body-md font-medium text-grey-70">
+  Hover me
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <button
+        type="button"
+        className="inline-flex items-center justify-center text-grey-40 transition-colors hover:text-grey-60"
+        aria-label="More information"
+      >
+        <Info className="size-3.5" />
+      </button>
+    </TooltipTrigger>
+    <TooltipContent>
+      This is additional context that appears on hover.
+    </TooltipContent>
+  </Tooltip>
+</span>`,
       },
       {
         title: "Toolbar Example",
@@ -319,6 +432,124 @@ const componentDefs: Record<string, ComponentDef> = {
       "Tooltip content is announced by screen readers when the trigger receives focus",
       "Always add aria-label to icon-only triggers so the button is accessible even without the tooltip",
       "Tooltip does not trap focus — it is purely informational",
+    ],
+  },
+  chip: {
+    previews: [
+      {
+        title: "Variants",
+        demo: <ChipVariantsDemo />,
+        code: `<Chip variant="red">Label</Chip>
+<Chip variant="purple">Label</Chip>
+<Chip variant="green">Label</Chip>
+<Chip variant="blue">Label</Chip>
+<Chip variant="orange">Label</Chip>
+<Chip variant="grey">Label</Chip>
+<Chip variant="outline">Label</Chip>`,
+      },
+      {
+        title: "States",
+        demo: <ChipStatesDemo />,
+        code: `<Chip variant="purple" state="enabled">Enabled</Chip>
+<Chip variant="purple" state="hover">Hover</Chip>
+<Chip variant="purple" state="pressed">Pressed</Chip>
+<Chip variant="purple" state="focus">Focus</Chip>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "variant", type: '"red" | "purple" | "green" | "blue" | "orange" | "grey" | "outline"', default: '"grey"', description: "Color variant" },
+          { name: "state", type: '"enabled" | "hover" | "pressed" | "focus"', default: '"enabled"', description: "Visual state from Figma component set" },
+          { name: "onClick", type: "() => void", description: "Click handler for interactive chip behavior" },
+          { name: "disabled", type: "boolean", default: "false", description: "Disables click interaction and mutes appearance" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+          { name: "children", type: "ReactNode", required: true, description: "Chip label text" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Use chips for tags, filters, or compact labels. Keep label text short (1–3 words)." },
+        { type: "dont", text: "Use chips for primary actions; use Button instead. Avoid long sentences in chips." },
+      ],
+      [
+        { type: "do", text: "Use state variants intentionally (enabled, hover, pressed, focus) in documentation and visual QA." },
+        { type: "dont", text: "Rely on hover tooltips for chip meaning; tooltip is not part of the Chip component." },
+      ],
+    ],
+    accessibility: [
+      "Chip renders as a semantic <button> for keyboard and pointer interaction",
+      "Focus appearance is represented by the dedicated focus visual state (purple border)",
+      "Tooltip on hover is intentionally not implemented as part of Chip",
+    ],
+  },
+  tag: {
+    previews: [
+      {
+        title: "Colors",
+        demo: <TagVariantsDemo />,
+        code: `<Tag color="red">Label</Tag>
+<Tag color="purple">Label</Tag>
+<Tag color="green">Label</Tag>
+<Tag color="blue">Label</Tag>
+<Tag color="orange">Label</Tag>
+<Tag color="grey">Label</Tag>`,
+      },
+      {
+        title: "Darker",
+        demo: <TagDarkerDemo />,
+        code: `<Tag color="red" darker>Label</Tag>
+<Tag color="purple" darker>Label</Tag>
+<Tag color="green" darker>Label</Tag>
+<Tag color="blue" darker>Label</Tag>
+<Tag color="orange" darker>Label</Tag>
+<Tag color="grey" darker>Label</Tag>`,
+      },
+      {
+        title: "Inverted",
+        demo: <TagInvertedDemo />,
+        code: `<div className="bg-grey-100 p-sp-12 rounded-[8px]">
+  <Tag color="grey" inverted>Label</Tag>
+</div>`,
+      },
+      {
+        title: "Truncation",
+        demo: <TagTruncationDemo />,
+        code: `<Tag color="purple" truncable>
+  This is a very long tag label that should truncate
+</Tag>
+<Tag color="purple" truncable={false}>
+  This is a very long tag label that should not truncate
+</Tag>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "color", type: '"red" | "purple" | "green" | "blue" | "orange" | "grey"', default: '"red"', description: "Color variant from Figma" },
+          { name: "darker", type: "boolean", default: "false", description: "Uses the darker surface tone for the selected color" },
+          { name: "inverted", type: "boolean", default: "false", description: "Inverted style (supported for grey variant)" },
+          { name: "truncable", type: "boolean", default: "false", description: "When true, applies single-line truncation behavior in constrained layouts" },
+          { name: "className", type: "string", description: "Additional CSS classes" },
+          { name: "children", type: "ReactNode", description: "Tag label content" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Use Tag for short metadata labels and keep text concise." },
+        { type: "dont", text: "Use Tag as a primary action. Use Button for interactive actions." },
+      ],
+      [
+        { type: "do", text: "Use truncable tags in constrained layouts where label length can vary." },
+        { type: "dont", text: "Rely on unlimited label width in dense UI areas." },
+      ],
+    ],
+    accessibility: [
+      "Tag is a non-interactive semantic label rendered as span content",
+      "Text color and background are token-based to preserve contrast consistency",
+      "Truncation keeps layout stable in constrained containers",
     ],
   },
   checkbox: {
@@ -474,9 +705,7 @@ export default async function ComponentPage({
     <article>
       {/* Page header */}
       <div className="mb-8 border-b border-grey-10 pb-6">
-        <div className="mb-2 inline-block rounded-full bg-purple-10 px-2.5 py-0.5 ds-text-body-sm font-medium text-purple-70">
-          Component
-        </div>
+        <Tag className="mb-2 inline-flex" color="purple">Component</Tag>
         <h1 className="ds-text-heading-xl font-semibold text-grey-100 mb-2">
           {doc.meta.title}
         </h1>
@@ -506,6 +735,24 @@ export default async function ComponentPage({
               </ComponentPreview>
             </div>
           ))}
+
+          {/* Interactive Playground */}
+          {(slug === "button" || slug === "dropdown" || slug === "input") && (
+            <div className="mt-8">
+              <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 border-b border-grey-10 pb-2">
+                Playground
+              </h2>
+              <div className="mt-6">
+                {slug === "button" ? (
+                  <ButtonPlaygroundWrapper />
+                ) : slug === "dropdown" ? (
+                  <DropdownPlaygroundWrapper />
+                ) : (
+                  <InputPlaygroundWrapper />
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Props */}
           <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
@@ -548,17 +795,6 @@ export default async function ComponentPage({
             ))}
           </ul>
 
-          {/* Interactive Playground (Button only) */}
-          {slug === "button" && (
-            <div className="mt-8">
-              <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 border-b border-grey-10 pb-2">
-                Playground
-              </h2>
-              <div className="mt-6">
-                <ButtonPlaygroundWrapper />
-              </div>
-            </div>
-          )}
         </>
       )}
     </article>

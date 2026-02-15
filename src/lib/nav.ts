@@ -15,7 +15,7 @@ export interface NavSection {
   items: NavItem[];
 }
 
-export const navigation: NavSection[] = [
+const navigationConfig: NavSection[] = [
   {
     title: "Getting Started",
     items: [
@@ -65,7 +65,7 @@ export const navigation: NavSection[] = [
         description: "Primary action component with multiple variants",
       },
       {
-        title: "Input",
+        title: "Text input",
         href: "/components/input",
         description: "Text input field for forms",
       },
@@ -75,13 +75,35 @@ export const navigation: NavSection[] = [
         description: "Contextual text label on hover or focus",
       },
       {
+        title: "Dropdown",
+        href: "/components/dropdown",
+        description: "Select input with default and inline styles, plus open and searchable states",
+      },
+      {
         title: "Checkbox",
         href: "/components/checkbox",
         description: "Toggle control with checked, unchecked, and indeterminate states",
       },
+      {
+        title: "Chip",
+        href: "/components/chip",
+        description: "Pill-shaped clickable label for tags, filters, and compact selections",
+      },
+      {
+        title: "Tag",
+        href: "/components/tag",
+        description: "Compact metadata label with color and truncation support",
+      },
     ],
   },
 ];
+
+export const navigation: NavSection[] = navigationConfig.map((section) => ({
+  ...section,
+  items: [...section.items].sort((a, b) =>
+    a.title.localeCompare(b.title, undefined, { sensitivity: "base" })
+  ),
+}));
 
 // Flat list for search indexing
 export function getAllNavItems(): NavItem[] {

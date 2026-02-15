@@ -1,0 +1,25 @@
+---
+description: When building or changing DS components, follow .rules/frontend.md
+globs: src/components/**/*.tsx, src/components/**/*.ts
+alwaysApply: false
+---
+
+# Component Build Rules — Follow Frontend Rules
+
+When building or modifying any Design System component, **you must follow the rules in `.rules/frontend.md`**.
+
+Treat that file as the single source of truth. Summary:
+
+- **Visual fidelity**: Match Figma exactly; use tokens only (no magic numbers).
+- **Structure**: Do not mirror Figma frames/groups; keep DOM shallow and semantic.
+- **Semantics**: Use `<button>`, `<a>`, `<nav>`, form controls, lists correctly.
+- **Accessibility**: Keyboard, focus states, ARIA when needed, hit targets.
+- **Layout**: Flex/grid; avoid absolute for primary layout; no fixed heights unless in Figma.
+- **Variants**: Only tokenized surface (colors, borders, states). Never change spacing/typography/radius/anatomy per variant.
+- **No layout shift**: States, borders, loading, icon swaps must preserve dimensions.
+- **API**: Prefer `variant`, `size`, `disabled`, `loading`, `icon`, `asChild`; avoid bloated props.
+- **Validation**: Before considering done, verify visual parity with Figma, token usage, keyboard/focus, no layout shift, edge cases.
+
+If it’s visually wrong, structurally messy, inaccessible, or non-tokenized → it’s a bug. Fix before shipping.
+
+For full wording and details, read `defined-ai-website/.rules/frontend.md`.

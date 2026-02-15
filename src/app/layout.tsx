@@ -39,7 +39,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${satoshi.variable} font-sans antialiased`}>
+      <body suppressHydrationWarning className={`${satoshi.variable} font-sans antialiased`}>
         <TooltipProvider>
           <div className="flex min-h-screen">
             <Sidebar />

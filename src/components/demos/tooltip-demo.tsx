@@ -78,17 +78,23 @@ export function TooltipSidesDemo() {
 export function TooltipWithTextDemo() {
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <span className="inline-flex items-center gap-1 ds-text-body-md font-medium text-grey-70 cursor-default">
-            Hover me
-            <Info className="size-3.5 text-grey-40" />
-          </span>
-        </TooltipTrigger>
-        <TooltipContent>
-          This is additional context that appears on hover.
-        </TooltipContent>
-      </Tooltip>
+      <span className="inline-flex items-center gap-1 ds-text-body-md font-medium text-grey-70">
+        Hover me
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center text-grey-40 transition-colors hover:text-grey-60"
+              aria-label="More information"
+            >
+              <Info className="size-3.5" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            This is additional context that appears on hover.
+          </TooltipContent>
+        </Tooltip>
+      </span>
     </div>
   );
 }

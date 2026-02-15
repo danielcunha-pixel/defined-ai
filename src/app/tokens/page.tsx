@@ -9,6 +9,7 @@ import {
   weightLabel,
 } from "@/lib/tokens";
 import { cn } from "@/lib/utils";
+import { Tag } from "@/components/ui/tag";
 
 export const metadata: Metadata = {
   title: "Design Tokens",
@@ -114,9 +115,7 @@ export default function TokensPage() {
     <div className="flex flex-col gap-12">
       {/* Header */}
       <div className="border-b border-grey-10 pb-6">
-        <div className="mb-2 inline-block rounded-full bg-orange-10 px-2.5 py-0.5 ds-text-body-sm font-medium text-orange-70">
-          Tokens
-        </div>
+        <Tag className="mb-2 inline-flex" color="orange">Tokens</Tag>
         <h1 className="ds-text-heading-xl font-semibold text-grey-100 mb-2">Design Tokens</h1>
         <p className="ds-text-body-lg font-regular text-grey-60">
           Visual reference for all design tokens. These values are the single

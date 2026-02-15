@@ -3,6 +3,7 @@ import { getDocBySlug, getAllDocs } from "@/lib/mdx";
 import { MdxRenderer } from "@/components/docs/MdxRenderer";
 import { TypographySpecimen } from "@/components/docs/TypographySpecimen";
 import { IconGallery } from "@/components/docs/IconGallery";
+import { Tag } from "@/components/ui/tag";
 
 export async function generateStaticParams() {
   const docs = getAllDocs("foundations");
@@ -39,9 +40,7 @@ export default async function FoundationPage({
     <article>
       {/* Page header */}
       <div className="mb-8 border-b border-grey-10 pb-6">
-        <div className="mb-2 inline-block rounded-full bg-blue-10 px-2.5 py-0.5 ds-text-body-sm font-medium text-blue-70">
-          Foundation
-        </div>
+        <Tag className="mb-2 inline-flex" color="blue">Foundation</Tag>
         <h1 className="ds-text-heading-xl font-semibold text-grey-100 mb-2">
           {doc.meta.title}
         </h1>
