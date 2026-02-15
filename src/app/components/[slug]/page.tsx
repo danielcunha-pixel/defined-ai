@@ -6,7 +6,7 @@ import { PropsTable } from "@/components/docs/PropsTable";
 import { DoDont } from "@/components/docs/DoDont";
 import { CodeBlock } from "@/components/docs/CodeBlock";
 import { highlightCode } from "@/lib/highlight";
-import { ComponentPlayground } from "@/components/playground";
+import { ButtonPlaygroundWrapper } from "@/components/playground/ButtonPlaygroundWrapper";
 
 // Demo components
 import {
@@ -16,8 +16,6 @@ import {
   ButtonDisabledDemo,
   ButtonDarkDemo,
 } from "@/components/demos/button-demo";
-import { Button } from "@/components/ui/button";
-import { buttonPlaygroundConfig } from "@/components/ui/button.playground";
 import {
   InputDemo,
   InputStatesDemo,
@@ -557,11 +555,7 @@ export default async function ComponentPage({
                 Playground
               </h2>
               <div className="mt-6">
-                <ComponentPlayground
-                  Component={Button}
-                  playground={buttonPlaygroundConfig}
-                  componentName="Button"
-                />
+                <ButtonPlaygroundWrapper />
               </div>
             </div>
           )}
