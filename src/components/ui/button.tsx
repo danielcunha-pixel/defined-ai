@@ -65,7 +65,7 @@ const buttonVariants = cva(
         sm: "h-9 gap-sp-8 px-sp-14 ds-text-ui-button-md font-semibold",
         md: "h-10 gap-sp-8 px-sp-14 ds-text-ui-button-md font-semibold",
         lg: "h-11 gap-sp-8 px-sp-18 ds-text-ui-button-md font-semibold",
-        xl: "h-14 gap-sp-10 px-sp-24 ds-text-ui-button-lg font-semibold",
+        xl: "h-14 px-sp-24 ds-text-ui-button-lg font-semibold",
         "icon-sm": "size-9",
         "icon-md": "size-10",
         "icon-lg": "size-11",
