@@ -2,6 +2,16 @@
 
 This guide explains how to add an interactive playground to any component documentation page.
 
+## Architecture
+
+The playground system uses a **wrapper pattern** to separate server and client concerns:
+
+1. **Playground config** - `.playground.ts` file (reusable schema)
+2. **Wrapper component** - `*PlaygroundWrapper.tsx` ('use client' component)
+3. **Page integration** - Import wrapper in `[slug]/page.tsx` (server component)
+
+This keeps the main page as a server component while the interactive playground runs as a client component.
+
 ## Quick Start (5 minutes)
 
 ### Step 1: Create a Playground Config File
@@ -37,14 +47,35 @@ export const checkboxPlaygroundConfig: PlaygroundConfig = {
 };
 ```
 
-### Step 2: Import and Use in Component Page
+### Step 2: Create a Wrapper Client Component
+
+Create a wrapper component to handle the client-side logic:
+
+```typescript
+// src/components/playground/CheckboxPlaygroundWrapper.tsx
+'use client';
+
+import { Checkbox } from '@/components/ui/checkbox';
+import { ComponentPlayground } from './ComponentPlayground';
+import { checkboxPlaygroundConfig } from '@/components/ui/checkbox.playground';
+
+export function CheckboxPlaygroundWrapper() {
+  return (
+    <ComponentPlayground
+      Component={Checkbox}
+      playground={checkboxPlaygroundConfig}
+      componentName="Checkbox"
+    />
+  );
+}
+```
+
+### Step 3: Import and Use in Component Page
 
 In `src/app/components/[slug]/page.tsx`:
 
 ```typescript
-import { ComponentPlayground } from '@/components/playground';
-import { Checkbox } from '@/components/ui/checkbox';
-import { checkboxPlaygroundConfig } from '@/components/ui/checkbox.playground';
+import { CheckboxPlaygroundWrapper } from '@/components/playground/CheckboxPlaygroundWrapper';
 
 // In the component rendering (after accessibility section):
 {slug === 'checkbox' && (
@@ -53,11 +84,7 @@ import { checkboxPlaygroundConfig } from '@/components/ui/checkbox.playground';
       Playground
     </h2>
     <div className="mt-6">
-      <ComponentPlayground
-        Component={Checkbox}
-        playground={checkboxPlaygroundConfig}
-        componentName="Checkbox"
-      />
+      <CheckboxPlaygroundWrapper />
     </div>
   </div>
 )}
@@ -152,6 +179,35 @@ The playground automatically generates shareable URLs:
 - `/components/button?variant=secondary&size=lg&disabled=true`
 - Users can copy the "Copy URL" button to share their configuration
 - URLs are read from `?param=value` on page load
+
+## Wrapper Component Pattern
+
+All playgrounds require a wrapper component to handle client-side state management. This is a simple, reusable pattern:
+
+```typescript
+// src/components/playground/[Component]PlaygroundWrapper.tsx
+'use client';
+
+import { [Component] } from '@/components/ui/[component]';
+import { ComponentPlayground } from './ComponentPlayground';
+import { [component]PlaygroundConfig } from '@/components/ui/[component].playground';
+
+export function [Component]PlaygroundWrapper() {
+  return (
+    <ComponentPlayground
+      Component={[Component]}
+      playground={[component]PlaygroundConfig}
+      componentName="[Component]"
+    />
+  );
+}
+```
+
+The wrapper:
+- Is marked with `'use client'` to enable useSearchParams and useState
+- Imports the component, playground config, and ComponentPlayground
+- Returns the fully configured playground
+- No additional logic needed - ComponentPlayground handles everything
 
 ## Schema Type Definition
 
