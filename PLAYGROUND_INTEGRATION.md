@@ -180,6 +180,152 @@ The playground automatically generates shareable URLs:
 - Users can copy the "Copy URL" button to share their configuration
 - URLs are read from `?param=value` on page load
 
+## Constraint System (Advanced - Optional)
+
+For complex components with dependent controls, use constraints to match Figma's design rules exactly.
+
+### What are Constraints?
+
+Constraints allow you to:
+- **Hide** controls that don't apply to current prop values
+- **Disable/Filter** options in select controls based on context
+- **Normalize** props to prevent invalid state combinations
+
+### Define Constraints
+
+Add optional `constraints` to your playground config:
+
+```typescript
+export const myComponentPlaygroundConfig: PlaygroundConfig = {
+  defaultProps: { /* ... */ },
+  controls: { /* ... */ },
+  variants: [ /* ... */ ],
+
+  constraints: {
+    // Hide controls based on conditions
+    hidden: {
+      iconAlignment: (props) => !props.icon,
+      filledIcon: (props) => !props.iconOnly,
+    },
+
+    // Disable controls based on conditions
+    disabled: {
+      size: (props) => {
+        if (props.variant === 'footer-only') {
+          return props.size !== 'sm'; // Only allow small
+        }
+        return false;
+      },
+    },
+
+    // Filter select options dynamically
+    filterOptions: {
+      size: (options, props) => {
+        // Only show certain sizes for specific variants
+        if (props.variant === 'compact') {
+          return options.filter(opt => ['sm', 'md'].includes(opt.value));
+        }
+        return options;
+      },
+
+      alignment: (options, props) => {
+        // Alignment options depend on layout
+        if (props.layout === 'icon-only') {
+          return options.filter(opt => opt.value === 'center');
+        }
+        return options.filter(opt => ['left', 'right', 'none'].includes(opt.value));
+      },
+    },
+
+    // Normalize props to prevent invalid states
+    onPropsChange: (props) => {
+      const updated = { ...props };
+
+      // If icon is disabled, reset icon-related props
+      if (!props.icon) {
+        updated.iconOnly = false;
+        updated.iconAlignment = 'none';
+      }
+
+      // If variant is 'footer-only', force size to 'sm'
+      if (props.variant === 'footer-only' && props.size !== 'sm') {
+        updated.size = 'sm';
+      }
+
+      return updated;
+    },
+  },
+};
+```
+
+### Constraint Types
+
+**hidden**: Hide controls when they don't apply
+```typescript
+hidden: {
+  controlName: (props) => boolean,
+}
+```
+
+**disabled**: Disable specific controls
+```typescript
+disabled: {
+  controlName: (props) => boolean,
+}
+```
+
+**filterOptions**: Filter select options based on context
+```typescript
+filterOptions: {
+  selectControlName: (options, props) => filteredOptions,
+}
+```
+
+**onPropsChange**: Normalize props after user changes
+```typescript
+onPropsChange: (props) => normalizedProps,
+```
+
+### Real Example: Button with Figma Constraints
+
+The Button playground uses constraints to match Figma exactly:
+
+```typescript
+constraints: {
+  hidden: {
+    iconOnly: (props) => !props.icon,
+    iconAlignment: (props) => !props.icon && !props.iconOnly,
+    filledIcon: (props) => !props.iconOnly,
+  },
+
+  filterOptions: {
+    size: (options, props) => {
+      // Primary Footer only has Small size
+      if (props.variant === 'primary-footer') {
+        return options.filter(opt => opt.value === 'sm');
+      }
+      // Ghost Secondary only has Medium/Large
+      if (props.variant === 'ghost-secondary') {
+        return options.filter(opt => ['md', 'lg'].includes(opt.value));
+      }
+      return options;
+    },
+  },
+
+  onPropsChange: (props) => {
+    const updated = { ...props };
+    if (!props.icon) {
+      updated.iconOnly = false;
+      updated.iconAlignment = 'none';
+    }
+    if (props.variant === 'primary-footer' && props.size !== 'sm') {
+      updated.size = 'sm';
+    }
+    return updated;
+  },
+}
+```
+
 ## Wrapper Component Pattern
 
 All playgrounds require a wrapper component to handle client-side state management. This is a simple, reusable pattern:
