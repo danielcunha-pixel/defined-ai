@@ -70,11 +70,6 @@ export const navigation: NavSection[] = [
         description: "Text input field for forms",
       },
       {
-        title: "Card",
-        href: "/components/card",
-        description: "Container for grouping related content",
-      },
-      {
         title: "Tooltip",
         href: "/components/tooltip",
         description: "Contextual text label on hover or focus",

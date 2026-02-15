@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Plus, Download, Trash2 } from "lucide-react";
+import { Plus, Download } from "lucide-react";
+import { IconChevronRight } from "@/components/icons";
 
 export function ButtonDemo() {
   return (
@@ -30,7 +31,7 @@ export function ButtonWithIconsDemo() {
     <div className="flex flex-wrap items-center gap-3">
       <Button variant="primary" size="lg">
         Continue
-        <ChevronRight className="size-4" />
+        <IconChevronRight size="sm" />
       </Button>
       <Button variant="secondary" size="md">
         <Plus className="size-4" />
@@ -58,21 +59,6 @@ export function ButtonDisabledDemo() {
       </Button>
       <Button variant="tertiary" disabled>
         Disabled
-      </Button>
-    </div>
-  );
-}
-
-export function ButtonDestructiveDemo() {
-  return (
-    <div className="flex flex-wrap items-center gap-3">
-      <Button variant="destructive">
-        <Trash2 className="size-4" />
-        Delete
-      </Button>
-      <Button variant="destructive" disabled>
-        <Trash2 className="size-4" />
-        Delete
       </Button>
     </div>
   );

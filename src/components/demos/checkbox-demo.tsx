@@ -10,7 +10,7 @@ export function CheckboxDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox id="terms" />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Accept terms and conditions
         </span>
       </label>
@@ -20,12 +20,12 @@ export function CheckboxDemo() {
 
 export function CheckboxStatesDemo() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-sp-24">
       <label className="flex items-start gap-sp-12 cursor-pointer">
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Unchecked
         </span>
       </label>
@@ -34,7 +34,7 @@ export function CheckboxStatesDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox defaultChecked />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Checked
         </span>
       </label>
@@ -43,7 +43,7 @@ export function CheckboxStatesDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox checked="indeterminate" />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Indeterminate
         </span>
       </label>
@@ -52,7 +52,7 @@ export function CheckboxStatesDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox disabled />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-40">
+        <span className="ds-text-body-lg font-medium text-grey-40">
           Disabled unchecked
         </span>
       </label>
@@ -61,7 +61,7 @@ export function CheckboxStatesDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox disabled defaultChecked />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-40">
+        <span className="ds-text-body-lg font-medium text-grey-40">
           Disabled checked
         </span>
       </label>
@@ -70,7 +70,7 @@ export function CheckboxStatesDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox disabled checked="indeterminate" />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-40">
+        <span className="ds-text-body-lg font-medium text-grey-40">
           Disabled indeterminate
         </span>
       </label>
@@ -80,12 +80,12 @@ export function CheckboxStatesDemo() {
 
 export function CheckboxWithLabelDemo() {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-sp-24">
       <label className="flex items-start gap-sp-12 cursor-pointer">
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox id="marketing" />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Receive marketing emails
         </span>
       </label>
@@ -94,7 +94,7 @@ export function CheckboxWithLabelDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox id="analytics" defaultChecked />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Allow analytics tracking
         </span>
       </label>
@@ -103,7 +103,7 @@ export function CheckboxWithLabelDemo() {
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox id="notifications" />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Enable push notifications
         </span>
       </label>
@@ -134,7 +134,7 @@ export function CheckboxGroupDemo() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-sp-16">
       <label className="flex items-start gap-sp-12 cursor-pointer">
         <div className="flex items-center pt-sp-1 shrink-0">
           <Checkbox
@@ -142,12 +142,12 @@ export function CheckboxGroupDemo() {
             onCheckedChange={toggleAll}
           />
         </div>
-        <span className="text-[15px] font-medium leading-normal text-grey-100">
+        <span className="ds-text-body-lg font-medium text-grey-100">
           Select all permissions
         </span>
       </label>
 
-      <div className="ml-6 flex flex-col gap-4">
+      <div className="ml-sp-24 flex flex-col gap-sp-16">
         {items.map((item) => (
           <label
             key={item.id}
@@ -159,7 +159,7 @@ export function CheckboxGroupDemo() {
                 onCheckedChange={() => toggle(item.id)}
               />
             </div>
-            <span className="text-[15px] font-medium leading-normal text-grey-100">
+            <span className="ds-text-body-lg font-medium text-grey-100">
               {item.label}
             </span>
           </label>

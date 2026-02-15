@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { navigation } from "@/lib/nav";
-import { Menu, X } from "lucide-react";
+import { IconMenu as Menu, IconX as X } from "@/components/icons";
 import { useState, useEffect } from "react";
 
 export function Sidebar() {
@@ -33,7 +33,7 @@ export function Sidebar() {
         className="fixed top-4 left-4 z-50 flex size-10 items-center justify-center rounded-[8px] border border-grey-20 bg-white shadow-sm lg:hidden"
         aria-label={open ? "Close navigation" : "Open navigation"}
       >
-        {open ? <X className="size-5" /> : <Menu className="size-5" />}
+        {open ? <X size="md" /> : <Menu size="md" />}
       </button>
 
       {/* Backdrop */}

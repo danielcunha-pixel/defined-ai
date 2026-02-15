@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { navigation } from "@/lib/nav";
-import { ArrowRight, Palette, Layers, Component, LayoutGrid } from "lucide-react";
+import { Palette, Layers, Component, LayoutGrid } from "lucide-react";
+import { IconArrowRight } from "@/components/icons";
 
 const sectionIcons: Record<string, React.ReactNode> = {
   Foundations: <Palette className="size-5 text-purple-60" />,
@@ -59,7 +60,7 @@ export default function Home() {
                         </span>
                       )}
                     </div>
-                    <ArrowRight className="size-4 text-grey-30 transition-transform group-hover:translate-x-0.5 group-hover:text-purple-60" />
+                    <IconArrowRight size="sm" className="text-grey-30 transition-transform group-hover:translate-x-0.5 group-hover:text-purple-60" />
                   </Link>
                 ))}
               </div>

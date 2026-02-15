@@ -13,7 +13,6 @@ import {
   ButtonSizesDemo,
   ButtonWithIconsDemo,
   ButtonDisabledDemo,
-  ButtonDestructiveDemo,
   ButtonDarkDemo,
 } from "@/components/demos/button-demo";
 import {
@@ -21,11 +20,6 @@ import {
   InputStatesDemo,
   InputWithLabelDemo,
 } from "@/components/demos/input-demo";
-import {
-  CardDemo,
-  CardWithFormDemo,
-  CardVariantsDemo,
-} from "@/components/demos/card-demo";
 import {
   TooltipDemo,
   TooltipSidesDemo,
@@ -115,14 +109,6 @@ const componentDefs: Record<string, ComponentDef> = {
 <Button variant="tertiary" disabled>Disabled</Button>`,
       },
       {
-        title: "Destructive",
-        demo: <ButtonDestructiveDemo />,
-        code: `<Button variant="destructive">
-  <Trash2 className="size-4" />
-  Delete
-</Button>`,
-      },
-      {
         title: "Dark Background",
         demo: <ButtonDarkDemo />,
         code: `<Button variant="primary-inverted">Inverted</Button>
@@ -134,7 +120,7 @@ const componentDefs: Record<string, ComponentDef> = {
     propsTables: [
       {
         props: [
-          { name: "variant", type: '"primary" | "secondary" | "tertiary" | "ghost" | "ghost-secondary" | "primary-inverted" | "primary-footer" | "glass" | "link" | "destructive"', default: '"primary"', description: "Visual style of the button" },
+          { name: "variant", type: '"primary" | "secondary" | "tertiary" | "ghost" | "ghost-secondary" | "primary-inverted" | "primary-footer" | "glass" | "link"', default: '"primary"', description: "Visual style of the button" },
           { name: "size", type: '"sm" | "md" | "lg" | "xl" | "icon-sm" | "icon-md" | "icon-lg"', default: '"md"', description: "Size of the button" },
           { name: "asChild", type: "boolean", default: "false", description: "Render as child element using Radix Slot" },
           { name: "disabled", type: "boolean", default: "false", description: "Whether the button is disabled" },
@@ -217,92 +203,6 @@ const componentDefs: Record<string, ComponentDef> = {
       "Use aria-describedby to connect helper/error text",
       "Focus states use a visible ring for keyboard users",
       "Disabled inputs are excluded from tab order automatically",
-    ],
-  },
-  card: {
-    previews: [
-      {
-        title: "Default",
-        demo: <CardDemo />,
-        code: `<Card className="w-full max-w-sm">
-  <CardHeader>
-    <CardTitle>Project Overview</CardTitle>
-    <CardDescription>
-      A summary of your project status.
-    </CardDescription>
-  </CardHeader>
-  <CardContent>
-    <p>Your project has 12 active tasks.</p>
-  </CardContent>
-  <CardFooter className="gap-2">
-    <Button variant="primary" size="sm">View Details</Button>
-    <Button variant="ghost" size="sm">Dismiss</Button>
-  </CardFooter>
-</Card>`,
-      },
-      {
-        title: "With Form",
-        demo: <CardWithFormDemo />,
-        code: `<Card className="w-full max-w-sm">
-  <CardHeader>
-    <CardTitle>Create Project</CardTitle>
-    <CardDescription>Set up a new project.</CardDescription>
-  </CardHeader>
-  <CardContent className="flex flex-col gap-3">
-    <div className="flex flex-col gap-1.5">
-      <label className="ds-text-body-md font-medium">Name</label>
-      <Input placeholder="My Project" />
-    </div>
-  </CardContent>
-  <CardFooter className="gap-2">
-    <Button variant="primary" size="sm">Create</Button>
-    <Button variant="tertiary" size="sm">Cancel</Button>
-  </CardFooter>
-</Card>`,
-      },
-      {
-        title: "Custom Styling",
-        demo: <CardVariantsDemo />,
-        code: `<Card>
-  <CardHeader>
-    <CardTitle>Default Card</CardTitle>
-  </CardHeader>
-</Card>
-
-<Card className="border-purple-20 bg-purple-10/30">
-  <CardHeader>
-    <CardTitle>Highlighted Card</CardTitle>
-  </CardHeader>
-</Card>`,
-      },
-    ],
-    propsTables: [
-      {
-        title: "Card",
-        props: [
-          { name: "className", type: "string", description: "Additional CSS classes for the card container" },
-          { name: "children", type: "ReactNode", required: true, description: "Card content (Header, Content, Footer)" },
-        ],
-      },
-      {
-        title: "CardHeader / CardContent / CardFooter",
-        props: [
-          { name: "className", type: "string", description: "Additional CSS classes" },
-          { name: "children", type: "ReactNode", required: true, description: "Section content" },
-        ],
-      },
-    ],
-    dodonts: [
-      [
-        { type: "do", text: "Use cards to group logically related content. Keep content focused and scannable within each card." },
-        { type: "dont", text: "Nest cards deeply or use them for every piece of content. Avoid cards with only a single line of text." },
-      ],
-    ],
-    accessibility: [
-      "Card uses semantic <div> elements with appropriate data-slot attributes",
-      "Actions within cards should be focusable and keyboard accessible",
-      "Use proper heading hierarchy within cards (CardTitle)",
-      "Ensure sufficient color contrast for all card content",
     ],
   },
   tooltip: {
@@ -427,7 +327,7 @@ const componentDefs: Record<string, ComponentDef> = {
         demo: <CheckboxDemo />,
         code: `<label className="flex items-start gap-sp-12 cursor-pointer">
   <Checkbox id="terms" />
-  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+  <span className="ds-text-body-lg font-medium text-grey-100 pt-sp-4">
     Accept terms and conditions
   </span>
 </label>`,
@@ -458,14 +358,14 @@ const componentDefs: Record<string, ComponentDef> = {
         demo: <CheckboxWithLabelDemo />,
         code: `<label className="flex items-start gap-sp-12 cursor-pointer">
   <Checkbox id="marketing" />
-  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+  <span className="ds-text-body-lg font-medium text-grey-100 pt-sp-4">
     Receive marketing emails
   </span>
 </label>
 
 <label className="flex items-start gap-sp-12 cursor-pointer">
   <Checkbox id="analytics" defaultChecked />
-  <span className="text-[15px] font-medium leading-normal text-grey-100 pt-sp-4">
+  <span className="ds-text-body-lg font-medium text-grey-100 pt-sp-4">
     Allow analytics tracking
   </span>
 </label>`,

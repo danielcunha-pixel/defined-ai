@@ -1,7 +1,8 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Search, Mail, Eye, EyeOff } from "lucide-react";
+import { Mail, Eye, EyeOff } from "lucide-react";
+import { IconSearch as Search } from "@/components/icons";
 import { useState } from "react";
 
 export function InputDemo() {
@@ -53,7 +54,7 @@ export function InputWithLabelDemo() {
           Search
         </label>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-grey-40" />
+          <Search size="sm" className="absolute left-3 top-1/2 -translate-y-1/2 text-grey-40" />
           <Input
             id="search-input"
             placeholder="Search..."

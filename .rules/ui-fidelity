@@ -116,6 +116,8 @@ Tokens must cover:
 
 If a token does not exist, it must be created before implementation.
 
+Prefer semantic tokens over raw value tokens when available.
+
 ---
 
 ## 7. Diff Before Patch
@@ -157,7 +159,26 @@ No component change is complete without regression verification.
 
 ---
 
-## 10. Primary Rule
+## 10. Visual Fidelity Over Figma Structure
+
+Figma defines visual output, not implementation structure.
+
+The DOM/component structure must NOT mirror Figma frames, groups, or auto-layout containers.
+
+The implementation may freely restructure layout to:
+
+- reduce wrapper depth  
+- use semantic HTML  
+- apply flex/grid best practices  
+- improve maintainability and accessibility  
+
+As long as the rendered result matches Figma exactly.
+
+Copying Figma structure is discouraged unless technically necessary.
+
+---
+
+## 11. Primary Rule
 
 If it differs from Figma, it is a bug — not a design decision.
 

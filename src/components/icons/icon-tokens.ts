@@ -6,12 +6,11 @@
 // and adjusting strokeWidth proportionally.
 // ============================================
 
-/** Named size presets */
+/** Named size presets (matching Figma icon rows: 16, 20, 24) */
 export const ICON_SIZES = {
   sm: 16,
   md: 20,
   lg: 24,
-  xl: 32,
 } as const;
 
 export type IconSizeToken = keyof typeof ICON_SIZES;
@@ -19,20 +18,19 @@ export type IconSize = IconSizeToken | number;
 
 /**
  * Default stroke-width per pixel size.
- * Tuned so strokes look optically consistent
- * across the four canonical sizes.
+ * Values extracted from Figma source components
+ * (measured via vector bounding-box overflow insets).
  *
- * Formula basis: base stroke = 2 at 24 px.
- *   16 → 2 × (16/24) × 1.125 ≈ 1.5
- *   20 → 2 × (20/24) × 1.05  ≈ 1.75
- *   24 → 2
- *   32 → 2 × (32/24) × 0.844 ≈ 2.25
+ *   12 → 1.0   (Figma 12px icons)
+ *   16 → 1.0   (Figma 16px icons)
+ *   20 → 1.67  (Figma 20px icons — proportional: 2 × 20/24)
+ *   24 → 2.0   (Figma 24px icons — canonical base)
  */
 export const ICON_STROKE: Record<number, number> = {
-  16: 1.5,
-  20: 1.75,
+  12: 1,
+  16: 1,
+  20: 1.67,
   24: 2,
-  32: 2.25,
 };
 
 /**

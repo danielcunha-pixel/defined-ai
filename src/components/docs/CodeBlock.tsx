@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Check, Copy } from "lucide-react";
+import { Copy } from "lucide-react";
+import { IconCheck as Check } from "@/components/icons";
 
 interface CodeBlockProps {
   code: string;
@@ -38,7 +39,7 @@ export function CodeBlock({ code, highlightedHtml, language = "tsx" }: CodeBlock
         >
           {copied ? (
             <>
-              <Check className="size-3.5" />
+              <Check size={14} />
               Copied
             </>
           ) : (

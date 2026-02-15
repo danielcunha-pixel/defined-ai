@@ -60,7 +60,6 @@ const buttonVariants = cva(
           "hover:bg-t-white-10 active:bg-t-white-20",
         ].join(" "),
         link: "text-purple-70 underline-offset-4 hover:underline",
-        destructive: "bg-red-60 text-white hover:bg-red-70 active:bg-red-80",
       },
       size: {
         sm: "h-9 gap-2 px-sp-14 ds-text-ui-button-md font-semibold",

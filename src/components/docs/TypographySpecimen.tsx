@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import { IconChevronDown as ChevronDown } from "@/components/icons";
 import {
   typographyGroups,
   groupBySizeRole,
@@ -173,8 +173,9 @@ function DetailsAccordion({ groups }: { groups: TypographyGroup[] }) {
           Developer Reference
         </span>
         <ChevronDown
+          size="sm"
           className={cn(
-            "size-4 text-grey-40 transition-transform",
+            "text-grey-40 transition-transform",
             open && "rotate-180"
           )}
         />

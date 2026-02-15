@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { IconCheck as Check, IconX as X } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 interface DoDontProps {
@@ -20,9 +20,9 @@ export function DoDont({ type, children }: DoDontProps) {
     >
       <div className="mb-2 flex items-center gap-1.5">
         {isDo ? (
-          <Check className="size-4 text-green-60" />
+          <Check size="sm" className="text-green-60" />
         ) : (
-          <X className="size-4 text-red-60" />
+          <X size="sm" className="text-red-60" />
         )}
         <span
           className={cn(

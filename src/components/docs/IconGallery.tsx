@@ -123,20 +123,22 @@ const FILLED_ICONS: IconEntry[] = [
   { name: "InfoFilled", component: IconInfoFilled, category: "filled" },
 ];
 
-const SIZE_TOKENS: IconSizeToken[] = ["sm", "md", "lg", "xl"];
+const SIZE_TOKENS: IconSizeToken[] = ["sm", "md", "lg"];
 
 // ── Components ───────────────────────────────
 
 function IconCell({ entry, activeSize }: { entry: IconEntry; activeSize: IconSizeToken }) {
   const Icon = entry.component;
   return (
-    <div className="group flex flex-col items-center gap-sp-8 rounded-[8px] border border-grey-10 bg-white p-sp-16 transition-colors hover:border-grey-20 hover:bg-grey-5">
-      <div className="flex items-center justify-center size-[48px]">
+    <div className="group flex flex-col items-center rounded-[8px] border border-grey-10 bg-white transition-colors hover:border-grey-20 hover:bg-grey-5 overflow-hidden">
+      <div className="flex items-center justify-center w-full py-sp-24">
         <Icon size={activeSize} className="text-grey-100" />
       </div>
-      <span className="ds-text-body-xs font-regular text-grey-60 text-center truncate w-full">
-        {entry.name}
-      </span>
+      <div className="w-full border-t border-grey-10 px-sp-8 py-sp-8">
+        <span className="ds-text-body-xs font-regular text-grey-60 text-center block break-words leading-tight">
+          {entry.name}
+        </span>
+      </div>
     </div>
   );
 }
@@ -212,7 +214,7 @@ export function IconGallery() {
             {filteredStroked.length} icons
           </span>
         </div>
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-sp-8">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-sp-8">
           {filteredStroked.map((entry) => (
             <IconCell key={entry.name} entry={entry} activeSize={activeSize} />
           ))}
@@ -234,7 +236,7 @@ export function IconGallery() {
             {filteredFilled.length} icons
           </span>
         </div>
-        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-sp-8">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-sp-8">
           {filteredFilled.map((entry) => (
             <IconCell key={entry.name} entry={entry} activeSize={activeSize} />
           ))}
@@ -271,7 +273,7 @@ export function IconGallery() {
                   </td>
                   <td className="py-sp-12 pr-sp-16">{ICON_SIZES[token]}</td>
                   <td className="py-sp-12 pr-sp-16">
-                    {token === "sm" ? "1.5" : token === "md" ? "1.75" : token === "lg" ? "2" : "2.25"}
+                    {token === "sm" ? "1" : token === "md" ? "1.67" : "2"}
                   </td>
                   <td className="py-sp-12">
                     <div className="flex items-center gap-sp-12">

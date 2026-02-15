@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { CodeBlock } from "./CodeBlock";
-import { Eye, Code } from "lucide-react";
+import { Eye } from "lucide-react";
+import { IconCode as Code } from "@/components/icons";
 
 interface ComponentPreviewProps {
   children: React.ReactNode;
@@ -57,7 +58,7 @@ export function ComponentPreview({
                 : "text-grey-50 hover:text-grey-80"
             )}
           >
-            <Code className="size-3.5" />
+            <Code size={14} />
             Code
           </button>
         </div>

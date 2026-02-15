@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { Search as SearchIcon, X } from "lucide-react";
+import { IconSearch as SearchIcon, IconX as X } from "@/components/icons";
 import { cn } from "@/lib/utils";
 
 export interface SearchEntry {
@@ -95,7 +95,7 @@ export function Search({ entries }: SearchProps) {
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-70/50"
         )}
       >
-        <SearchIcon className="size-4 shrink-0" />
+        <SearchIcon size="sm" />
         <span className="flex-1 text-left">Search docs...</span>
         <kbd className="hidden rounded border border-grey-20 bg-grey-5 px-1.5 py-0.5 text-[11px] font-medium text-grey-50 sm:inline-block">
           ⌘K
@@ -124,7 +124,7 @@ export function Search({ entries }: SearchProps) {
           >
             {/* Input */}
             <div className="flex items-center border-b border-grey-20 px-4">
-              <SearchIcon className="size-4 shrink-0 text-grey-50" />
+              <SearchIcon size="sm" className="text-grey-50" />
               <input
                 ref={inputRef}
                 type="text"
@@ -142,7 +142,7 @@ export function Search({ entries }: SearchProps) {
                   className="flex size-5 items-center justify-center rounded text-grey-40 hover:text-grey-60"
                   aria-label="Clear search"
                 >
-                  <X className="size-3.5" />
+                  <X size={14} />
                 </button>
               )}
             </div>

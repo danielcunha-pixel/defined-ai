@@ -44,7 +44,7 @@ function TooltipContent({
         className={cn(
           "bg-grey-100 text-white",
           "z-50 w-fit max-w-[160px] rounded-[4px] px-sp-8 pt-sp-4 pb-[7px]",
-          "text-[14px] font-normal leading-normal text-center",
+          "ds-text-body-md font-regular text-center",
           "max-h-[96px] overflow-hidden text-ellipsis",
           className
         )}
