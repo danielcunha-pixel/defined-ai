@@ -84,19 +84,33 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
   // No presets - users control props directly
   variants: [],
 
-  // Simple constraints for XL size (no icons)
+  // Constraints: size limitations + single-icon enforcement
   constraints: {
     // Disable Icon control when size=xl
     disabled: {
       iconPlacement: (props) => props.size === 'xl',
     },
 
-    // Auto-reset icon to 'none' when size becomes xl
+    // Auto-correct props to enforce rules:
+    // 1. Size=xl cannot have icons
+    // 2. Single icon only (iconOnly=true removes other icons)
+    // 3. iconOnly cannot be true if iconPlacement has an icon
     onPropsChange: (props) => {
       const updated = { ...props };
+
+      // Rule 1: XL size cannot have icons
       if (props.size === 'xl' && props.iconPlacement !== 'none') {
         updated.iconPlacement = 'none';
       }
+
+      // Rule 2: If iconOnly is true, ensure no icon placement
+      // (iconOnly means show only the icon, hide text)
+      if (props.iconOnly && props.iconPlacement !== 'none') {
+        // Auto-correct: keep iconOnly but remove icon placement
+        // The playground will render the icon from iconOnly state
+        updated.iconPlacement = 'none';
+      }
+
       return updated;
     },
   },

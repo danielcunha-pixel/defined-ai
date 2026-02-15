@@ -3,6 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
+import { validateIconConfig, logIconValidationError } from "./button.validation"
 
 const buttonVariants = cva(
   [
@@ -84,11 +85,25 @@ function Button({
   variant = "primary",
   size = "md",
   asChild = false,
+  leadingIcon,
+  trailingIcon,
+  icon,
+  iconOnly = false,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    leadingIcon?: React.ReactNode
+    trailingIcon?: React.ReactNode
+    icon?: React.ReactNode
+    iconOnly?: boolean
   }) {
+  // Validate icon configuration (development mode warning)
+  const iconValidation = validateIconConfig({ leadingIcon, trailingIcon, icon, iconOnly });
+  if (!iconValidation.isValid) {
+    logIconValidationError({ leadingIcon, trailingIcon, icon, iconOnly }, iconValidation);
+  }
+
   const Comp = asChild ? Slot.Root : "button"
 
   return (
