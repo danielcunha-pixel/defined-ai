@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PlaygroundConfig } from './types';
 import { PlaygroundControl } from './PlaygroundControl';
-import { getStateClasses, getIconOnlySize } from './buttonStateClasses';
+import { getStateClasses, getIconOnlySize, type StateType } from './buttonStateClasses';
 import { cn } from '@/lib/utils';
 
 interface ComponentPlaygroundProps {
@@ -124,7 +124,13 @@ export function ComponentPlayground({
   };
 
   // State for simulation (not a real prop passed to Component)
-  const simulationState = String(finalProps.state || 'enabled');
+  const simulationState: StateType =
+    finalProps.state === 'hover' ||
+    finalProps.state === 'pressed' ||
+    finalProps.state === 'focus' ||
+    finalProps.state === 'disabled'
+      ? finalProps.state
+      : 'enabled';
 
   // Props passed to component (exclude state and iconPlacement)
   // State is purely for visual simulation via CSS, not a real component prop

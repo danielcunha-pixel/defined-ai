@@ -6,7 +6,7 @@
  * This ensures playground state simulation matches the real Button styling 1:1.
  */
 
-type StateType = 'enabled' | 'hover' | 'pressed' | 'focus' | 'disabled';
+export type StateType = 'enabled' | 'hover' | 'pressed' | 'focus' | 'disabled';
 type VariantType = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'ghost-secondary' | 'primary-inverted' | 'primary-footer' | 'glass' | 'link';
 
 // Extracted from Button CVA: hover and active classes per variant
