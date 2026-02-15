@@ -89,6 +89,7 @@ function Button({
   trailingIcon,
   icon,
   iconOnly = false,
+  children,
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
@@ -106,6 +107,9 @@ function Button({
 
   const Comp = asChild ? Slot.Root : "button"
 
+  // Determine which icon to render (single icon only)
+  const displayIcon = leadingIcon || trailingIcon || icon
+
   return (
     <Comp
       data-slot="button"
@@ -113,7 +117,12 @@ function Button({
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {leadingIcon && <>{leadingIcon}</>}
+      {!iconOnly && children}
+      {trailingIcon && <>{trailingIcon}</>}
+      {iconOnly && displayIcon}
+    </Comp>
   )
 }
 
