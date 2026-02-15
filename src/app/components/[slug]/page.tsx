@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { getDocBySlug, getAllDocs } from "@/lib/mdx";
 import { MdxRenderer } from "@/components/docs/MdxRenderer";
 import { ComponentPreview } from "@/components/docs/ComponentPreview";
@@ -743,13 +744,15 @@ export default async function ComponentPage({
                 Playground
               </h2>
               <div className="mt-6">
-                {slug === "button" ? (
-                  <ButtonPlaygroundWrapper />
-                ) : slug === "dropdown" ? (
-                  <DropdownPlaygroundWrapper />
-                ) : (
-                  <InputPlaygroundWrapper />
-                )}
+                <Suspense fallback={null}>
+                  {slug === "button" ? (
+                    <ButtonPlaygroundWrapper />
+                  ) : slug === "dropdown" ? (
+                    <DropdownPlaygroundWrapper />
+                  ) : (
+                    <InputPlaygroundWrapper />
+                  )}
+                </Suspense>
               </div>
             </div>
           )}
