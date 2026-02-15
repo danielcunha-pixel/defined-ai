@@ -30,18 +30,18 @@ export function ButtonWithIconsDemo() {
     <div className="flex flex-wrap items-center gap-3">
       <Button variant="primary" size="lg">
         Continue
-        <IconChevronRight size="sm" />
+        <IconChevronRight size="md" />
       </Button>
       <Button variant="secondary" size="md">
-        <IconCheck size="sm" />
+        <IconCheck size="md" />
         Add item
       </Button>
       <Button variant="tertiary" size="md">
-        <IconDownloadCloud size="sm" />
+        <IconDownloadCloud size="md" />
         Download
       </Button>
       <Button variant="tertiary" size="icon-md">
-        <IconCheck size="sm" />
+        <IconCheck size="md" />
       </Button>
     </div>
   );
