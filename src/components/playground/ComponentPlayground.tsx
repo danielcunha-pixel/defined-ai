@@ -12,6 +12,24 @@ interface ComponentPlaygroundProps {
   children?: ReactNode;
 }
 
+// Define control groups for organized UI display
+type ControlGroup = 'core' | 'state' | 'icon' | 'modifiers';
+
+interface GroupedControls {
+  core: string[];
+  state: string[];
+  icon: string[];
+  modifiers: string[];
+}
+
+function getControlGroup(key: string): ControlGroup {
+  if (key === 'variant' || key === 'size') return 'core';
+  if (key === 'state') return 'state';
+  if (key.includes('icon') || key === 'iconAlignment' || key === 'filledIcon')
+    return 'icon';
+  return 'modifiers';
+}
+
 export function ComponentPlayground({
   Component,
   playground,
@@ -61,11 +79,53 @@ export function ComponentPlayground({
   const variant = playground.variants.find((v) => v.name === selectedVariant);
 
   // Merge: variant props + overrides
-  const finalProps = {
+  let finalProps = {
     ...playground.defaultProps,
     ...(variant?.props || {}),
     ...overrides,
   };
+
+  // Apply constraint normalization if defined
+  if (playground.constraints?.onPropsChange) {
+    finalProps = playground.constraints.onPropsChange(finalProps);
+  }
+
+  // Check if a control should be hidden
+  const isControlHidden = (key: string) => {
+    if (!playground.constraints?.hidden) return false;
+    const hiddenFn = playground.constraints.hidden[key];
+    return hiddenFn ? hiddenFn(finalProps) : false;
+  };
+
+  // Check if a control should be disabled
+  const isControlDisabled = (key: string) => {
+    if (!playground.constraints?.disabled) return false;
+    const disabledFn = playground.constraints.disabled[key];
+    return disabledFn ? disabledFn(finalProps) : false;
+  };
+
+  // Get filtered options for select controls
+  const getFilteredOptions = (
+    key: string,
+    options: Array<{ label: string; value: string }>
+  ) => {
+    if (!playground.constraints?.filterOptions) return options;
+    const filterFn = playground.constraints.filterOptions[key];
+    return filterFn ? filterFn(options, finalProps) : options;
+  };
+
+  // Group controls by category
+  const groupedControls: GroupedControls = {
+    core: [],
+    state: [],
+    icon: [],
+    modifiers: [],
+  };
+
+  Object.keys(playground.controls).forEach((key) => {
+    const group = getControlGroup(key);
+    groupedControls[group].push(key);
+  });
 
   // Generate URL with current state
   const generateUrl = () => {
@@ -115,7 +175,7 @@ export function ComponentPlayground({
 
       <div className="flex gap-6 p-6">
         {/* Controls Panel */}
-        <div className="w-80 flex flex-col gap-6 border-r border-grey-20 pr-6">
+        <div className="w-80 flex flex-col gap-6 border-r border-grey-20 pr-6 max-h-[700px] overflow-y-auto">
           {/* Variant Selector */}
           {playground.variants.length > 0 && (
             <div className="flex flex-col gap-2">
@@ -137,23 +197,167 @@ export function ComponentPlayground({
             </div>
           )}
 
-          {/* Controls */}
-          <div className="flex flex-col gap-4">
-            {Object.entries(playground.controls).map(([key, control]) => (
-              <PlaygroundControl
-                key={key}
-                name={key}
-                control={control}
-                value={finalProps[key] ?? control.defaultValue}
-                onChange={(value) => {
-                  setOverrides((prev) => ({
-                    ...prev,
-                    [key]: value,
-                  }));
-                }}
-              />
-            ))}
-          </div>
+          {/* Control Groups */}
+
+          {/* Core Controls (Type, Size) */}
+          {groupedControls.core.length > 0 && (
+            <div className="flex flex-col gap-3">
+              {groupedControls.core.map((key) => {
+                const control = playground.controls[key];
+                if (isControlHidden(key)) return null;
+
+                return (
+                  <div key={key} className="opacity-100">
+                    <PlaygroundControl
+                      name={key}
+                      control={control}
+                      value={finalProps[key] ?? control.defaultValue}
+                      disabled={isControlDisabled(key)}
+                      filteredOptions={
+                        control.type === 'select'
+                          ? getFilteredOptions(
+                              key,
+                              (control as any).options || []
+                            )
+                          : undefined
+                      }
+                      onChange={(value) => {
+                        setOverrides((prev) => {
+                          const updated = { ...prev, [key]: value };
+                          // Apply normalization
+                          if (playground.constraints?.onPropsChange) {
+                            const normalized =
+                              playground.constraints.onPropsChange({
+                                ...playground.defaultProps,
+                                ...(variant?.props || {}),
+                                ...updated,
+                              });
+                            // Sync overrides with normalized props
+                            Object.keys(updated).forEach((k) => {
+                              if (normalized[k] !== updated[k]) {
+                                updated[k] = normalized[k];
+                              }
+                            });
+                          }
+                          return updated;
+                        });
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Visual State Controls */}
+          {groupedControls.state.length > 0 && (
+            <div className="flex flex-col gap-3 pt-2 border-t border-grey-20">
+              <div className="text-xs font-semibold text-grey-60 uppercase tracking-wide">
+                Visual State
+              </div>
+              {groupedControls.state.map((key) => {
+                const control = playground.controls[key];
+                if (isControlHidden(key)) return null;
+
+                return (
+                  <PlaygroundControl
+                    key={key}
+                    name={key}
+                    control={control}
+                    value={finalProps[key] ?? control.defaultValue}
+                    disabled={isControlDisabled(key)}
+                    onChange={(value) => {
+                      setOverrides((prev) => ({
+                        ...prev,
+                        [key]: value,
+                      }));
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {/* Icon Controls */}
+          {groupedControls.icon.length > 0 && (
+            <div className="flex flex-col gap-3 pt-2 border-t border-grey-20">
+              <div className="text-xs font-semibold text-grey-60 uppercase tracking-wide">
+                Icon Settings
+              </div>
+              {groupedControls.icon.map((key) => {
+                const control = playground.controls[key];
+                if (isControlHidden(key)) return null;
+
+                return (
+                  <PlaygroundControl
+                    key={key}
+                    name={key}
+                    control={control}
+                    value={finalProps[key] ?? control.defaultValue}
+                    disabled={isControlDisabled(key)}
+                    filteredOptions={
+                      control.type === 'select'
+                        ? getFilteredOptions(
+                            key,
+                            (control as any).options || []
+                          )
+                        : undefined
+                    }
+                    onChange={(value) => {
+                      setOverrides((prev) => {
+                        const updated = { ...prev, [key]: value };
+                        // Apply normalization
+                        if (playground.constraints?.onPropsChange) {
+                          const normalized =
+                            playground.constraints.onPropsChange({
+                              ...playground.defaultProps,
+                              ...(variant?.props || {}),
+                              ...updated,
+                            });
+                          // Sync overrides with normalized props
+                          Object.keys(updated).forEach((k) => {
+                            if (normalized[k] !== updated[k]) {
+                              updated[k] = normalized[k];
+                            }
+                          });
+                        }
+                        return updated;
+                      });
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {/* Modifier Controls */}
+          {groupedControls.modifiers.length > 0 && (
+            <div className="flex flex-col gap-3 pt-2 border-t border-grey-20">
+              <div className="text-xs font-semibold text-grey-60 uppercase tracking-wide">
+                Modifiers
+              </div>
+              {groupedControls.modifiers.map((key) => {
+                const control = playground.controls[key];
+                if (isControlHidden(key)) return null;
+
+                return (
+                  <PlaygroundControl
+                    key={key}
+                    name={key}
+                    control={control}
+                    value={finalProps[key] ?? control.defaultValue}
+                    disabled={isControlDisabled(key)}
+                    onChange={(value) => {
+                      setOverrides((prev) => ({
+                        ...prev,
+                        [key]: value,
+                      }));
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2 pt-4 border-t border-grey-20">
@@ -182,7 +386,9 @@ export function ComponentPlayground({
           </div>
 
           {/* Props Display */}
-          <div className="text-xs text-grey-60 font-medium mt-2">CURRENT PROPS</div>
+          <div className="text-xs text-grey-60 font-medium mt-2">
+            CURRENT PROPS
+          </div>
           <div className="bg-grey-5 rounded-[6px] p-3 border border-grey-20 font-mono text-xs text-grey-80 max-h-32 overflow-y-auto">
             <pre>{JSON.stringify(finalProps, null, 2)}</pre>
           </div>
