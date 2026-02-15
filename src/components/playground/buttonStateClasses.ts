@@ -95,3 +95,29 @@ export function getStateClasses(variant: VariantType, state: StateType): string 
   const stateClass = variantStateClasses[variant][state];
   return stateClass;
 }
+
+/**
+ * Get the size classes for icon-only buttons.
+ * Maps regular button sizes to their square icon-only equivalents.
+ * Also removes horizontal padding since icon-only buttons should be perfect squares.
+ *
+ * Size mapping:
+ * - sm (h-9) → size-9, remove px-sp-14
+ * - md (h-10) → size-10, remove px-sp-14
+ * - lg (h-11) → size-11, remove px-sp-18
+ * - xl (h-14) → size-14, remove px-sp-24
+ */
+export function getIconOnlySize(size: string): string {
+  switch (size) {
+    case 'sm':
+      return 'size-9 px-0';
+    case 'md':
+      return 'size-10 px-0';
+    case 'lg':
+      return 'size-11 px-0';
+    case 'xl':
+      return 'size-14 px-0';
+    default:
+      return 'size-10 px-0'; // default to md if unknown
+  }
+}

@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PlaygroundConfig } from './types';
 import { PlaygroundControl } from './PlaygroundControl';
-import { getStateClasses } from './buttonStateClasses';
+import { getStateClasses, getIconOnlySize } from './buttonStateClasses';
 import { cn } from '@/lib/utils';
 
 interface ComponentPlaygroundProps {
@@ -221,6 +221,8 @@ export function ComponentPlayground({
                 {...componentProps}
                 className={cn(
                   componentProps.className,
+                  // Apply square size for icon-only buttons
+                  finalProps.iconOnly ? getIconOnlySize((finalProps.size as string) || 'md') : '',
                   getStateClasses(
                     (finalProps.variant as any) || 'primary',
                     simulationState
