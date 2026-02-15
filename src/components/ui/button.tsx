@@ -36,7 +36,7 @@ const buttonVariants = cva(
         ].join(" "),
         ghost: [
           "bg-transparent text-grey-100",
-          "hover:bg-grey-20 active:bg-grey-20",
+          "hover:bg-grey-20 active:bg-grey-30",
         ].join(" "),
         "ghost-secondary": [
           "bg-transparent text-white",
