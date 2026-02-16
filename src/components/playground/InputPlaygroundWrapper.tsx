@@ -1,11 +1,34 @@
 'use client';
 
 import { useState } from 'react';
+import { Dropdown } from '@/components/ui/dropdown';
 import { Input } from '@/components/ui/input';
 
 type InputSize = 'small' | 'medium' | 'large';
 type InputVisualState = 'enabled' | 'hover' | 'pressed' | 'disabled' | 'error' | 'read-only';
 type PlaygroundState = InputVisualState | 'filled' | 'active';
+
+const sizeOptions = [
+  { label: 'Small', value: 'small' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Large', value: 'large' },
+];
+
+const stateOptions = [
+  { label: 'Enabled', value: 'enabled' },
+  { label: 'Filled', value: 'filled' },
+  { label: 'Active', value: 'active' },
+  { label: 'Hover', value: 'hover' },
+  { label: 'Pressed', value: 'pressed' },
+  { label: 'Disabled', value: 'disabled' },
+  { label: 'Error', value: 'error' },
+  { label: 'Read-only', value: 'read-only' },
+];
+
+const typeOptions = [
+  { label: 'Text', value: 'text' },
+  { label: 'Password', value: 'password' },
+];
 
 export function InputPlaygroundWrapper() {
   const [size, setSize] = useState<InputSize>('small');
@@ -40,45 +63,41 @@ export function InputPlaygroundWrapper() {
 
       <div className="flex gap-6 p-6">
         <div className="w-72 flex flex-col gap-3">
-          <ControlLabel label="Size">
-            <select
-              value={size}
-              onChange={(e) => setSize(e.target.value as InputSize)}
-              className={controlClassName}
-            >
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-              <option value="large">Large</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="Size"
+            value={size}
+            onValueChange={(nextValue) => setSize(nextValue as InputSize)}
+            options={sizeOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
-          <ControlLabel label="State">
-            <select
-              value={state}
-              onChange={(e) => setState(e.target.value as PlaygroundState)}
-              className={controlClassName}
-            >
-              <option value="enabled">Enabled</option>
-              <option value="filled">Filled</option>
-              <option value="active">Active</option>
-              <option value="hover">Hover</option>
-              <option value="pressed">Pressed</option>
-              <option value="disabled">Disabled</option>
-              <option value="error">Error</option>
-              <option value="read-only">Read-only</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="State"
+            value={state}
+            onValueChange={(nextValue) => setState(nextValue as PlaygroundState)}
+            options={stateOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
-          <ControlLabel label="Type">
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value as 'text' | 'password')}
-              className={controlClassName}
-            >
-              <option value="text">Text</option>
-              <option value="password">Password</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="Type"
+            value={type}
+            onValueChange={(nextValue) => setType(nextValue as 'text' | 'password')}
+            options={typeOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
         </div>
 
@@ -105,21 +124,3 @@ export function InputPlaygroundWrapper() {
     </div>
   );
 }
-
-function ControlLabel({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-grey-80">{label}</span>
-      {children}
-    </div>
-  );
-}
-
-const controlClassName =
-  'px-3 py-2 border border-grey-40 rounded-[6px] bg-white text-sm text-grey-100 hover:border-grey-60 focus:outline-none focus:ring-2 focus:ring-purple-70/30';

@@ -96,6 +96,16 @@ const navigationConfig: NavSection[] = [
       },
     ],
   },
+  {
+    title: "Building blocks",
+    items: [
+      {
+        title: "Top navigation",
+        href: "/components/top-navigation",
+        description: "Responsive top header with logo, navigation links, and actions",
+      },
+    ],
+  },
 ];
 
 export const navigation: NavSection[] = navigationConfig.map((section) => ({

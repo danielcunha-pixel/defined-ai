@@ -1,6 +1,7 @@
 'use client';
 
 import { PlaygroundControl as PlaygroundControlType, getControlLabel } from './types';
+import { Dropdown } from '@/components/ui/dropdown';
 
 interface PlaygroundControlProps {
   name: string;
@@ -40,23 +41,21 @@ export function PlaygroundControl({
 
   if (control.type === 'select') {
     const options = filteredOptions || control.options;
+    const resolvedValue = typeof value === 'string' ? value : control.defaultValue;
 
     return (
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-grey-80">{label}</label>
-        <select
-          value={String(value)}
-          onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
-          className="px-3 py-2 border border-grey-40 rounded-[6px] bg-white text-sm text-grey-100 cursor-pointer hover:border-grey-60 focus:outline-none focus:ring-2 focus:ring-purple-70/30 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+      <Dropdown
+        size="medium"
+        style="default"
+        label={label}
+        value={resolvedValue}
+        onValueChange={(nextValue) => onChange(nextValue)}
+        options={options}
+        showSearch={false}
+        helperText={undefined}
+        disabled={disabled}
+        containerClassName="w-full"
+      />
     );
   }
 

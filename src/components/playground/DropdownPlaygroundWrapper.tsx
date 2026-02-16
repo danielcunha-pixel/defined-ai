@@ -17,6 +17,30 @@ const options = [
   { label: "Option", value: "option-5" },
 ];
 
+const sizeOptions = [
+  { label: "Small", value: "small" },
+  { label: "Medium", value: "medium" },
+];
+
+const styleOptions = [
+  { label: "Default", value: "default" },
+  { label: "Inline", value: "inline" },
+];
+
+const stateOptions = [
+  { label: "Enabled", value: "enabled" },
+  { label: "Hover", value: "hover" },
+  { label: "Pressed", value: "pressed" },
+  { label: "Focus", value: "focus" },
+  { label: "Active", value: "active" },
+  { label: "Disabled", value: "disabled" },
+];
+
+const menuAlignmentOptions = [
+  { label: "Left", value: "left" },
+  { label: "Right", value: "right" },
+];
+
 export function DropdownPlaygroundWrapper() {
   const [size, setSize] = useState<DropdownSize>("medium");
   const [style, setStyle] = useState<DropdownVisualStyle>("default");
@@ -39,45 +63,53 @@ export function DropdownPlaygroundWrapper() {
 
       <div className="flex gap-6 p-6">
         <div className="w-72 flex flex-col gap-3">
-          <ControlLabel label="Size">
-            <select value={size} onChange={(e) => setSize(e.target.value as DropdownSize)} className={controlClassName}>
-              <option value="small">Small</option>
-              <option value="medium">Medium</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="Size"
+            value={size}
+            onValueChange={(nextValue) => setSize(nextValue as DropdownSize)}
+            options={sizeOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
-          <ControlLabel label="Style">
-            <select value={style} onChange={(e) => setStyle(e.target.value as DropdownVisualStyle)} className={controlClassName}>
-              <option value="default">Default</option>
-              <option value="inline">Inline</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="Style"
+            value={style}
+            onValueChange={(nextValue) => setStyle(nextValue as DropdownVisualStyle)}
+            options={styleOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
-          <ControlLabel label="State">
-            <select
-              value={previewState}
-              onChange={(e) => setPreviewState(e.target.value as DropdownPreviewState)}
-              className={controlClassName}
-            >
-              <option value="enabled">Enabled</option>
-              <option value="hover">Hover</option>
-              <option value="pressed">Pressed</option>
-              <option value="focus">Focus</option>
-              <option value="active">Active</option>
-              <option value="disabled">Disabled</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="State"
+            value={previewState}
+            onValueChange={(nextValue) => setPreviewState(nextValue as DropdownPreviewState)}
+            options={stateOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
-          <ControlLabel label="Menu Alignment">
-            <select
-              value={menuAlignment}
-              onChange={(e) => setMenuAlignment(e.target.value as MenuAlignment)}
-              className={controlClassName}
-            >
-              <option value="left">Left</option>
-              <option value="right">Right</option>
-            </select>
-          </ControlLabel>
+          <Dropdown
+            size="medium"
+            style="default"
+            label="Menu Alignment"
+            value={menuAlignment}
+            onValueChange={(nextValue) => setMenuAlignment(nextValue as MenuAlignment)}
+            options={menuAlignmentOptions}
+            showSearch={false}
+            helperText={undefined}
+            containerClassName="w-full"
+          />
 
           <label className="flex items-center gap-2 text-sm font-medium text-grey-80">
             <input
@@ -137,21 +169,3 @@ export function DropdownPlaygroundWrapper() {
     </div>
   );
 }
-
-function ControlLabel({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-grey-80">{label}</span>
-      {children}
-    </div>
-  );
-}
-
-const controlClassName =
-  "px-3 py-2 border border-grey-40 rounded-[6px] bg-white text-sm text-grey-100 hover:border-grey-60 focus:outline-none focus:ring-2 focus:ring-purple-70/30";

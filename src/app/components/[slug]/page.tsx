@@ -6,6 +6,7 @@ import { ComponentPreview } from "@/components/docs/ComponentPreview";
 import { PropsTable } from "@/components/docs/PropsTable";
 import { DoDont } from "@/components/docs/DoDont";
 import { highlightCode } from "@/lib/highlight";
+import { cn } from "@/lib/utils";
 import { ButtonPlaygroundWrapper } from "@/components/playground/ButtonPlaygroundWrapper";
 import { DropdownPlaygroundWrapper } from "@/components/playground/DropdownPlaygroundWrapper";
 import { InputPlaygroundWrapper } from "@/components/playground/InputPlaygroundWrapper";
@@ -52,6 +53,9 @@ import {
   TagInvertedDemo,
   TagTruncationDemo,
 } from "@/components/demos/tag-demo";
+import {
+  TopNavigationDemo,
+} from "@/components/demos/top-navigation-demo";
 
 // ============================================
 // Component page definitions
@@ -553,6 +557,61 @@ const componentDefs: Record<string, ComponentDef> = {
       "Truncation keeps layout stable in constrained containers",
     ],
   },
+  "top-navigation": {
+    previews: [
+      {
+        title: "Default",
+        demo: <TopNavigationDemo />,
+        code: `<TopNavigation
+  items={[
+    { label: "Browse Marketplace", href: "#browse" },
+    { label: "Solutions", href: "#solutions", parent: true, submenu: "solutions" },
+    { label: "Resources", href: "#resources", parent: true, submenu: "resources" },
+    { label: "About", href: "#about", parent: true, submenu: "about" },
+  ]}
+  logoHref="#"
+  secondaryCtaLabel="Become a partner"
+  primaryCtaLabel="Get in touch"
+/>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "items", type: "Array<{ label: string; href: string; parent?: boolean; submenu?: \"solutions\" | \"resources\" | \"about\"; tagText?: string }>", description: "Top-level navigation links. Parent links can open desktop sub-navigation panels." },
+          { name: "activeHref", type: "string", description: "Current active navigation href. Applies active style and aria-current." },
+          { name: "linkState", type: '"enabled" | "hover" | "pressed" | "focus"', default: '"enabled"', description: "Visual state override for navigation links (badge excluded)." },
+          { name: "logoSrc", type: "string", default: '"/logo.svg"', description: "Logo image source from public folder" },
+          { name: "logoAlt", type: "string", default: '"Defined.ai"', description: "Accessible alt text for the logo" },
+          { name: "logoHref", type: "string", default: '"/"', description: "Destination when clicking the logo" },
+          { name: "secondaryCtaLabel", type: "string", default: '"Become a partner"', description: "Label for the tertiary right-side action" },
+          { name: "primaryCtaLabel", type: "string", default: '"Get in touch"', description: "Label for the primary right-side action" },
+          { name: "mobileMenuLabel", type: "string", default: '"Open navigation menu"', description: "Accessible label for the mobile menu button" },
+          { name: "mobileMenuButtonState", type: '"enabled" | "pressed"', description: "Visual state override for the mobile menu button (opened state is controlled by mobileMenuOpen)." },
+          { name: "mobileMenuOpen", type: "boolean", description: "Controlled open state for the mobile menu panel" },
+          { name: "defaultMobileMenuOpen", type: "boolean", default: "false", description: "Initial open state for uncontrolled mobile menu" },
+          { name: "onMobileMenuOpenChange", type: "(open: boolean) => void", description: "Called when mobile menu open state changes" },
+          { name: "className", type: "string", description: "Additional root classes" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Keep top-level items concise and limit them to the most important destinations." },
+        { type: "dont", text: "Overload top navigation with too many links or long labels." },
+      ],
+      [
+        { type: "do", text: "Use a clear active state so users understand where they are." },
+        { type: "dont", text: "Hide all actions on mobile without providing a menu trigger." },
+      ],
+    ],
+    accessibility: [
+      "Uses semantic header and nav landmarks for screen readers",
+      "Active page is exposed with aria-current on links",
+      "Mobile includes an explicit menu trigger button with aria-label",
+      "Primary actions remain keyboard focusable",
+    ],
+  },
   checkbox: {
     previews: [
       {
@@ -691,6 +750,8 @@ export default async function ComponentPage({
   }
 
   const def = componentDefs[slug];
+  const isTopNavigation = slug === "top-navigation";
+  const narrowSectionClass = isTopNavigation ? "mx-auto max-w-3xl" : "";
 
   // Pre-highlight all code snippets
   const highlightedPreviews = def
@@ -703,26 +764,28 @@ export default async function ComponentPage({
     : [];
 
   return (
-    <article>
-      {/* Page header */}
-      <div className="mb-8 border-b border-grey-10 pb-6">
-        <Tag className="mb-2 inline-flex" color="purple">Component</Tag>
-        <h1 className="ds-text-heading-xl font-semibold text-grey-100 mb-2">
-          {doc.meta.title}
-        </h1>
-        <p className="ds-text-body-lg font-regular text-grey-60">
-          {doc.meta.description}
-        </p>
-      </div>
+    <article className={cn("mx-auto", isTopNavigation ? "w-full max-w-[1440px]" : "max-w-3xl")}>
+      <div className={narrowSectionClass}>
+        {/* Page header */}
+        <div className="mb-8 border-b border-grey-10 pb-6">
+          <Tag className="mb-2 inline-flex" color="purple">Component</Tag>
+          <h1 className="ds-text-heading-xl font-semibold text-grey-100 mb-2">
+            {doc.meta.title}
+          </h1>
+          <p className="ds-text-body-lg font-regular text-grey-60">
+            {doc.meta.description}
+          </p>
+        </div>
 
-      {/* MDX prose content (overview, when to use, etc.) */}
-      <MdxRenderer source={doc.content} />
+        {/* MDX prose content (overview, when to use, etc.) */}
+        <MdxRenderer source={doc.content} />
+      </div>
 
       {def && (
         <>
           {/* Previews */}
           {highlightedPreviews.map((preview, i) => (
-            <div key={i}>
+            <div key={i} className={cn(!(isTopNavigation && i === 0) && narrowSectionClass)}>
               {preview.title && (
                 <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
                   {preview.title}
@@ -739,7 +802,7 @@ export default async function ComponentPage({
 
           {/* Interactive Playground */}
           {(slug === "button" || slug === "dropdown" || slug === "input") && (
-            <div className="mt-8">
+            <div className={cn("mt-8", narrowSectionClass)}>
               <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 border-b border-grey-10 pb-2">
                 Playground
               </h2>
@@ -758,45 +821,51 @@ export default async function ComponentPage({
           )}
 
           {/* Props */}
-          <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
-            Props
-          </h2>
-          {def.propsTables.map((table, i) => (
-            <div key={i}>
-              {table.title && (
-                <h3 className="ds-text-heading-sm font-semibold text-grey-100 mb-2 mt-4">
-                  {table.title}
-                </h3>
-              )}
-              <PropsTable props={table.props} />
-            </div>
-          ))}
+          <div className={narrowSectionClass}>
+            <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
+              Props
+            </h2>
+            {def.propsTables.map((table, i) => (
+              <div key={i}>
+                {table.title && (
+                  <h3 className="ds-text-heading-sm font-semibold text-grey-100 mb-2 mt-4">
+                    {table.title}
+                  </h3>
+                )}
+                <PropsTable props={table.props} />
+              </div>
+            ))}
+          </div>
 
           {/* Do / Don't */}
-          <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
-            Do / Don&apos;t
-          </h2>
-          {def.dodonts.map((pair, i) => (
-            <div key={i} className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {pair.map((item, j) => (
-                <DoDont key={j} type={item.type}>
-                  {item.text}
-                </DoDont>
-              ))}
-            </div>
-          ))}
+          <div className={narrowSectionClass}>
+            <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
+              Do / Don&apos;t
+            </h2>
+            {def.dodonts.map((pair, i) => (
+              <div key={i} className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                {pair.map((item, j) => (
+                  <DoDont key={j} type={item.type}>
+                    {item.text}
+                  </DoDont>
+                ))}
+              </div>
+            ))}
+          </div>
 
           {/* Accessibility */}
-          <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
-            Accessibility
-          </h2>
-          <ul className="mb-4 ml-6 list-disc space-y-1 ds-text-body-md font-regular text-grey-70">
-            {def.accessibility.map((note, i) => (
-              <li key={i} className="leading-relaxed">
-                {note}
-              </li>
-            ))}
-          </ul>
+          <div className={narrowSectionClass}>
+            <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
+              Accessibility
+            </h2>
+            <ul className="mb-4 ml-6 list-disc space-y-1 ds-text-body-md font-regular text-grey-70">
+              {def.accessibility.map((note, i) => (
+                <li key={i} className="leading-relaxed">
+                  {note}
+                </li>
+              ))}
+            </ul>
+          </div>
 
         </>
       )}
