@@ -25,6 +25,38 @@ Deliver **production-quality front-end components** that are:
 5) **Accessibility is required**: keyboard, focus visibility, correct semantics.
 6) **Tooltip trigger anchoring in mixed text+icon patterns**: when a label and icon are shown together (e.g. `Hover me + info icon`), the tooltip must be triggered/anchored by the icon only, not by the entire text+icon group.
 
+## MCP (Figma) — Required Usage
+
+When a task involves Figma fidelity, you MUST use the Figma MCP tools to extract exact values.
+
+### Mandatory MCP call sequence
+1) `get_design_context` for the target node(s)
+2) `get_screenshot` for the same node(s)
+3) If tokens are referenced or unclear: `get_variable_defs` for the same node(s)
+
+### What MCP output is (and is not)
+- MCP output is a **spec extraction artifact** (structure + values + hints), NOT final code.
+- NEVER copy/paste MCP Tailwind classes into production code.
+- Use MCP to capture exact:
+  - spacing/padding/gap
+  - sizes/min-heights
+  - radii
+  - border widths
+  - shadows
+  - typography values
+  - colors / semantic token intent
+Then map those to our tokens/styling system.
+
+### Node ID handling
+- Prefer node IDs in `X:Y` format (e.g. `26:118`).
+- If the user provides a Figma URL, extract the `node-id` and use it.
+- If `nodeId` is omitted, assume the currently selected node in Figma desktop.
+
+### Required visual validation
+After implementation, compare the built UI against the MCP screenshot:
+- list any mismatches (numeric values + where)
+- patch mismatches unless explicitly told to refactor
+
 ## Workflow (always follow)
 ### 1) Understand scope + cost
 Classify the task:
@@ -36,7 +68,7 @@ For HIGH, propose a phased plan (do not attempt all at once).
 
 ### 2) Spec Diff First
 Before changing code:
-- Extract exact specs from Figma (values + states)
+- Extract exact specs from Figma (values + states) via MCP when applicable
 - Inspect current implementation
 - List numeric mismatches (spacing/radius/type/etc.)
 - Patch only mismatches unless explicitly refactoring for maintainability
@@ -70,6 +102,12 @@ For every change, output a short checklist:
 - [ ] Keyboard + focus verified
 - [ ] No layout shift across states
 - [ ] Edge cases verified
+
+## Semantics Guardrail (critical)
+- Use semantic HTML whenever a native element exists:
+  - Table MUST use `<table><thead><tbody><tr><th><td>`.
+  - Navigation SHOULD use `<nav>` and appropriate list semantics when relevant.
+- Do NOT implement structural components (Table, Navigation, Tabs) as “div grids” unless explicitly required and justified.
 
 ## Coding conventions
 - Keep public component APIs consistent: `variant`, `size`, `disabled`, `loading`, `icon`, `asChild` (if used)
@@ -121,3 +159,21 @@ Definition:
 Outcome:
 - The Design System must always showcase and consume the real, implemented component — never a mocked version.
 
+## User Prompt Template (copy/paste)
+
+When the user asks to build a component from Figma, ask them ONLY for the nodeId/URL if missing, then proceed.
+
+Template:
+
+"Implement the [ComponentName] component from Figma.
+
+Node: [nodeId or URL]
+
+Requirements:
+- Use MCP: get_design_context + get_screenshot (+ get_variable_defs if needed)
+- Do not copy MCP Tailwind; convert to our tokens/styling system
+- Use semantic HTML and accessibility by default
+- Create the component under src/components
+- Add/Update docs page + playground integration
+- Replace any DS placeholder markup with the real component
+- Output: file list + token mappings + QA checklist"

@@ -67,7 +67,7 @@ export function ComponentPreview({
       {/* Tab content */}
       <div role="tabpanel">
         {activeTab === "preview" ? (
-          <div className="flex min-h-[120px] items-center justify-center p-8 bg-white">
+          <div className="flex min-h-[120px] items-center justify-center bg-white">
             {children}
           </div>
         ) : (

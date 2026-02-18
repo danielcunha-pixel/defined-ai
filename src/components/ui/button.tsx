@@ -150,6 +150,20 @@ function Button({
     }
   }, [children, className, isIconOnlyButton, size, variant])
 
+  const content = asChild
+    ? children
+    : iconOnly
+      ? <>{displayIcon}</>
+      : (
+        <>
+          {leadingIcon && <>{leadingIcon}</>}
+          <span ref={labelRef} data-slot="button-label" className="min-w-0 max-w-full truncate">
+            {children}
+          </span>
+          {trailingIcon && <>{trailingIcon}</>}
+        </>
+      )
+
   const buttonElement = (
     <Comp
       data-slot="button"
@@ -158,17 +172,7 @@ function Button({
       className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
-      {iconOnly ? (
-        <>{displayIcon}</>
-      ) : (
-        <>
-          {leadingIcon && <>{leadingIcon}</>}
-          <span ref={labelRef} data-slot="button-label" className="min-w-0 max-w-full truncate">
-            {children}
-          </span>
-          {trailingIcon && <>{trailingIcon}</>}
-        </>
-      )}
+      {content}
     </Comp>
   )
 
@@ -178,6 +182,7 @@ function Button({
   const tooltipLabel = tooltipContent ?? accessibleLabel ?? textLabel
 
   const shouldShowTooltip =
+    !asChild &&
     !props.disabled &&
     !!tooltipLabel &&
     (isIconOnlyButton || isLabelTruncated)

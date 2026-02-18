@@ -94,11 +94,26 @@ const navigationConfig: NavSection[] = [
         href: "/components/tag",
         description: "Compact metadata label with color and truncation support",
       },
+      {
+        title: "Table",
+        href: "/components/table",
+        description: "Semantic data table with sortable headers and row states",
+      },
+      {
+        title: "Link",
+        href: "/components/link",
+        description: "Textual navigation link with style, size, and state variants",
+      },
     ],
   },
   {
     title: "Building blocks",
     items: [
+      {
+        title: "Footer",
+        href: "/components/footer",
+        description: "Responsive footer with desktop, tablet, and mobile variants",
+      },
       {
         title: "Top navigation",
         href: "/components/top-navigation",

@@ -1,0 +1,140 @@
+
+
+
+Reproduce an image with the following:
+
+{
+  "scene": {
+    "type": "professional_editorial_photography",
+    "location": "modern corporate office lounge",
+    "environment_style": "minimalist, contemporary, Scandinavian-inspired",
+    "time_of_day": "daytime",
+    "atmosphere": "collaborative, calm, premium"
+  },
+  "subjects": {
+    "primary": [
+      {
+        "role": "male coworker",
+        "age_range": "30-40",
+        "wardrobe": {
+          "top": "moss green button-up shirt",
+          "style": "business casual",
+          "fit": "tailored"
+        },
+        "pose": "leaning slightly forward",
+        "expression": "focused, engaged"
+      },
+      {
+        "role": "female coworker",
+        "age_range": "30-40",
+        "wardrobe": {
+          "top": "light blue business-casual shirt",
+          "style": "clean, modern",
+          "fit": "tailored"
+        },
+        "pose": "seated, slightly leaning toward laptop",
+        "expression": "thoughtful, collaborative"
+      }
+    ],
+    "secondary": {
+      "motion_blur_figures": true,
+      "blur_direction": "horizontal",
+      "purpose": "convey dynamic workplace activity"
+    }
+  },
+  "composition": {
+    "framing": "wide-medium shot",
+    "camera_angle": "eye level",
+    "depth_of_field": "shallow",
+    "focus_priority": "sharp on seated coworkers",
+    "negative_space": "moderate upper background space for hero text",
+    "visual_balance": "subjects centered, shelving grid provides structure"
+  },
+  "furniture_and_objects": {
+    "sofa": {
+      "color": "soft matte grey with warm undertone",
+      "texture": "premium fabric",
+      "form": "modern minimalist"
+    },
+    "table": {
+      "type": "small round side table",
+      "color": "white",
+      "finish": "matte"
+    },
+    "laptop": {
+      "color": "silver",
+      "screen_brightness": "soft glow"
+    },
+    "background_shelving": {
+      "color": "white",
+      "layout": "grid shelving",
+      "decor": "green plants, minimal objects"
+    }
+  },
+  "lighting": {
+    "type": "soft natural studio lighting",
+    "direction": "diffused frontal with mild side fill",
+    "shadows": "soft, realistic",
+    "contrast": "medium-low",
+    "color_temperature": "neutral daylight (5000K–5600K)"
+  },
+  "color_profile": {
+    "palette": [
+      "warm grey",
+      "moss green",
+      "light blue",
+      "natural plant greens",
+      "soft white"
+    ],
+    "grading": "natural, true-to-life skin tones",
+    "avoid": [
+      "heavy cinematic grading",
+      "oversaturation",
+      "cool blue tint"
+    ]
+  },
+  "camera_settings": {
+    "lens": "35mm or 50mm equivalent",
+    "aperture": "f/2.8",
+    "iso": "100-400",
+    "shutter_speed": "moderate (motion blur for background figures)"
+  },
+  "style_constraints": {
+    "realism_level": "high realism",
+    "no_stock_look": true,
+    "no_stylized_filters": true,
+    "clean_background": true,
+    "professional_corporate_aesthetic": true
+  },
+  "usage_context": {
+    "intended_use": "website hero section",
+    "branding_alignment": "AI / tech marketing website",
+    "overlay_safe_area": "upper left or right quadrant"
+  },
+  "negative_prompt": [
+    "harsh lighting",
+    "cluttered environment",
+    "dramatic shadows",
+    "artificial color grading",
+    "distorted proportions",
+    "low resolution",
+    "visible brand logos"
+  ]
+}
+If you want, I can now generate:
+
+🔹 A version optimized for Midjourney
+
+🔹 A version optimized for DALL·E
+
+🔹 A cinematic variant
+
+🔹 A more minimal “hero-only” version
+
+🔹 A brand-aligned version for Defined.ai specifically
+
+
+
+
+
+

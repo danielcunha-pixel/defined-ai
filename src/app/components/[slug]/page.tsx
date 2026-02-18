@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 import { ButtonPlaygroundWrapper } from "@/components/playground/ButtonPlaygroundWrapper";
 import { DropdownPlaygroundWrapper } from "@/components/playground/DropdownPlaygroundWrapper";
 import { InputPlaygroundWrapper } from "@/components/playground/InputPlaygroundWrapper";
+import { LinkPlaygroundWrapper } from "@/components/playground/LinkPlaygroundWrapper";
+import { TablePlaygroundWrapper } from "@/components/playground/TablePlaygroundWrapper";
 import { Tag } from "@/components/ui/tag";
 
 // Demo components
@@ -31,6 +33,12 @@ import {
   InputSizesDemo,
   InputStatesDemo,
 } from "@/components/demos/input-demo";
+import {
+  LinkVariantsDemo,
+  LinkStatesDemo,
+  LinkSizesDemo,
+  LinkWithIconsDemo,
+} from "@/components/demos/link-demo";
 import {
   TooltipDemo,
   TooltipSidesDemo,
@@ -56,6 +64,14 @@ import {
 import {
   TopNavigationDemo,
 } from "@/components/demos/top-navigation-demo";
+import {
+  FooterDemo,
+} from "@/components/demos/footer-demo";
+import {
+  TableDemo,
+  TableRowStatesDemo,
+  TableHeaderCellsDemo,
+} from "@/components/demos/table-demo";
 
 // ============================================
 // Component page definitions
@@ -316,6 +332,73 @@ const componentDefs: Record<string, ComponentDef> = {
       "Use aria-invalid or state=\"error\" for validation error presentation",
       "Disabled and read-only states are both supported and visually distinct",
       "Focus state uses a 2px focus border token to match Figma",
+    ],
+  },
+  link: {
+    previews: [
+      {
+        title: "Variants",
+        demo: <LinkVariantsDemo />,
+        code: `<Link style="white" href="#">Link</Link>
+<Link style="purple" href="#">Link</Link>
+<Link style="grey" href="#">Link</Link>
+<Link style="dark-grey" href="#">Link</Link>
+<Link style="medium-grey" href="#">Link</Link>
+<Link style="pink" href="#">Link</Link>`,
+      },
+      {
+        title: "States",
+        demo: <LinkStatesDemo />,
+        code: `<Link style="purple" state="enabled" href="#">Enabled</Link>
+<Link style="purple" state="hover" href="#">Hover</Link>
+<Link style="purple" state="pressed" href="#">Pressed</Link>
+<Link style="purple" state="focus" href="#">Focus</Link>
+<Link style="purple" state="disabled" href="#">Disabled</Link>`,
+      },
+      {
+        title: "Sizes",
+        demo: <LinkSizesDemo />,
+        code: `<Link size="small" style="purple" href="#">Link</Link>
+<Link size="medium" style="purple" href="#">Link</Link>
+<Link size="large" style="purple" href="#">Link</Link>`,
+      },
+      {
+        title: "With Icons",
+        demo: <LinkWithIconsDemo />,
+        code: `<Link style="purple" leftIcon={<IconPlaceholder size="sm" />} href="#">Link</Link>
+<Link style="purple" rightIcon={<IconPlaceholder size="sm" />} href="#">Link</Link>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "size", type: '"small" | "medium" | "large"', default: '"medium"', description: "Link size token set from Figma." },
+          { name: "style", type: '"white" | "purple" | "grey" | "dark-grey" | "medium-grey" | "pink"', default: '"purple"', description: "Color style from Figma variants." },
+          { name: "state", type: '"enabled" | "hover" | "pressed" | "focus" | "disabled"', default: '"enabled"', description: "Static visual state override for docs/QA." },
+          { name: "platform", type: '"responsive" | "desktop" | "mobile"', default: '"responsive"', description: "Typography mapping mode for responsive vs fixed previews." },
+          { name: "leftIcon", type: "ReactNode", description: "Optional left icon slot (16px)." },
+          { name: "rightIcon", type: "ReactNode", description: "Optional right icon slot (16px)." },
+          { name: "href", type: "string", default: '"#"', description: "Anchor destination URL." },
+          { name: "children", type: "ReactNode", required: true, description: "Link label content." },
+          { name: "className", type: "string", description: "Additional classes for root anchor." },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Use Link for textual navigation and secondary actions within content." },
+        { type: "dont", text: "Use Link as a primary call-to-action. Use Button for primary actions." },
+      ],
+      [
+        { type: "do", text: "Use disabled state only when navigation must be unavailable and still visible." },
+        { type: "dont", text: "Hide unavailable links without context when disabled styling is expected." },
+      ],
+    ],
+    accessibility: [
+      "Renders as semantic <a> with keyboard and screen-reader support",
+      "Uses visible focus ring matching the 2px purple focus token",
+      "Disabled state uses aria-disabled and prevents navigation",
+      "Hover and pressed visual states avoid layout shift",
     ],
   },
   tooltip: {
@@ -581,7 +664,7 @@ const componentDefs: Record<string, ComponentDef> = {
           { name: "items", type: "Array<{ label: string; href: string; parent?: boolean; submenu?: \"solutions\" | \"resources\" | \"about\"; tagText?: string }>", description: "Top-level navigation links. Parent links can open desktop sub-navigation panels." },
           { name: "activeHref", type: "string", description: "Current active navigation href. Applies active style and aria-current." },
           { name: "linkState", type: '"enabled" | "hover" | "pressed" | "focus"', default: '"enabled"', description: "Visual state override for navigation links (badge excluded)." },
-          { name: "logoSrc", type: "string", default: '"/logo.svg"', description: "Logo image source from public folder" },
+          { name: "logoSrc", type: "string", default: '"/svg/logo.svg"', description: "Logo image source from public/svg folder" },
           { name: "logoAlt", type: "string", default: '"Defined.ai"', description: "Accessible alt text for the logo" },
           { name: "logoHref", type: "string", default: '"/"', description: "Destination when clicking the logo" },
           { name: "secondaryCtaLabel", type: "string", default: '"Become a partner"', description: "Label for the tertiary right-side action" },
@@ -610,6 +693,142 @@ const componentDefs: Record<string, ComponentDef> = {
       "Active page is exposed with aria-current on links",
       "Mobile includes an explicit menu trigger button with aria-label",
       "Primary actions remain keyboard focusable",
+    ],
+  },
+  footer: {
+    previews: [
+      {
+        title: "Default",
+        demo: <FooterDemo />,
+        code: `<Footer
+  title={"Couldn't find the right\\ndataset for you?"}
+  ctaLabel="Get in touch"
+  copyright="© 2025 DefinedCrowd. All rights reserved."
+  columns={[
+    { title: "Datasets", links: [{ label: "Marketplace", href: "#" }] },
+    { title: "Resources", links: [{ label: "API Docs", href: "#" }] },
+  ]}
+/>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "logoSrc", type: "string", default: '"/svg/logo.svg"', description: "Logo source used in the legal area." },
+          { name: "logoAlt", type: "string", default: '"Defined.ai"', description: "Accessible alt text for the logo." },
+          { name: "logoHref", type: "string", default: '"/"', description: "Destination URL when clicking the logo." },
+          { name: "title", type: "string", description: "Main footer call-to-action heading." },
+          { name: "subtitle", type: "string", description: "Supporting text shown under the heading." },
+          { name: "ctaLabel", type: "string", default: '"Get in touch"', description: "Primary CTA button label in the banner row." },
+          { name: "ctaHref", type: "string", default: '"#"', description: "CTA destination URL." },
+          { name: "companyDescription", type: "string", description: "Supporting text shown in the left company block." },
+          { name: "columns", type: "Array<{ title: string; links: Array<{ label: string; href: string }> }>", description: "Grouped navigation columns for the main footer area." },
+          { name: "legalLinks", type: "Array<{ label: string; href: string }>", description: "Legal and policy links." },
+          { name: "socialLinks", type: "Array<{ label: string; href: string; iconSrc?: string; iconAlt?: string }>", description: "Social link items rendered as icon links." },
+          { name: "awards", type: "Array<{ label: string; src?: string; width?: number; height?: number }>", description: "Award/recognition items rendered with optional local image assets." },
+          { name: "copyright", type: "string", description: "Copyright text shown in the bottom row." },
+          { name: "patternSrc", type: "string", default: '"/images/pattern-footer.png"', description: "Background pattern image source for the header area." },
+          { name: "className", type: "string", description: "Additional root classes." },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Group links by topic and keep headings clear (for example: Datasets, Solutions, Resources, About)." },
+        { type: "dont", text: "Repeat every top navigation item in the footer without hierarchy." },
+      ],
+      [
+        { type: "do", text: "Include legal links and social links in predictable positions for quick scanning." },
+        { type: "dont", text: "Hide legal information behind collapsible interactions on desktop." },
+      ],
+    ],
+    accessibility: [
+      "Uses semantic <footer> landmark for assistive technologies",
+      "All links remain keyboard-focusable with visible focus states",
+      "CTA button uses the shared design-system button component",
+      "Responsive layout preserves content order across desktop, tablet, and mobile",
+    ],
+  },
+  table: {
+    previews: [
+      {
+        title: "Default",
+        demo: <TableDemo />,
+        code: `<Table>
+  <Table.Header>
+    <Table.Row>
+      <Table.Head sortable sort="none">Cell header</Table.Head>
+      <Table.Head sortable sort="asc">Cell header</Table.Head>
+      <Table.Head sortable sort="desc" align="right">Cell header</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Cell content</Table.Cell>
+      <Table.Cell semiBold>Cell content</Table.Cell>
+      <Table.Cell align="right" numeric>123</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>`,
+      },
+      {
+        title: "Row States",
+        demo: <TableRowStatesDemo />,
+        code: `<Table.Row state="default">...</Table.Row>
+<Table.Row state="hover">...</Table.Row>
+<Table.Row state="selected">...</Table.Row>`,
+      },
+      {
+        title: "Header Cell Variants",
+        demo: <TableHeaderCellsDemo />,
+        code: `<Table.Head sortable sort="none">Cell header</Table.Head>
+<Table.Head sortable sort="asc">Cell header</Table.Head>
+<Table.Head sortable sort="desc" align="right">Cell header</Table.Head>
+<Table.Head sortable disabled sort="none">Cell header</Table.Head>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "responsive", type: "boolean", default: "true", description: "Wraps the native table with horizontal overflow support." },
+          { name: "className", type: "string", description: "Additional classes for the table element." },
+          { name: "children", type: "ReactNode", required: true, description: "Compound sections and rows." },
+        ],
+      },
+      {
+        title: "Table.Head",
+        props: [
+          { name: "align", type: '"left" | "right"', default: '"left"', description: "Header text and content alignment." },
+          { name: "sortable", type: "boolean", default: "false", description: "Renders sort affordance and interactive header control." },
+          { name: "sort", type: '"none" | "asc" | "desc"', default: '"none"', description: "Sort indicator state." },
+          { name: "disabled", type: "boolean", default: "false", description: "Disables sort interaction and applies muted style." },
+        ],
+      },
+      {
+        title: "Table.Cell / Table.Row",
+        props: [
+          { name: "Table.Row state", type: '"default" | "hover" | "selected"', default: '"default"', description: "Static body row state override for docs/QA." },
+          { name: "Table.Cell align", type: '"left" | "right"', default: '"left"', description: "Cell content alignment." },
+          { name: "Table.Cell semiBold", type: "boolean", default: "false", description: "Applies semi-bold body text variant." },
+          { name: "Table.Cell numeric", type: "boolean", default: "false", description: "Applies right alignment + tabular number style." },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Use semantic table structure with clear headers and aligned numeric columns." },
+        { type: "dont", text: "Build data tables with div-based grid layouts that break native semantics." },
+      ],
+      [
+        { type: "do", text: "Keep headers concise and use sortable states only where sorting is available." },
+        { type: "dont", text: "Display sort icons on non-sortable headers or hide alignment cues for numeric data." },
+      ],
+    ],
+    accessibility: [
+      "Uses native table semantics: table, thead, tbody, tr, th, td",
+      "Sortable headers are real buttons for keyboard and screen-reader support",
+      "Header and row state visuals do not introduce layout shift",
+      "Numeric cells support tabular figure alignment for scanability",
     ],
   },
   checkbox: {
@@ -750,8 +969,8 @@ export default async function ComponentPage({
   }
 
   const def = componentDefs[slug];
-  const isTopNavigation = slug === "top-navigation";
-  const narrowSectionClass = isTopNavigation ? "mx-auto max-w-3xl" : "";
+  const isWideLayout = slug === "top-navigation" || slug === "footer";
+  const narrowSectionClass = isWideLayout ? "mx-auto max-w-3xl" : "";
 
   // Pre-highlight all code snippets
   const highlightedPreviews = def
@@ -764,7 +983,7 @@ export default async function ComponentPage({
     : [];
 
   return (
-    <article className={cn("mx-auto", isTopNavigation ? "w-full max-w-[1440px]" : "max-w-3xl")}>
+    <article className={cn("mx-auto", isWideLayout ? "w-full max-w-[1440px]" : "max-w-3xl")}>
       <div className={narrowSectionClass}>
         {/* Page header */}
         <div className="mb-8 border-b border-grey-10 pb-6">
@@ -785,7 +1004,7 @@ export default async function ComponentPage({
         <>
           {/* Previews */}
           {highlightedPreviews.map((preview, i) => (
-            <div key={i} className={cn(!(isTopNavigation && i === 0) && narrowSectionClass)}>
+            <div key={i} className={cn(!(isWideLayout && i === 0) && narrowSectionClass)}>
               {preview.title && (
                 <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 mt-8 border-b border-grey-10 pb-2">
                   {preview.title}
@@ -801,7 +1020,7 @@ export default async function ComponentPage({
           ))}
 
           {/* Interactive Playground */}
-          {(slug === "button" || slug === "dropdown" || slug === "input") && (
+          {(slug === "button" || slug === "dropdown" || slug === "input" || slug === "table" || slug === "link") && (
             <div className={cn("mt-8", narrowSectionClass)}>
               <h2 className="ds-text-heading-md font-semibold text-grey-100 mb-3 border-b border-grey-10 pb-2">
                 Playground
@@ -812,6 +1031,10 @@ export default async function ComponentPage({
                     <ButtonPlaygroundWrapper />
                   ) : slug === "dropdown" ? (
                     <DropdownPlaygroundWrapper />
+                  ) : slug === "link" ? (
+                    <LinkPlaygroundWrapper />
+                  ) : slug === "table" ? (
+                    <TablePlaygroundWrapper />
                   ) : (
                     <InputPlaygroundWrapper />
                   )}
