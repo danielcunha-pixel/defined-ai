@@ -216,7 +216,7 @@ function TableFooter({ className, ...props }: TableSectionProps) {
   return <tfoot data-slot="table-footer" className={cn("bg-grey-5", className)} {...props} />;
 }
 
-type TableCompound = ((props: TableProps) => JSX.Element) & {
+type TableCompound = ((props: TableProps) => React.JSX.Element) & {
   Root: typeof TableRoot;
   Header: typeof TableHeader;
   Body: typeof TableBody;

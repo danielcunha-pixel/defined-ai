@@ -833,7 +833,7 @@ function DropdownRoot({
   );
 }
 
-type DropdownCompound = ((props: DropdownProps) => JSX.Element) & {
+type DropdownCompound = ((props: DropdownProps) => React.JSX.Element) & {
   Root: typeof DropdownRoot;
   Label: typeof DropdownLabel;
   Control: typeof DropdownControl;

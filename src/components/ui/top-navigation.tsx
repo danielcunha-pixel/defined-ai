@@ -416,7 +416,7 @@ function TopNavigationRoot({
   );
 }
 
-type TopNavigationCompound = ((props: TopNavigationProps) => JSX.Element) & {
+type TopNavigationCompound = ((props: TopNavigationProps) => React.JSX.Element) & {
   Root: typeof TopNavigationRoot;
   Bar: typeof TopNavigationBar;
   Logo: typeof TopNavigationLogo;

@@ -410,7 +410,7 @@ function FooterRoot({
   );
 }
 
-type FooterCompound = ((props: FooterProps) => JSX.Element) & {
+type FooterCompound = ((props: FooterProps) => React.JSX.Element) & {
   Root: typeof FooterRoot;
   Banner: typeof FooterBanner;
   Columns: typeof FooterColumns;
