@@ -326,6 +326,7 @@
   /* --- UI / Interactive --- */
   .ds-text-ui-button-lg { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
   .ds-text-ui-button-md { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; }
+  .ds-text-ui-button-mobile-md { font-family: var(--font-sans); font-size: 15px; line-height: normal; letter-spacing: 0; font-weight: 600; }
   .ds-text-ui-tag       { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; }
   .ds-text-ui-link-lg   { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
   .ds-text-ui-link-md   { font-family: var(--font-sans); font-size: 15px; line-height: 15px; letter-spacing: 0.02em; }
@@ -439,5 +440,95 @@
   [data-slot="button"][data-size="lg"]:has(> svg:last-child),
   [data-slot="button"][data-size="lg"]:has(> [class*="icon"]:last-child) {
     @apply pl-sp-18 pr-sp-14;
+  }
+
+  /* Hover states only on devices with real hover */
+  @media (hover: hover) and (pointer: fine) {
+    [data-slot="button"][data-variant="primary"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-purple-80;
+      box-shadow: 0px 2px 4px 0px rgba(18, 15, 25, 0.3), 0px 0.5px 1px 0px rgba(18, 15, 25, 0.4);
+    }
+
+    [data-slot="button"][data-variant="secondary"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-grey-80;
+      box-shadow: 0px 1px 1px 0px rgba(18, 15, 25, 0.1), 0px 1px 4px 0px rgba(18, 15, 25, 0.3), 0px 0px 1px 0px rgba(18, 15, 25, 0.9);
+    }
+
+    [data-slot="button"][data-variant="tertiary"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-grey-10;
+    }
+
+    [data-slot="button"][data-variant="ghost"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-grey-20;
+    }
+
+    [data-slot="button"][data-variant="ghost-secondary"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-t-white-10;
+    }
+
+    [data-slot="button"][data-variant="primary-inverted"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-grey-20;
+      box-shadow: 0px 0px 0px 1px rgba(18, 15, 25, 0.1), 0px 2px 2px -1px rgba(18, 15, 25, 0.4), 0px 3px 4px -1px rgba(18, 15, 25, 0.4);
+    }
+
+    [data-slot="button"][data-variant="primary-footer"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-purple-80;
+    }
+
+    [data-slot="button"][data-variant="glass"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      @apply bg-t-white-10;
+    }
+
+    [data-slot="button"][data-variant="link"]:not(:disabled):not(:active):not([data-pressed="true"]):hover {
+      text-decoration-line: underline;
+    }
+  }
+
+  /* Pressed state must override hover when both are active */
+  [data-slot="button"][data-variant="primary"]:not(:disabled):active,
+  [data-slot="button"][data-variant="primary"][data-pressed="true"]:not(:disabled) {
+    @apply bg-purple-90;
+    box-shadow: none;
+  }
+  [data-slot="button"][data-variant="primary"]:not(:disabled):active::after,
+  [data-slot="button"][data-variant="primary"][data-pressed="true"]:not(:disabled)::after {
+    box-shadow: none;
+  }
+
+  [data-slot="button"][data-variant="secondary"]:not(:disabled):active,
+  [data-slot="button"][data-variant="secondary"][data-pressed="true"]:not(:disabled) {
+    @apply bg-grey-90;
+    box-shadow: none;
+  }
+
+  [data-slot="button"][data-variant="tertiary"]:not(:disabled):active,
+  [data-slot="button"][data-variant="tertiary"][data-pressed="true"]:not(:disabled) {
+    @apply bg-grey-20;
+  }
+
+  [data-slot="button"][data-variant="ghost"]:not(:disabled):active,
+  [data-slot="button"][data-variant="ghost"][data-pressed="true"]:not(:disabled) {
+    @apply bg-grey-30;
+  }
+
+  [data-slot="button"][data-variant="ghost-secondary"]:not(:disabled):active,
+  [data-slot="button"][data-variant="ghost-secondary"][data-pressed="true"]:not(:disabled) {
+    @apply bg-t-white-20;
+  }
+
+  [data-slot="button"][data-variant="primary-inverted"]:not(:disabled):active,
+  [data-slot="button"][data-variant="primary-inverted"][data-pressed="true"]:not(:disabled) {
+    @apply bg-white;
+    box-shadow: none;
+  }
+
+  [data-slot="button"][data-variant="primary-footer"]:not(:disabled):active,
+  [data-slot="button"][data-variant="primary-footer"][data-pressed="true"]:not(:disabled) {
+    @apply bg-purple-90;
+  }
+
+  [data-slot="button"][data-variant="glass"]:not(:disabled):active,
+  [data-slot="button"][data-variant="glass"][data-pressed="true"]:not(:disabled) {
+    @apply bg-t-white-20;
   }
 }

@@ -17,6 +17,7 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
   defaultProps: {
     variant: 'primary',
     size: 'md',
+    responsive: false,
     state: 'enabled',
     iconPlacement: 'none',
     iconOnly: false,
@@ -46,6 +47,11 @@ export const buttonPlaygroundConfig: PlaygroundConfig = {
         { label: 'Extra Large', value: 'xl' },
       ],
       defaultValue: 'md',
+    },
+
+    responsive: {
+      type: 'boolean',
+      defaultValue: false,
     },
 
     // State: Visual state simulation (not a real prop)

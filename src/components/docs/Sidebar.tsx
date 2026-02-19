@@ -73,7 +73,7 @@ export function Sidebar() {
         <nav className="flex flex-col gap-6">
           {navigation.map((section) => (
             <div key={section.title}>
-              <h3 className="mb-2 px-3 ds-text-body-sm font-semibold uppercase tracking-wider text-grey-50">
+              <h3 className={cn("mb-2 px-3 ds-text-body-sm font-semibold uppercase tracking-wider text-grey-50", section.titleClassName)}>
                 {section.title}
               </h3>
               <ul className="flex flex-col gap-0.5" role="list">

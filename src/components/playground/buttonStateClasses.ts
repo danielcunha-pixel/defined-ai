@@ -42,7 +42,7 @@ const variantStateClasses: Record<VariantType, Record<StateType, string>> = {
   'ghost-secondary': {
     enabled: '',
     hover: '[&:hover]:bg-t-white-10',
-    pressed: '[&:active]:bg-t-white-20',
+    pressed: 'bg-t-white-20',
     focus: '',
     disabled: '',
   },
@@ -63,7 +63,7 @@ const variantStateClasses: Record<VariantType, Record<StateType, string>> = {
   glass: {
     enabled: '',
     hover: '[&:hover]:bg-t-white-10',
-    pressed: '[&:active]:bg-t-white-20',
+    pressed: 'bg-t-white-20',
     focus: '',
     disabled: '',
   },

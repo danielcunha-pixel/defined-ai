@@ -6,6 +6,7 @@ import { PlaygroundConfig } from './types';
 import { PlaygroundControl } from './PlaygroundControl';
 import { getStateClasses, getIconOnlySize, type StateType } from './buttonStateClasses';
 import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 interface ComponentPlaygroundProps {
   Component: React.ComponentType<any>;
@@ -253,18 +254,22 @@ export function ComponentPlayground({
 
           {/* Action Buttons */}
           <div className="flex flex-col gap-2 pt-4 border-t border-grey-20">
-            <button
+            <Button
               onClick={copyPropsToClipboard}
-              className="w-full px-3 py-2 text-sm font-medium text-white bg-purple-70 rounded-[6px] hover:bg-purple-80 active:bg-purple-90 transition-colors"
+              variant="primary"
+              size="sm"
+              className="w-full"
             >
               Copy Props JSON
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={copyUrlToClipboard}
-              className="w-full px-3 py-2 text-sm font-medium text-purple-70 border border-purple-70 rounded-[6px] hover:bg-purple-10 transition-colors"
+              variant="tertiary"
+              size="sm"
+              className="w-full"
             >
               Copy URL
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -277,8 +282,8 @@ export function ComponentPlayground({
           <div
             className="flex items-center justify-center min-h-64 bg-gradient-to-br from-grey-5 to-grey-10 rounded-[8px] border border-grey-20 p-4"
             style={{
-              // Disable interaction in preview - it's simulation only
-              pointerEvents: 'none',
+              // Keep previews static for most components, but allow Button real press interaction.
+              pointerEvents: componentName === 'Button' ? 'auto' : 'none',
             }}
           >
             {/* State classes are applied directly via className from buttonStateClasses.ts */}

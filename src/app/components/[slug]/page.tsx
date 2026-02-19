@@ -129,17 +129,13 @@ const componentDefs: Record<string, ComponentDef> = {
       {
         title: "With Icons",
         demo: <ButtonWithIconsDemo />,
-        code: `<Button variant="primary" size="lg">
+        code: `<Button variant="primary" size="lg" trailingIcon={<ChevronRight className="size-4" />}>
   Continue
-  <ChevronRight className="size-4" />
 </Button>
-<Button variant="secondary" size="md">
-  <Plus className="size-4" />
+<Button variant="secondary" size="md" leadingIcon={<Plus className="size-4" />}>
   Add item
 </Button>
-<Button variant="tertiary" size="icon-md">
-  <Plus className="size-5" />
-</Button>`,
+<Button variant="tertiary" size="icon-md" iconOnly icon={<Plus className="size-5" />} aria-label="Add item" />`,
       },
       {
         title: "Disabled State",
@@ -161,7 +157,8 @@ const componentDefs: Record<string, ComponentDef> = {
       {
         props: [
           { name: "variant", type: '"primary" | "secondary" | "tertiary" | "ghost" | "ghost-secondary" | "primary-inverted" | "primary-footer" | "glass" | "link"', default: '"primary"', description: "Visual style of the button" },
-          { name: "size", type: '"sm" | "md" | "lg" | "xl" | "icon-sm" | "icon-md" | "icon-lg"', default: '"md"', description: "Size of the button" },
+          { name: "size", type: '"sm" | "md" | "lg" | "xl" | "icon-sm" | "icon-md" | "icon-lg" | "icon-xl"', default: '"md"', description: "Size of the button" },
+          { name: "responsive", type: "boolean", default: "false", description: "Use responsive/mobile sizing behavior (mobile + tablet contexts)" },
           { name: "asChild", type: "boolean", default: "false", description: "Render as child element using Radix Slot" },
           { name: "disabled", type: "boolean", default: "false", description: "Whether the button is disabled" },
           { name: "className", type: "string", description: "Additional CSS classes" },

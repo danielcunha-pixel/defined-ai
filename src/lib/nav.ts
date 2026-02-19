@@ -12,6 +12,7 @@ export interface NavItem {
 
 export interface NavSection {
   title: string;
+  titleClassName?: string;
   items: NavItem[];
 }
 
@@ -118,6 +119,27 @@ const navigationConfig: NavSection[] = [
         title: "Top navigation",
         href: "/components/top-navigation",
         description: "Responsive top header with logo, navigation links, and actions",
+      },
+    ],
+  },
+  {
+    title: "Visual QA",
+    titleClassName: "text-red-80",
+    items: [
+      {
+        title: "Button QA",
+        href: "/visual-qa/button",
+        description: "Visual QA matrix for desktop, tablet, and mobile button breakpoints",
+      },
+      {
+        title: "Footer QA",
+        href: "/visual-qa/footer",
+        description: "Visual QA matrix for desktop, tablet, and mobile footer breakpoints",
+      },
+      {
+        title: "Top navigation QA",
+        href: "/visual-qa/top-navigation",
+        description: "Visual QA matrix for desktop, tablet, and mobile top navigation breakpoints",
       },
     ],
   },

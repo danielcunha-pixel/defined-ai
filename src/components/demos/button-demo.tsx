@@ -28,21 +28,22 @@ export function ButtonSizesDemo() {
 export function ButtonWithIconsDemo() {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      <Button variant="primary" size="lg">
+      <Button variant="primary" size="lg" trailingIcon={<IconChevronRight size="md" />}>
         Continue
-        <IconChevronRight size="md" />
       </Button>
-      <Button variant="secondary" size="md">
-        <IconCheck size="md" />
+      <Button variant="secondary" size="md" leadingIcon={<IconCheck size="md" />}>
         Add item
       </Button>
-      <Button variant="tertiary" size="md">
-        <IconDownloadCloud size="md" />
+      <Button variant="tertiary" size="md" leadingIcon={<IconDownloadCloud size="md" />}>
         Download
       </Button>
-      <Button variant="tertiary" size="icon-md" aria-label="Add item">
-        <IconCheck size="md" />
-      </Button>
+      <Button
+        variant="tertiary"
+        size="icon-md"
+        iconOnly
+        icon={<IconCheck size="md" />}
+        aria-label="Add item"
+      />
     </div>
   );
 }

@@ -104,8 +104,9 @@ function TopNavigationDesktopNav({ className }: { className?: string }) {
 
   return (
     <nav className={cn("hidden items-center gap-sp-6 lg:flex", className)} aria-label="Primary navigation">
-      {items.map((item) => {
+      {items.map((item, index) => {
         const isActive = activeHref === item.href;
+        const itemKey = `${item.href}-${item.label}-${index}`;
         const commonClasses = cn(
           "inline-flex h-8 items-center overflow-hidden rounded-[8px] ds-text-body-lg font-semibold transition-colors",
           linkState === "enabled"
@@ -123,7 +124,7 @@ function TopNavigationDesktopNav({ className }: { className?: string }) {
           const isOpen = openDesktopSubnavHref === item.href;
           return (
             <button
-              key={item.href}
+              key={itemKey}
               type="button"
               className={commonClasses}
               aria-expanded={isOpen}
@@ -139,7 +140,7 @@ function TopNavigationDesktopNav({ className }: { className?: string }) {
         }
 
         return (
-          <Link key={item.href} href={item.href} className={commonClasses} aria-current={isActive ? "page" : undefined}>
+          <Link key={itemKey} href={item.href} className={commonClasses} aria-current={isActive ? "page" : undefined}>
             <span className="inline-flex items-center pb-sp-1">{item.label}</span>
             {item.tagText ? (
               <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-purple-10 px-sp-6 text-[11px] font-semibold leading-[15px] tracking-[0.44px] text-purple-80">
@@ -219,11 +220,12 @@ function TopNavigationMobileMenu({ className }: { className?: string }) {
       )}
     >
       <nav className="flex flex-col gap-sp-4" aria-label="Primary navigation mobile">
-        {items.map((item) => {
+        {items.map((item, index) => {
           const isActive = activeHref === item.href;
+          const itemKey = `mobile-${item.href}-${item.label}-${index}`;
           return (
             <Link
-              key={`mobile-${item.href}`}
+              key={itemKey}
               href={item.href}
               onClick={closeMobileMenu}
               className={cn(

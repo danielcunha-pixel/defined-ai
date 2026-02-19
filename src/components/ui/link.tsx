@@ -201,6 +201,10 @@ function Link({
             "hover:[&_span[data-slot='root-underline']]:opacity-0"
         )
       : "";
+  const forceSemiboldSmallMediumGrey =
+    size === "small" && style === "medium-grey" ? "font-semibold" : "";
+  const forceTrackingSmallMediumGrey =
+    size === "small" && style === "medium-grey" ? "tracking-[0.5px]" : "";
 
   return (
     <a
@@ -238,6 +242,8 @@ function Link({
         className={cn(
           labelWrapperClass,
           sizeTypographyClassMap[size][platform],
+          forceSemiboldSmallMediumGrey,
+          forceTrackingSmallMediumGrey,
           textColorClass,
           "after:absolute after:bottom-[-1px] after:left-0 after:right-0 after:h-px after:bg-current after:content-['']",
           hasTextUnderline(style, interactiveState) ? "after:opacity-100" : "after:opacity-0"

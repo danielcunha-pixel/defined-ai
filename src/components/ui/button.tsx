@@ -24,56 +24,46 @@ const buttonVariants = cva(
           "bg-purple-70 text-white",
           "shadow-[0px_2px_4px_0px_rgba(18,15,25,0.3),0px_0.5px_1px_0px_rgba(18,15,25,0.4)]",
           "after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0px_-1px_0px_0px_rgba(0,0,0,0.7)] after:pointer-events-none",
-          "hover:bg-purple-80 hover:shadow-[0px_2px_4px_0px_rgba(18,15,25,0.3),0px_0.5px_1px_0px_rgba(18,15,25,0.4)]",
-          "active:bg-purple-90 active:shadow-none active:after:shadow-none",
         ].join(" "),
         secondary: [
           "bg-grey-60 text-white",
           "shadow-[0px_1px_1px_0px_rgba(18,15,25,0.1),0px_1px_2px_0px_rgba(18,15,25,0.15),0px_0px_1px_0px_rgba(18,15,25,0.9)]",
-          "hover:bg-grey-80 hover:shadow-[0px_1px_1px_0px_rgba(18,15,25,0.1),0px_1px_4px_0px_rgba(18,15,25,0.3),0px_0px_1px_0px_rgba(18,15,25,0.9)]",
-          "active:bg-grey-90 active:shadow-none",
         ].join(" "),
         tertiary: [
           "bg-white text-grey-100",
           "border border-t-grey-20",
-          "hover:bg-grey-10 active:bg-grey-20",
         ].join(" "),
         ghost: [
           "bg-transparent text-grey-100",
-          "hover:bg-grey-20 active:bg-grey-30",
         ].join(" "),
         "ghost-secondary": [
           "bg-transparent text-white",
-          "hover:bg-t-white-10 active:bg-t-white-20",
         ].join(" "),
         "primary-inverted": [
           "bg-white text-grey-100",
           "shadow-[0px_0px_0px_1px_rgba(18,15,25,0.1),0px_2px_2px_-1px_rgba(18,15,25,0.4),0px_3px_4px_-1px_rgba(18,15,25,0.2)]",
-          "hover:bg-grey-20 hover:shadow-[0px_0px_0px_1px_rgba(18,15,25,0.1),0px_2px_2px_-1px_rgba(18,15,25,0.4),0px_3px_4px_-1px_rgba(18,15,25,0.4)]",
-          "active:bg-white active:shadow-none",
         ].join(" "),
         "primary-footer": [
           "bg-purple-70 text-white",
           "shadow-[0px_2px_4px_0px_rgba(18,15,25,0.3),0px_0.5px_1px_0px_rgba(18,15,25,0.4)]",
           "after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0px_1px_0px_0px_rgba(255,255,255,0.3)] after:pointer-events-none",
-          "hover:bg-purple-80 active:bg-purple-90",
         ].join(" "),
         glass: [
           "bg-transparent text-white",
           "border border-t-white-40",
           "shadow-[0px_2px_1px_-1px_rgba(18,15,25,0.05),0px_2px_6px_0px_rgba(18,15,25,0.05),0px_0px_0px_1px_rgba(18,15,25,0.05)]",
-          "hover:bg-t-white-10 active:bg-t-white-20",
         ].join(" "),
-        link: "text-purple-70 underline-offset-4 hover:underline",
+        link: "text-purple-70 underline-offset-4",
       },
       size: {
-        sm: "h-9 gap-sp-4 px-sp-14 ds-text-ui-button-md font-semibold",
-        md: "h-10 gap-sp-6 px-sp-14 ds-text-ui-button-md font-semibold",
-        lg: "h-11 gap-sp-8 px-sp-18 ds-text-ui-button-md font-semibold",
-        xl: "h-14 px-sp-24 ds-text-ui-button-lg font-semibold",
+        sm: "h-9 gap-sp-4 px-sp-14",
+        md: "h-10 gap-sp-6 px-sp-14",
+        lg: "h-11 gap-sp-8 px-sp-18",
+        xl: "h-14 px-sp-24",
         "icon-sm": "size-9",
         "icon-md": "size-10",
         "icon-lg": "size-11",
+        "icon-xl": "size-14",
       },
     },
     defaultVariants: {
@@ -87,6 +77,7 @@ function Button({
   className,
   variant = "primary",
   size = "md",
+  responsive = false,
   asChild = false,
   leadingIcon,
   trailingIcon,
@@ -97,6 +88,7 @@ function Button({
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
+    responsive?: boolean
     asChild?: boolean
     leadingIcon?: React.ReactNode
     trailingIcon?: React.ReactNode
@@ -113,8 +105,38 @@ function Button({
   const Comp = asChild ? Slot.Root : "button"
   const isIconSize = typeof size === "string" && size.startsWith("icon-")
   const isIconOnlyButton = iconOnly || isIconSize
+  const iconOnlySizeMap = {
+    sm: "icon-sm",
+    md: "icon-md",
+    lg: "icon-lg",
+    xl: "icon-xl",
+  } as const
+  const computedSize =
+    isIconOnlyButton && !isIconSize && size && size in iconOnlySizeMap
+      ? iconOnlySizeMap[size as keyof typeof iconOnlySizeMap]
+      : size
+  const isResponsiveGhostIconOnly =
+    responsive &&
+    isIconOnlyButton &&
+    (variant === "ghost" || variant === "ghost-secondary")
+  const responsiveGhostIconOnlyClasses =
+    isResponsiveGhostIconOnly && computedSize === "icon-md"
+      ? "size-6 p-sp-1 [&_svg]:size-4"
+      : isResponsiveGhostIconOnly && computedSize === "icon-lg"
+        ? "size-7 p-sp-1 [&_svg]:size-5"
+        : isResponsiveGhostIconOnly && computedSize === "icon-xl"
+          ? "size-9 p-sp-1 [&_svg]:size-7"
+          : ""
+  const typographyClass = isIconOnlyButton
+    ? ""
+    : responsive
+      ? "ds-text-ui-button-mobile-md"
+      : size === "xl"
+        ? "ds-text-ui-button-lg font-semibold"
+        : "ds-text-ui-button-md font-semibold"
   const labelRef = React.useRef<HTMLSpanElement | null>(null)
   const [isLabelTruncated, setIsLabelTruncated] = React.useState(false)
+  const [isPressed, setIsPressed] = React.useState(false)
 
   // Determine which icon to render (single icon only)
   const displayIcon = leadingIcon || trailingIcon || icon
@@ -166,11 +188,68 @@ function Button({
 
   const buttonElement = (
     <Comp
+      {...props}
       data-slot="button"
       data-variant={variant}
-      data-size={size}
-      className={cn(buttonVariants({ variant, size }), className)}
-      {...props}
+      data-size={computedSize}
+      data-pressed={isPressed ? "true" : undefined}
+      data-responsive={responsive ? "true" : undefined}
+      className={cn(
+        buttonVariants({ variant, size: computedSize }),
+        typographyClass,
+        responsiveGhostIconOnlyClasses,
+        className
+      )}
+      onPointerDown={(event: React.PointerEvent<HTMLButtonElement>) => {
+        setIsPressed(true)
+        props.onPointerDown?.(event)
+      }}
+      onPointerUp={(event: React.PointerEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onPointerUp?.(event)
+      }}
+      onPointerLeave={(event: React.PointerEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onPointerLeave?.(event)
+      }}
+      onPointerCancel={(event: React.PointerEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onPointerCancel?.(event)
+      }}
+      onBlur={(event: React.FocusEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onBlur?.(event)
+      }}
+      onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (event.key === " " || event.key === "Enter") {
+          setIsPressed(true)
+        }
+        props.onKeyDown?.(event)
+      }}
+      onKeyUp={(event: React.KeyboardEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onKeyUp?.(event)
+      }}
+      onMouseDown={(event: React.MouseEvent<HTMLButtonElement>) => {
+        setIsPressed(true)
+        props.onMouseDown?.(event)
+      }}
+      onMouseUp={(event: React.MouseEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onMouseUp?.(event)
+      }}
+      onTouchStart={(event: React.TouchEvent<HTMLButtonElement>) => {
+        setIsPressed(true)
+        props.onTouchStart?.(event)
+      }}
+      onTouchEnd={(event: React.TouchEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onTouchEnd?.(event)
+      }}
+      onTouchCancel={(event: React.TouchEvent<HTMLButtonElement>) => {
+        setIsPressed(false)
+        props.onTouchCancel?.(event)
+      }}
     >
       {content}
     </Comp>

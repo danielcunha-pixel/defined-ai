@@ -92,27 +92,27 @@ const defaultColumns: FooterColumnItem[] = [
   {
     title: "Resources",
     links: [
-      { label: "API Docs", href: "#" },
-      { label: "Blog", href: "#" },
       { label: "Case studies", href: "#" },
       { label: "White papers", href: "#" },
-      { label: "AI avatars & Voice bots", href: "#" },
       { label: "Events", href: "#" },
+      { label: "Blog", href: "#" },
       { label: "FAQ", href: "#" },
     ],
   },
   {
-    title: "About",
+    title: "About us",
     links: [
-      { label: "Who we are", href: "#" },
+      { label: "Company", href: "#" },
       { label: "Careers", href: "#" },
+      { label: "Ethical AI", href: "#" },
+      { label: "Press Room", href: "#" },
     ],
   },
 ];
 
 const defaultLegalLinks: FooterLinkItem[] = [
   { label: "Privacy and Cookie Policy", href: "#" },
-  { label: "Terms & Conditions (T&M)", href: "#" },
+  { label: "Terms and Conditions", href: "#" },
   { label: "Data License Agreement", href: "#" },
   { label: "Supplier Program", href: "#" },
   { label: "CCPA Privacy Statement", href: "#" },
@@ -158,14 +158,14 @@ function FooterBanner({ className }: { className?: string }) {
   const { title, subtitle, ctaHref, ctaLabel } = useFooterContext();
 
   return (
-    <div className={cn("flex flex-col items-center gap-sp-32 text-center", className)}>
+    <div className={cn("flex flex-col items-center gap-sp-32 text-center md:px-sp-48 lg:px-0", className)}>
       <div className="mx-auto flex w-full max-w-[960px] flex-col gap-sp-12">
-        <h3 className="whitespace-pre-line font-semibold text-white text-[28px] leading-[34px] md:text-[40px] md:leading-[48px] lg:text-[48px] lg:leading-[58px]">
+        <h3 className="whitespace-pre-line font-semibold text-white text-[28px] leading-[34px] md:text-[48px] md:leading-[58px]">
           {title}
         </h3>
         {subtitle ? <p className="mx-auto max-w-[740px] ds-text-body-lg text-grey-40">{subtitle}</p> : null}
       </div>
-      <Button asChild variant="primary-footer" size="md" className="w-fit">
+      <Button asChild variant="primary-footer" size="md" responsive className="w-fit">
         <NextLink href={ctaHref}>
           {ctaLabel}
         </NextLink>
@@ -178,53 +178,70 @@ function FooterColumn({ title, links, className }: FooterColumnItem & { classNam
   const isSolutions = title.toLowerCase() === "solutions";
   const primarySolutions = isSolutions ? links.slice(0, 5) : links;
   const secondarySolutions = isSolutions ? links.slice(5) : [];
+  const mainLinkClassName =
+    "whitespace-nowrap focus-visible:ring-offset-grey-100 md:[&_[data-slot='link-label']]:text-[14px] md:[&_[data-slot='link-label']]:leading-[15px] md:[&_[data-slot='link-label']]:tracking-[0] lg:[&_[data-slot='link-label']]:text-[15px] lg:[&_[data-slot='link-label']]:leading-[15px] lg:[&_[data-slot='link-label']]:tracking-[0.02em]";
+  const solutionsLinkClassName =
+    "h-auto w-full items-start whitespace-normal focus-visible:ring-offset-grey-100 [&_[data-slot='link-label']]:h-auto [&_[data-slot='link-label']]:w-full [&_[data-slot='link-label']]:justify-start [&_[data-slot='link-label']]:whitespace-normal [&_[data-slot='link-label']]:break-words md:w-fit md:whitespace-nowrap md:[&_[data-slot='link-label']]:w-auto md:[&_[data-slot='link-label']]:whitespace-nowrap md:[&_[data-slot='link-label']]:break-normal md:[&_[data-slot='link-label']]:text-[14px] md:[&_[data-slot='link-label']]:leading-[15px] md:[&_[data-slot='link-label']]:tracking-[0] lg:[&_[data-slot='link-label']]:text-[15px] lg:[&_[data-slot='link-label']]:leading-[15px] lg:[&_[data-slot='link-label']]:tracking-[0.02em]";
 
   return (
     <div className={cn("flex flex-col gap-sp-16", className)}>
-      <p className="ds-text-body-md font-regular text-grey-40">{title}</p>
+      <p className="font-sans text-[14px] leading-[20px] font-regular tracking-[0.04em] text-grey-40">{title}</p>
       {isSolutions ? (
-        <div className="flex items-start gap-sp-28">
-          <ul className="flex w-[202px] flex-col gap-[12px]">
-            {primarySolutions.map((link) => (
-              <li key={`${title}-${link.label}`} className="whitespace-nowrap leading-none">
+        <>
+          <ul className="flex min-w-0 flex-col gap-sp-16 md:hidden">
+            {links.map((link) => (
+              <li key={`${title}-${link.label}`} className="leading-none">
                 <DSLink
                   href={link.href}
                   style="white"
                   size="medium"
-                  platform="desktop"
-                  className="whitespace-nowrap focus-visible:ring-offset-grey-100"
+                  className={solutionsLinkClassName}
                 >
                   {link.label}
                 </DSLink>
               </li>
             ))}
           </ul>
-          <ul className="flex w-[138px] flex-col gap-[12px]">
-            {secondarySolutions.map((link) => (
-              <li key={`${title}-${link.label}`} className="whitespace-nowrap leading-none">
-                <DSLink
-                  href={link.href}
-                  style="white"
-                  size="medium"
-                  platform="desktop"
-                  className="whitespace-nowrap focus-visible:ring-offset-grey-100"
-                >
-                  {link.label}
-                </DSLink>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="hidden items-start gap-sp-32 md:flex">
+            <ul className="flex shrink-0 flex-col gap-sp-16 lg:w-[202px]">
+              {primarySolutions.map((link) => (
+                <li key={`${title}-${link.label}`} className="leading-none">
+                  <DSLink
+                    href={link.href}
+                    style="white"
+                    size="medium"
+                    className={solutionsLinkClassName}
+                  >
+                    {link.label}
+                  </DSLink>
+                </li>
+              ))}
+            </ul>
+            <ul className="flex shrink-0 flex-col gap-sp-16 lg:w-[138px]">
+              {secondarySolutions.map((link) => (
+                <li key={`${title}-${link.label}`} className="leading-none">
+                  <DSLink
+                    href={link.href}
+                    style="white"
+                    size="medium"
+                    className={solutionsLinkClassName}
+                  >
+                    {link.label}
+                  </DSLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
       ) : (
-        <ul className="flex flex-col gap-[12px]">
+        <ul className="flex flex-col gap-sp-16">
           {links.map((link) => (
             <li key={`${title}-${link.label}`} className="whitespace-nowrap leading-none">
               <DSLink
                 href={link.href}
                 style="white"
                 size="medium"
-                platform="desktop"
-                className="whitespace-nowrap focus-visible:ring-offset-grey-100"
+                className={mainLinkClassName}
               >
                 {link.label}
               </DSLink>
@@ -276,18 +293,37 @@ function FooterColumns({ className }: { className?: string }) {
     Datasets: "lg:w-[87px] lg:pt-[8px]",
     Solutions: "lg:w-[368px] lg:pt-[8px]",
     Resources: "lg:w-[161px] lg:pt-[8px]",
-    About: "lg:w-fit lg:pt-[8px]",
+    "About us": "lg:w-fit lg:pt-[8px]",
   };
+  const datasetsColumn = columns.find((column) => column.title === "Datasets");
+  const solutionsColumn = columns.find((column) => column.title === "Solutions");
+  const resourcesColumn = columns.find((column) => column.title === "Resources");
+  const aboutUsColumn = columns.find((column) => column.title === "About us");
 
   return (
-    <div
-      className={cn(
-        "flex min-w-0 flex-col gap-sp-32 lg:flex-row lg:items-start lg:justify-between",
-        className
-      )}
-    >
-      <FooterCompany className="lg:shrink-0" />
-      <div className="grid min-w-0 gap-x-sp-24 gap-y-sp-32 md:grid-cols-2 lg:flex lg:items-start lg:gap-x-sp-64">
+    <div className={cn("min-w-0", className)}>
+      <div className="flex min-w-0 flex-col gap-sp-32 md:hidden">
+        {datasetsColumn ? (
+          <FooterColumn title={datasetsColumn.title} links={datasetsColumn.links} />
+        ) : null}
+
+        <div className="grid min-w-0 grid-cols-2 items-start gap-x-sp-20">
+          {solutionsColumn ? (
+            <FooterColumn title={solutionsColumn.title} links={solutionsColumn.links} />
+          ) : null}
+
+          <div className="flex min-w-0 flex-col gap-sp-32">
+            {resourcesColumn ? (
+              <FooterColumn title={resourcesColumn.title} links={resourcesColumn.links} />
+            ) : null}
+            {aboutUsColumn ? (
+              <FooterColumn title={aboutUsColumn.title} links={aboutUsColumn.links} />
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden min-w-0 md:flex md:flex-row md:items-start md:gap-sp-40 lg:justify-between lg:gap-sp-64">
         {columns.map((column) => (
           <FooterColumn
             key={column.title}
@@ -303,41 +339,112 @@ function FooterColumns({ className }: { className?: string }) {
 
 function FooterLegal({ className }: { className?: string }) {
   const { legalLinks, socialLinks } = useFooterContext();
+  const legalMobileColumns = [legalLinks.slice(0, 4), legalLinks.slice(4)];
+  const legalTabletColumns = [legalLinks.slice(0, 3), legalLinks.slice(3, 5), legalLinks.slice(5)];
+  const legalLinkClassName =
+    "h-auto items-start focus-visible:ring-offset-grey-100 [&_[data-slot='link-label']]:h-auto [&_[data-slot='link-label']]:whitespace-normal [&_[data-slot='link-label']]:text-left";
 
   return (
-    <div className={cn("flex min-w-0 flex-col gap-sp-16 lg:flex-row lg:items-center lg:justify-between", className)}>
-      <div className="flex min-w-0 flex-wrap items-center gap-x-sp-16 gap-y-sp-8">
-        {legalLinks.map((link) => (
-          <DSLink
-            key={link.label}
-            href={link.href}
-            style="medium-grey"
-            size="small"
-            platform="desktop"
-            className="focus-visible:ring-offset-grey-100"
-          >
-            {link.label}
-          </DSLink>
+    <div className={cn("flex min-w-0 flex-col gap-sp-24 md:flex-row md:items-start md:justify-between", className)}>
+      <div className="grid min-w-0 grid-cols-2 gap-x-sp-20 gap-y-sp-16 md:hidden">
+        {legalMobileColumns.map((linksGroup, index) => (
+          <ul key={`legal-group-${index}`} className="flex shrink-0 flex-col gap-sp-16">
+            {linksGroup.map((link) => (
+              <li key={link.label} className="leading-none">
+                <DSLink
+                  href={link.href}
+                  style="medium-grey"
+                  size="small"
+                  className={legalLinkClassName}
+                >
+                  {link.label}
+                </DSLink>
+              </li>
+            ))}
+          </ul>
         ))}
       </div>
-
-      <div className="flex items-center gap-sp-16">
-        <div className="flex items-center gap-sp-12">
-          {socialLinks.map((link) => (
-            <NextLink
-              key={link.label}
+      <div className="hidden min-w-0 flex-col gap-sp-16 md:flex md:flex-row md:items-start md:gap-sp-40 lg:hidden">
+        {legalTabletColumns.map((linksGroup, index) => (
+          <ul key={`legal-tablet-group-${index}`} className="flex shrink-0 flex-col gap-sp-16">
+            {linksGroup.map((link) => (
+              <li key={link.label} className="leading-none">
+                <DSLink
+                  href={link.href}
+                  style="medium-grey"
+                  size="small"
+                  className={legalLinkClassName}
+                >
+                  {link.label}
+                </DSLink>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+      <ul className="hidden min-w-0 flex-wrap items-center gap-x-sp-16 gap-y-sp-8 lg:flex">
+        {legalLinks.map((link) => (
+          <li key={link.label} className="leading-none">
+            <DSLink
               href={link.href}
-              aria-label={link.label}
-              className="inline-flex size-5 items-center justify-center text-grey-40 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-50 focus-visible:ring-offset-2 focus-visible:ring-offset-grey-100"
+              style="medium-grey"
+              size="small"
+              className={legalLinkClassName}
             >
-              {link.iconSrc ? (
-                <Image src={link.iconSrc} alt={link.iconAlt ?? link.label} width={20} height={20} className="size-5" />
-              ) : (
-                <IconGlobe size="sm" />
-              )}
-            </NextLink>
-          ))}
-        </div>
+              {link.label}
+            </DSLink>
+          </li>
+        ))}
+      </ul>
+
+      <div className="flex items-center gap-sp-24 md:shrink-0 lg:gap-sp-12">
+        {socialLinks.map((link) => (
+          <NextLink
+            key={link.label}
+            href={link.href}
+            aria-label={link.label}
+            className="inline-flex size-5 items-center justify-center text-grey-40 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-50 focus-visible:ring-offset-2 focus-visible:ring-offset-grey-100"
+          >
+            {link.iconSrc ? (
+              <Image src={link.iconSrc} alt={link.iconAlt ?? link.label} width={20} height={20} className="size-5" />
+            ) : (
+              <IconGlobe size="sm" />
+            )}
+          </NextLink>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function FooterCompanyRow({ className }: { className?: string }) {
+  const { logoAlt, logoHref, awards, copyright } = useFooterContext();
+
+  return (
+    <div className={cn("flex min-w-0 flex-col gap-sp-24 md:flex-row md:items-center md:justify-between", className)}>
+      <div className="flex min-w-0 items-center gap-sp-18">
+        <NextLink href={logoHref} aria-label="Go to homepage" className="inline-flex h-5 w-9 items-center overflow-hidden">
+          <Image src="/svg/logo-mini.svg" alt={logoAlt} width={36} height={20} className="h-5 w-9" />
+        </NextLink>
+        <p className="ds-text-body-md font-regular text-grey-40">{copyright}</p>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-x-sp-16 gap-y-sp-12 md:justify-end">
+        {awards.map((award) => (
+          <span key={award.label} className="inline-flex items-center">
+            {award.src ? (
+              <Image
+                src={award.src}
+                alt={award.label}
+                width={award.width ?? 72}
+                height={award.height ?? 20}
+                className="h-auto w-auto"
+              />
+            ) : (
+              <span className="ds-text-caption-sm text-grey-40">{award.label}</span>
+            )}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -390,7 +497,7 @@ function FooterRoot({
         {...props}
       >
         <div
-          className="pointer-events-none absolute inset-y-0 left-sp-16 right-sp-16 overflow-hidden bg-no-repeat md:left-sp-24 md:right-sp-24 lg:left-sp-48 lg:right-sp-48"
+          className="pointer-events-none absolute left-sp-16 right-sp-16 top-0 h-[284px] overflow-hidden bg-no-repeat md:left-sp-24 md:right-sp-24 md:h-[288px] lg:left-sp-48 lg:right-sp-48 lg:h-full"
           style={{ backgroundImage: `url(${patternSrc})`, backgroundPosition: "center top", backgroundSize: "1344px auto" }}
         />
 
@@ -398,8 +505,16 @@ function FooterRoot({
           {children ?? (
             <>
               <FooterBanner />
-              <div className="flex min-w-0 flex-col gap-sp-24 md:gap-sp-40">
+              <div className="flex min-w-0 flex-col gap-sp-40 lg:hidden">
                 <FooterColumns />
+                <FooterLegal />
+                <FooterCompanyRow />
+              </div>
+              <div className="hidden min-w-0 lg:flex lg:flex-col lg:gap-sp-40">
+                <div className="flex min-w-0 items-start justify-between gap-sp-64">
+                  <FooterCompany className="shrink-0" />
+                  <FooterColumns className="flex-1" />
+                </div>
                 <FooterLegal />
               </div>
             </>
