@@ -193,7 +193,7 @@ export default function TokensPage() {
                         <th className="px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70">Role</th>
                         <th className="px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70">Class</th>
                         <th className="px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70">Preview</th>
-                        <th className="hidden px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70 sm:table-cell">Size</th>
+                        <th className="hidden px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70 sm:table-cell">Size (Desktop / Mobile)</th>
                         <th className="hidden px-4 py-2.5 ds-text-body-sm font-semibold text-grey-70 md:table-cell">Weight</th>
                       </tr>
                     </thead>
@@ -226,9 +226,16 @@ export default function TokensPage() {
                               </span>
                             </td>
                             <td className="hidden px-4 py-3 sm:table-cell">
-                              <span className="font-mono text-[11px] text-grey-50">
-                                {token.fontSize} / {token.lineHeight}
-                              </span>
+                              <div className="flex flex-col gap-0.5">
+                                <span className="font-mono text-[11px] text-grey-50">
+                                  {token.fontSize} / {token.lineHeight}
+                                </span>
+                                {token.mobileFontSize && token.mobileLineHeight && (
+                                  <span className="font-mono text-[11px] text-grey-30">
+                                    {token.mobileFontSize} / {token.mobileLineHeight}
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="hidden px-4 py-3 md:table-cell">
                               <span className="font-mono text-[11px] text-grey-50">

@@ -75,9 +75,16 @@ function SizeRoleGroup({ role }: { role: TypographySizeRole }) {
 
           {/* Right: Meta */}
           <div className="flex flex-row gap-3 text-[11px] font-mono md:flex-col md:items-end md:gap-0.5">
-            <span className="text-grey-40">
-              {token.fontSize} / {token.lineHeight}
-            </span>
+            <div className="flex flex-col items-end gap-0.5">
+              <span className="text-grey-40">
+                {token.fontSize} / {token.lineHeight}
+              </span>
+              {token.mobileFontSize && token.mobileLineHeight && (
+                <span className="text-grey-30">
+                  {token.mobileFontSize} / {token.mobileLineHeight} <span className="text-grey-20">mob</span>
+                </span>
+              )}
+            </div>
             <span className="text-grey-30">
               {formatLineHeightPercent(token.fontSize, token.lineHeight)}
             </span>
@@ -105,6 +112,11 @@ function SizeRoleGroup({ role }: { role: TypographySizeRole }) {
           <span className="text-grey-30">
             {role.fontSize} / {role.lineHeight}
           </span>
+          {role.mobileFontSize && role.mobileLineHeight && (
+            <span className="text-grey-20">
+              {role.mobileFontSize} / {role.mobileLineHeight} mob
+            </span>
+          )}
           <span className="text-grey-30">
             {formatLineHeightPercent(role.fontSize, role.lineHeight)}
           </span>
@@ -201,10 +213,10 @@ function DetailsAccordion({ groups }: { groups: TypographyGroup[] }) {
                         Weight
                       </th>
                       <th className="px-3 py-2 ds-text-body-sm font-semibold text-grey-70">
-                        Size
+                        Size (Desktop)
                       </th>
                       <th className="px-3 py-2 ds-text-body-sm font-semibold text-grey-70">
-                        Line Height
+                        Size (Mobile)
                       </th>
                       <th className="px-3 py-2 ds-text-body-sm font-semibold text-grey-70">
                         Legacy
@@ -231,10 +243,12 @@ function DetailsAccordion({ groups }: { groups: TypographyGroup[] }) {
                           </code>
                         </td>
                         <td className="px-3 py-2 font-mono text-[11px] text-grey-50">
-                          {t.fontSize}
+                          {t.fontSize} / {t.lineHeight}
                         </td>
                         <td className="px-3 py-2 font-mono text-[11px] text-grey-50">
-                          {t.lineHeight}
+                          {t.mobileFontSize && t.mobileLineHeight
+                            ? `${t.mobileFontSize} / ${t.mobileLineHeight}`
+                            : "—"}
                         </td>
                         <td className="px-3 py-2">
                           <code className="rounded bg-grey-10 px-1.5 py-0.5 text-[11px] text-grey-40 line-through">

@@ -120,6 +120,11 @@ const navigationConfig: NavSection[] = [
         href: "/components/top-navigation",
         description: "Responsive top header with logo, navigation links, and actions",
       },
+      {
+        title: "Generic Hero",
+        href: "/components/generic-hero",
+        description: "Full-width hero section with heading, description, CTA, and illustration",
+      },
     ],
   },
   {
@@ -140,6 +145,11 @@ const navigationConfig: NavSection[] = [
         title: "Top navigation QA",
         href: "/visual-qa/top-navigation",
         description: "Visual QA matrix for desktop, tablet, and mobile top navigation breakpoints",
+      },
+      {
+        title: "Generic Hero QA",
+        href: "/visual-qa/generic-hero",
+        description: "Visual QA matrix for desktop, tablet, and mobile generic hero breakpoints",
       },
     ],
   },

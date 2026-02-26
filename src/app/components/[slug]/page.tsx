@@ -68,6 +68,9 @@ import {
   FooterDemo,
 } from "@/components/demos/footer-demo";
 import {
+  GenericHeroDemo,
+} from "@/components/demos/generic-hero-demo";
+import {
   TableDemo,
   TableRowStatesDemo,
   TableHeaderCellsDemo,
@@ -746,6 +749,51 @@ const componentDefs: Record<string, ComponentDef> = {
       "Responsive layout preserves content order across desktop, tablet, and mobile",
     ],
   },
+  "generic-hero": {
+    previews: [
+      {
+        title: "Default",
+        demo: <GenericHeroDemo />,
+        code: `<GenericHero
+  subHeadingText="Sub-heading"
+  headingText="This is the heading"
+  descriptionText="This is the description"
+  buttonLabel="Button"
+  buttonHref="#"
+/>`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "subHeadingText", type: "string", default: '"Sub-heading"', description: "Small label above the heading" },
+          { name: "headingText", type: "string", default: '"This is the heading"', description: "Main H1 heading of the section" },
+          { name: "descriptionText", type: "string", default: '"This is the description"', description: "Supporting paragraph below the heading" },
+          { name: "buttonLabel", type: "string", default: '"Button"', description: "Label for the primary CTA button" },
+          { name: "buttonHref", type: "string", description: "Destination URL; renders the button as an <a> element when provided" },
+          { name: "onButtonClick", type: "() => void", description: "Click handler used when buttonHref is not provided" },
+          { name: "illustration", type: "ReactNode", description: "Custom illustration slot; defaults to the static Figma export when omitted" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Keep the heading concise (5-10 words) and the description to 1-2 sentences. Lead with the primary benefit." },
+        { type: "dont", text: "Use the hero for secondary content or navigation. It should communicate one clear value proposition." },
+      ],
+      [
+        { type: "do", text: "Use a single primary CTA. The hero has one job — drive users toward the most important action." },
+        { type: "dont", text: "Add multiple competing CTAs or links that dilute the focus of the hero section." },
+      ],
+    ],
+    accessibility: [
+      "Wraps content in a semantic <section> element",
+      "Background and illustration images use alt=\"\" and aria-hidden as they are purely decorative",
+      "Heading renders as a native <h1> for correct document outline",
+      "CTA button uses the shared Button component with full keyboard and focus support",
+      "When buttonHref is provided, the button renders as an <a> element with correct link semantics",
+    ],
+  },
   table: {
     previews: [
       {
@@ -966,7 +1014,7 @@ export default async function ComponentPage({
   }
 
   const def = componentDefs[slug];
-  const isWideLayout = slug === "top-navigation" || slug === "footer";
+  const isWideLayout = slug === "top-navigation" || slug === "footer" || slug === "generic-hero";
   const narrowSectionClass = isWideLayout ? "mx-auto max-w-3xl" : "";
 
   // Pre-highlight all code snippets

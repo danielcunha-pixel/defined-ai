@@ -307,33 +307,48 @@
      Does NOT set font-weight — pair with font-* utility
      ========================================== */
 
-  /* --- Display --- */
-  .ds-text-display-xl  { font-family: var(--font-heading); font-size: 56px; line-height: 64px; letter-spacing: 0; }
-  .ds-text-display-lg  { font-family: var(--font-heading); font-size: 48px; line-height: 58px; letter-spacing: 0; }
+  /* --- Display (mobile-first) --- */
+  .ds-text-display-xl  { font-family: var(--font-heading); font-size: 32px; line-height: 40px; letter-spacing: 0; }
+  .ds-text-display-lg  { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; }
 
-  /* --- Headings --- */
-  .ds-text-heading-xl  { font-family: var(--font-heading); font-size: 32px; line-height: 40px; letter-spacing: 0; }
-  .ds-text-heading-lg  { font-family: var(--font-heading); font-size: 28px; line-height: 34px; letter-spacing: 0; }
-  .ds-text-heading-md  { font-family: var(--font-heading); font-size: 22px; line-height: 26px; letter-spacing: 0; }
-  .ds-text-heading-sm  { font-family: var(--font-heading); font-size: 18px; line-height: 26px; letter-spacing: 0; }
-  .ds-text-heading-xs  { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; }
+  /* --- Headings (mobile-first) --- */
+  .ds-text-heading-xl  { font-family: var(--font-heading); font-size: 24px; line-height: 28px; letter-spacing: 0; }
+  .ds-text-heading-lg  { font-family: var(--font-heading); font-size: 20px; line-height: 24px; letter-spacing: 0; }
+  .ds-text-heading-md  { font-family: var(--font-heading); font-size: 18px; line-height: 22px; letter-spacing: 0; }
+  .ds-text-heading-sm  { font-family: var(--font-heading); font-size: 16px; line-height: 20px; letter-spacing: 0; }
+  .ds-text-heading-xs  { font-family: var(--font-heading); font-size: 15px; line-height: 18px; letter-spacing: 0; }
 
-  /* --- Body --- */
-  .ds-text-body-lg     { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; }
-  .ds-text-body-md     { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0.04em; }
-  .ds-text-body-sm     { font-family: var(--font-sans); font-size: 12px; line-height: 20px; letter-spacing: 0.04em; }
+  /* --- Body (mobile-first) --- */
+  .ds-text-body-lg     { font-family: var(--font-sans); font-size: 14px; line-height: 20px; letter-spacing: 0; }
+  .ds-text-body-md     { font-family: var(--font-sans); font-size: 13px; line-height: 16px; letter-spacing: 0.04em; }
+  .ds-text-body-sm     { font-family: var(--font-sans); font-size: 12px; line-height: 16px; letter-spacing: 0.04em; }
 
-  /* --- UI / Interactive --- */
+  /* --- UI / Interactive (fixed — no responsive variation) --- */
   .ds-text-ui-button-lg { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
   .ds-text-ui-button-md { font-family: var(--font-sans); font-size: 15px; line-height: 22px; letter-spacing: 0; }
   .ds-text-ui-button-mobile-md { font-family: var(--font-sans); font-size: 15px; line-height: normal; letter-spacing: 0; font-weight: 600; }
-  .ds-text-ui-tag       { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; }
+  .ds-text-ui-tag       { font-family: var(--font-sans); font-size: 13px; line-height: normal; letter-spacing: 0.04em; }
   .ds-text-ui-link-lg   { font-family: var(--font-sans); font-size: 18px; line-height: 26px; letter-spacing: 0; }
   .ds-text-ui-link-md   { font-family: var(--font-sans); font-size: 15px; line-height: 15px; letter-spacing: 0.02em; }
   .ds-text-ui-link-sm   { font-family: var(--font-sans); font-size: 13px; line-height: 13px; letter-spacing: 0.04em; }
 
   /* Notification indicator (utility, not in main scale) */
   .ds-text-notification { font-family: var(--font-sans); font-size: 11px; line-height: 15px; letter-spacing: 0.04em; }
+
+  /* --- Desktop overrides (768px+) --- */
+  @media (min-width: 768px) {
+    .ds-text-display-xl  { font-size: 56px; line-height: 64px; }
+    .ds-text-display-lg  { font-size: 48px; line-height: 58px; }
+    .ds-text-heading-xl  { font-size: 32px; line-height: 40px; }
+    .ds-text-heading-lg  { font-size: 28px; line-height: 34px; }
+    .ds-text-heading-md  { font-size: 22px; line-height: 26px; }
+    .ds-text-heading-sm  { font-size: 18px; line-height: 26px; }
+    .ds-text-heading-xs  { font-size: 16px; line-height: 20px; }
+    .ds-text-body-lg     { font-size: 15px; line-height: 22px; }
+    .ds-text-body-md     { font-size: 14px; line-height: 20px; }
+    .ds-text-body-sm     { font-size: 12px; line-height: 20px; }
+    .ds-text-ui-tag      { font-size: 13px; line-height: 13px; }
+  }
 
 
   /* ==========================================

@@ -40,8 +40,14 @@ export interface TypographyToken {
   className: string;
   /** Legacy v1 class (typo-desktop-*) — deprecated */
   legacyClass: string;
+  /** Desktop font-size */
   fontSize: string;
+  /** Desktop line-height */
   lineHeight: string;
+  /** Mobile font-size (undefined if same as desktop) */
+  mobileFontSize?: string;
+  /** Mobile line-height (undefined if same as desktop) */
+  mobileLineHeight?: string;
   fontWeight: number;
   letterSpacing: string;
 }
@@ -58,9 +64,12 @@ export interface TypographySizeRole {
   label: string;
   /** The shared size class */
   sizeClass: string;
-  /** Shared font-size / line-height */
+  /** Shared desktop font-size / line-height */
   fontSize: string;
   lineHeight: string;
+  /** Shared mobile font-size / line-height (undefined if same as desktop) */
+  mobileFontSize?: string;
+  mobileLineHeight?: string;
   letterSpacing: string;
   /** All weight variants for this size role */
   variants: TypographyToken[];
@@ -262,39 +271,50 @@ export const radiusTokens: RadiusToken[] = [
 
 // --- Typography (v2 — grouped) ---
 
-function t(name: string, sizeClass: string, weightClass: string, legacyClass: string, fontSize: string, lineHeight: string, fontWeight: number, letterSpacing: string): TypographyToken {
-  return { name, sizeClass, weightClass, className: `${sizeClass} ${weightClass}`, legacyClass, fontSize, lineHeight, fontWeight, letterSpacing };
+function t(
+  name: string,
+  sizeClass: string,
+  weightClass: string,
+  legacyClass: string,
+  fontSize: string,
+  lineHeight: string,
+  fontWeight: number,
+  letterSpacing: string,
+  mobileFontSize?: string,
+  mobileLineHeight?: string,
+): TypographyToken {
+  return { name, sizeClass, weightClass, className: `${sizeClass} ${weightClass}`, legacyClass, fontSize, lineHeight, mobileFontSize, mobileLineHeight, fontWeight, letterSpacing };
 }
 
 export const typographyGroups: TypographyGroup[] = [
   {
     name: "Display",
     tokens: [
-      t("Display XL",  "ds-text-display-xl",  "font-semibold", "typo-desktop-h1", "56px", "64px", 600, "0"),
-      t("Display LG",  "ds-text-display-lg",  "font-semibold", "typo-desktop-h2", "48px", "58px", 600, "0"),
+      t("Display XL",  "ds-text-display-xl",  "font-semibold", "typo-desktop-h1", "56px", "64px", 600, "0",       "32px", "40px"),
+      t("Display LG",  "ds-text-display-lg",  "font-semibold", "typo-desktop-h2", "48px", "58px", 600, "0",       "28px", "34px"),
     ],
   },
   {
     name: "Headings",
     tokens: [
-      t("Heading XL",  "ds-text-heading-xl", "font-semibold", "typo-desktop-h3",             "32px", "40px", 600, "0"),
-      t("Heading LG",  "ds-text-heading-lg", "font-semibold", "typo-desktop-h4-semi-bold",   "28px", "34px", 600, "0"),
-      t("Heading LG",  "ds-text-heading-lg", "font-regular",  "typo-desktop-h4-regular",     "28px", "34px", 400, "0"),
-      t("Heading MD",  "ds-text-heading-md", "font-semibold", "typo-desktop-h5-semi-bold",   "22px", "26px", 600, "0"),
-      t("Heading MD",  "ds-text-heading-md", "font-regular",  "typo-desktop-h5-regular",     "22px", "26px", 400, "0"),
-      t("Heading SM",  "ds-text-heading-sm", "font-bold",     "typo-desktop-h6-bold",        "18px", "26px", 700, "0"),
-      t("Heading SM",  "ds-text-heading-sm", "font-semibold", "typo-desktop-h6-semi-bold",   "18px", "26px", 600, "0"),
-      t("Heading SM",  "ds-text-heading-sm", "font-regular",  "typo-desktop-h6-regular",     "18px", "26px", 400, "0"),
-      t("Heading XS",  "ds-text-heading-xs", "font-semibold", "typo-desktop-h7",             "16px", "20px", 600, "0"),
+      t("Heading XL",  "ds-text-heading-xl", "font-semibold", "typo-desktop-h3",             "32px", "40px", 600, "0",       "24px", "28px"),
+      t("Heading LG",  "ds-text-heading-lg", "font-semibold", "typo-desktop-h4-semi-bold",   "28px", "34px", 600, "0",       "20px", "24px"),
+      t("Heading LG",  "ds-text-heading-lg", "font-regular",  "typo-desktop-h4-regular",     "28px", "34px", 400, "0",       "20px", "24px"),
+      t("Heading MD",  "ds-text-heading-md", "font-semibold", "typo-desktop-h5-semi-bold",   "22px", "26px", 600, "0",       "18px", "22px"),
+      t("Heading MD",  "ds-text-heading-md", "font-regular",  "typo-desktop-h5-regular",     "22px", "26px", 400, "0",       "18px", "22px"),
+      t("Heading SM",  "ds-text-heading-sm", "font-bold",     "typo-desktop-h6-bold",        "18px", "26px", 700, "0",       "16px", "20px"),
+      t("Heading SM",  "ds-text-heading-sm", "font-semibold", "typo-desktop-h6-semi-bold",   "18px", "26px", 600, "0",       "16px", "20px"),
+      t("Heading SM",  "ds-text-heading-sm", "font-regular",  "typo-desktop-h6-regular",     "18px", "26px", 400, "0",       "16px", "20px"),
+      t("Heading XS",  "ds-text-heading-xs", "font-semibold", "typo-desktop-h7",             "16px", "20px", 600, "0",       "15px", "18px"),
     ],
   },
   {
     name: "Body & UI Text",
     tokens: [
-      t("Body LG",  "ds-text-body-lg", "font-semibold", "typo-desktop-paragraph-semi-bold", "15px", "22px", 600, "0"),
-      t("Body LG",  "ds-text-body-lg", "font-regular",  "typo-desktop-paragraph-regular",   "15px", "22px", 400, "0"),
-      t("Body MD",  "ds-text-body-md", "font-regular",  "typo-desktop-small-text",          "14px", "20px", 400, "0.04em"),
-      t("Body SM",  "ds-text-body-sm", "font-regular",  "typo-desktop-xsmall-text",         "12px", "20px", 400, "0.04em"),
+      t("Body LG",  "ds-text-body-lg", "font-semibold", "typo-desktop-paragraph-semi-bold", "15px", "22px", 600, "0",       "14px", "20px"),
+      t("Body LG",  "ds-text-body-lg", "font-regular",  "typo-desktop-paragraph-regular",   "15px", "22px", 400, "0",       "14px", "20px"),
+      t("Body MD",  "ds-text-body-md", "font-regular",  "typo-desktop-small-text",          "14px", "20px", 400, "0.04em",  "13px", "16px"),
+      t("Body SM",  "ds-text-body-sm", "font-regular",  "typo-desktop-xsmall-text",         "12px", "20px", 400, "0.04em",  "12px", "16px"),
     ],
   },
   {
@@ -302,7 +322,7 @@ export const typographyGroups: TypographyGroup[] = [
     tokens: [
       t("Button LG",  "ds-text-ui-button-lg", "font-semibold", "typo-desktop-button-large",     "18px", "26px", 600, "0"),
       t("Button MD",  "ds-text-ui-button-md", "font-semibold", "typo-desktop-button-medium",    "15px", "22px", 600, "0"),
-      t("Tag",        "ds-text-ui-tag",        "font-medium",   "typo-desktop-tag",              "13px", "13px", 500, "0.04em"),
+      t("Tag",        "ds-text-ui-tag",        "font-medium",   "typo-desktop-tag",              "13px", "13px", 500, "0.04em", "13px", "18px"),
       t("Link LG",   "ds-text-ui-link-lg",    "font-medium",   "typo-desktop-link-h5",          "18px", "26px", 500, "0"),
       t("Link MD",   "ds-text-ui-link-md",    "font-medium",   "typo-desktop-link-paragraph",   "15px", "15px", 500, "0.02em"),
       t("Link SM",   "ds-text-ui-link-sm",    "font-medium",   "typo-desktop-link-small-text",  "13px", "13px", 500, "0.04em"),
@@ -334,6 +354,8 @@ export function groupBySizeRole(group: TypographyGroup): TypographySizeRole[] {
         sizeClass: token.sizeClass,
         fontSize: token.fontSize,
         lineHeight: token.lineHeight,
+        mobileFontSize: token.mobileFontSize,
+        mobileLineHeight: token.mobileLineHeight,
         letterSpacing: token.letterSpacing,
         variants: [token],
       });
