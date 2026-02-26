@@ -59,21 +59,17 @@ export function Sidebar() {
         {/* Logo / title */}
         <Link
           href="/"
-          className="mb-8 flex items-center gap-2 px-3"
+          className="mb-8 flex items-center px-3"
         >
-          <div className="flex size-8 items-center justify-center rounded-[6px] bg-purple-70">
-            <span className="text-sm font-bold text-white">D</span>
-          </div>
-          <span className="ds-text-heading-xs font-semibold text-grey-100">
-            Design System
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/svg/logo_ds.svg" alt="Defined.ai Design System" className="h-10 w-auto" />
         </Link>
 
         {/* Navigation sections */}
         <nav className="flex flex-col gap-6">
           {navigation.map((section) => (
             <div key={section.title}>
-              <h3 className={cn("mb-2 px-3 ds-text-body-sm font-semibold uppercase tracking-wider text-grey-50", section.titleClassName)}>
+              <h3 className={cn("mb-2 px-3 ds-text-body-sm font-semibold uppercase tracking-wider text-grey-100", section.titleClassName)}>
                 {section.title}
               </h3>
               <ul className="flex flex-col gap-0.5" role="list">

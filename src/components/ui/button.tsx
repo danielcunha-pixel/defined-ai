@@ -6,7 +6,7 @@ import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
-import { validateIconConfig, logIconValidationError } from "./button.validation"
+import { validateIconConfig, logIconValidationError, getFirstValidIcon } from "./button.validation"
 
 const buttonVariants = cva(
   [
@@ -110,7 +110,7 @@ function Button({
     md: "icon-md",
     lg: "icon-lg",
     xl: "icon-xl",
-  } as const
+  } as const satisfies Record<"sm" | "md" | "lg" | "xl", string>
   const computedSize =
     isIconOnlyButton && !isIconSize && size && size in iconOnlySizeMap
       ? iconOnlySizeMap[size as keyof typeof iconOnlySizeMap]
@@ -138,8 +138,16 @@ function Button({
   const [isLabelTruncated, setIsLabelTruncated] = React.useState(false)
   const [isPressed, setIsPressed] = React.useState(false)
 
-  // Determine which icon to render (single icon only)
-  const displayIcon = leadingIcon || trailingIcon || icon
+  // Press-state handler factories — forward the original prop then update state
+  function press<E extends React.SyntheticEvent>(handler?: React.EventHandler<E>) {
+    return (event: E) => { setIsPressed(true); handler?.(event) }
+  }
+  function release<E extends React.SyntheticEvent>(handler?: React.EventHandler<E>) {
+    return (event: E) => { setIsPressed(false); handler?.(event) }
+  }
+
+  // Determine which icon to render (single icon only, priority: leadingIcon > trailingIcon > icon)
+  const displayIcon = getFirstValidIcon({ leadingIcon, trailingIcon, icon })
 
   React.useEffect(() => {
     if (isIconOnlyButton) {
@@ -200,56 +208,21 @@ function Button({
         responsiveGhostIconOnlyClasses,
         className
       )}
-      onPointerDown={(event: React.PointerEvent<HTMLButtonElement>) => {
-        setIsPressed(true)
-        props.onPointerDown?.(event)
-      }}
-      onPointerUp={(event: React.PointerEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onPointerUp?.(event)
-      }}
-      onPointerLeave={(event: React.PointerEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onPointerLeave?.(event)
-      }}
-      onPointerCancel={(event: React.PointerEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onPointerCancel?.(event)
-      }}
-      onBlur={(event: React.FocusEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onBlur?.(event)
-      }}
+      onPointerDown={press(props.onPointerDown)}
+      onPointerUp={release(props.onPointerUp)}
+      onPointerLeave={release(props.onPointerLeave)}
+      onPointerCancel={release(props.onPointerCancel)}
+      onBlur={release(props.onBlur)}
       onKeyDown={(event: React.KeyboardEvent<HTMLButtonElement>) => {
-        if (event.key === " " || event.key === "Enter") {
-          setIsPressed(true)
-        }
+        if (event.key === " " || event.key === "Enter") setIsPressed(true)
         props.onKeyDown?.(event)
       }}
-      onKeyUp={(event: React.KeyboardEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onKeyUp?.(event)
-      }}
-      onMouseDown={(event: React.MouseEvent<HTMLButtonElement>) => {
-        setIsPressed(true)
-        props.onMouseDown?.(event)
-      }}
-      onMouseUp={(event: React.MouseEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onMouseUp?.(event)
-      }}
-      onTouchStart={(event: React.TouchEvent<HTMLButtonElement>) => {
-        setIsPressed(true)
-        props.onTouchStart?.(event)
-      }}
-      onTouchEnd={(event: React.TouchEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onTouchEnd?.(event)
-      }}
-      onTouchCancel={(event: React.TouchEvent<HTMLButtonElement>) => {
-        setIsPressed(false)
-        props.onTouchCancel?.(event)
-      }}
+      onKeyUp={release(props.onKeyUp)}
+      onMouseDown={press(props.onMouseDown)}
+      onMouseUp={release(props.onMouseUp)}
+      onTouchStart={press(props.onTouchStart)}
+      onTouchEnd={release(props.onTouchEnd)}
+      onTouchCancel={release(props.onTouchCancel)}
     >
       {content}
     </Comp>

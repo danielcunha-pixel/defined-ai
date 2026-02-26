@@ -160,7 +160,7 @@ function FooterBanner({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col items-center gap-sp-32 text-center md:px-sp-48 lg:px-0", className)}>
       <div className="mx-auto flex w-full max-w-[960px] flex-col gap-sp-12">
-        <h3 className="whitespace-pre-line font-semibold text-white text-[28px] leading-[34px] md:text-[48px] md:leading-[58px]">
+        <h3 className="whitespace-pre-line ds-text-display-lg font-semibold text-white">
           {title}
         </h3>
         {subtitle ? <p className="mx-auto max-w-[740px] ds-text-body-lg text-grey-40">{subtitle}</p> : null}
@@ -185,7 +185,7 @@ function FooterColumn({ title, links, className }: FooterColumnItem & { classNam
 
   return (
     <div className={cn("flex flex-col gap-sp-16", className)}>
-      <p className="font-sans text-[14px] leading-[20px] font-regular tracking-[0.04em] text-grey-40">{title}</p>
+      <p className="ds-text-body-md font-regular text-grey-40">{title}</p>
       {isSolutions ? (
         <>
           <ul className="flex min-w-0 flex-col gap-sp-16 md:hidden">
@@ -278,7 +278,7 @@ function FooterCompany({ className }: { className?: string }) {
                 className="h-auto w-auto"
               />
             ) : (
-              <span className="ds-text-caption-sm text-grey-40">{award.label}</span>
+              <span className="ds-text-body-sm font-regular text-grey-40">{award.label}</span>
             )}
           </span>
         ))}
@@ -441,7 +441,7 @@ function FooterCompanyRow({ className }: { className?: string }) {
                 className="h-auto w-auto"
               />
             ) : (
-              <span className="ds-text-caption-sm text-grey-40">{award.label}</span>
+              <span className="ds-text-body-sm font-regular text-grey-40">{award.label}</span>
             )}
           </span>
         ))}
