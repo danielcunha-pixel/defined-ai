@@ -105,6 +105,11 @@ const navigationConfig: NavSection[] = [
         href: "/components/link",
         description: "Textual navigation link with style, size, and state variants",
       },
+      {
+        title: "Filter Button",
+        href: "/components/filter-button",
+        description: "Pill-shaped filter trigger with multi-select dropdown and split clear interaction",
+      },
     ],
   },
   {
@@ -150,6 +155,11 @@ const navigationConfig: NavSection[] = [
         title: "Generic Hero QA",
         href: "/visual-qa/generic-hero",
         description: "Visual QA matrix for desktop, tablet, and mobile generic hero breakpoints",
+      },
+      {
+        title: "Filter Button QA",
+        href: "/visual-qa/filters",
+        description: "Visual QA matrix for all Filter Button states and variants",
       },
     ],
   },

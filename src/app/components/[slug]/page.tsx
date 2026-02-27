@@ -75,6 +75,12 @@ import {
   TableRowStatesDemo,
   TableHeaderCellsDemo,
 } from "@/components/demos/table-demo";
+import {
+  FilterButtonDefaultDemo,
+  FilterButtonStatesDemo,
+  FilterButtonFilledDemo,
+  FilterButtonGroupDemo,
+} from "@/components/demos/filter-button-demo";
 
 // ============================================
 // Component page definitions
@@ -874,6 +880,81 @@ const componentDefs: Record<string, ComponentDef> = {
       "Sortable headers are real buttons for keyboard and screen-reader support",
       "Header and row state visuals do not introduce layout shift",
       "Numeric cells support tabular figure alignment for scanability",
+    ],
+  },
+  "filter-button": {
+    previews: [
+      {
+        title: "Default",
+        demo: <FilterButtonDefaultDemo />,
+        code: `<FilterButton label="Filter" options={options} />`,
+      },
+      {
+        title: "Empty states",
+        demo: <FilterButtonStatesDemo />,
+        code: `<FilterButton label="Enabled"  options={options} previewState="enabled" />
+<FilterButton label="Hover"    options={options} previewState="hover" />
+<FilterButton label="Pressed"  options={options} previewState="pressed" />
+<FilterButton label="Disabled" options={options} previewState="disabled" />`,
+      },
+      {
+        title: "Filled states",
+        demo: <FilterButtonFilledDemo />,
+        code: `{/* Single selection — shows X mark */}
+<FilterButton label="Filter" options={options} previewFilled previewCount={1} />
+
+{/* Multiple selections — shows count badge */}
+<FilterButton label="Category" options={options} previewFilled previewCount={3} />
+
+{/* Disabled filled */}
+<FilterButton label="Disabled" options={options} previewState="disabled" previewFilled previewCount={2} />`,
+      },
+      {
+        title: "Group",
+        demo: <FilterButtonGroupDemo />,
+        code: `<FilterButton label="Category" options={options} />
+<FilterButton label="Type"     options={options} />
+<FilterButton label="Status"   options={options} showSearch={false} />`,
+      },
+    ],
+    propsTables: [
+      {
+        props: [
+          { name: "label", type: "string", required: true, description: "Filter category name shown in the pill" },
+          { name: "options", type: "Array<{ label: string; value: string }>", default: "[]", description: "List of selectable options shown in the dropdown" },
+          { name: "selectedValues", type: "string[]", default: "[]", description: "Controlled array of selected option values" },
+          { name: "onSelectionChange", type: "(values: string[]) => void", description: "Called when the user toggles an option" },
+          { name: "onClear", type: "() => void", description: "Called when the user clicks the X or badge to clear the filter" },
+          { name: "open", type: "boolean", description: "Controlled open state of the dropdown" },
+          { name: "onOpenChange", type: "(open: boolean) => void", description: "Called when dropdown open state changes" },
+          { name: "showSearch", type: "boolean", default: "true", description: "Renders a search input inside the dropdown" },
+          { name: "searchPlaceholder", type: "string", default: '"Search..."', description: "Placeholder for the search input" },
+          { name: "disabled", type: "boolean", default: "false", description: "Disables all interaction" },
+          { name: "previewState", type: '"enabled" | "hover" | "pressed" | "disabled"', description: "Docs-only static visual state override" },
+          { name: "previewFilled", type: "boolean", description: "Docs-only: forces the filled visual appearance" },
+          { name: "previewCount", type: "number", description: "Docs-only: forces the badge count shown" },
+          { name: "className", type: "string", description: "Additional CSS classes for the pill" },
+        ],
+      },
+    ],
+    dodonts: [
+      [
+        { type: "do", text: "Keep labels short (1–2 words). The pill is compact by design." },
+        { type: "dont", text: "Use long category names that overflow the pill width." },
+      ],
+      [
+        { type: "do", text: "Group Filter Buttons side-by-side, one per category, so users can filter along multiple dimensions." },
+        { type: "dont", text: "Put all filter options inside a single Filter Button — split them by category." },
+      ],
+    ],
+    accessibility: [
+      "Empty state renders a native <button> with aria-expanded and aria-haspopup=\"dialog\"",
+      "Filled state renders two focusable buttons: label (re-opens dropdown) and clear (removes selection)",
+      "Clear button has an explicit aria-label (e.g. \"Clear Category filter\") for screen readers",
+      "Label button has aria-label describing the selection count (e.g. \"Category filter, 3 selected\")",
+      "Dropdown closes on Escape and on outside click",
+      "Search input is auto-focused when the dropdown opens (if showSearch is true)",
+      "Checkbox options use the shared Checkbox component with full keyboard support",
     ],
   },
   checkbox: {

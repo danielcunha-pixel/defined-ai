@@ -559,6 +559,16 @@ function DropdownRoot({
     optionRefs.current[activeIndex]?.scrollIntoView({ block: "nearest" });
   }, [isOpen, activeIndex]);
 
+  // Auto-focus the search input when the menu opens (if search is enabled)
+  React.useEffect(() => {
+    if (!isOpen || !showSearch) {
+      return;
+    }
+    requestAnimationFrame(() => {
+      searchRef.current?.focus();
+    });
+  }, [isOpen, showSearch]);
+
   React.useEffect(() => {
     if (!isOpen) {
       return;

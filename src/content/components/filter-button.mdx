@@ -1,0 +1,24 @@
+---
+title: Filter Button
+description: A pill-shaped filter trigger that toggles a multi-select dropdown. When filters are applied, the label re-opens the dropdown for editing and the badge or X icon clears the selection.
+---
+
+Filter Button lets users narrow a result set by selecting one or more values from a dropdown list. It follows the Mobbin pattern: the pill has two distinct interaction zones when filled — the label re-opens the dropdown and the trailing icon clears the selection.
+
+## When to use
+
+- Filtering a list, grid, or table by one category
+- Inline toolbar filters where space is constrained
+- Multi-select scenarios where users may apply and revise filters iteratively
+
+Use a group of Filter Buttons (one per category) side-by-side for multi-dimensional filtering. Keep the `label` short (1–2 words) so the pill stays compact.
+
+## Interaction model
+
+| State | Label click | Trailing icon click |
+|---|---|---|
+| **Empty** | Opens dropdown | — (chevron, non-interactive) |
+| **Filled (1 selection)** | Re-opens dropdown to edit | Clears selection (X mark) |
+| **Filled (2+ selections)** | Re-opens dropdown to edit | Clears all selections (count badge) |
+
+The dropdown closes automatically when the user clicks outside the pill.

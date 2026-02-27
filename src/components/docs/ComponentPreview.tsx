@@ -22,7 +22,7 @@ export function ComponentPreview({
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
 
   return (
-    <div className="my-6 overflow-hidden rounded-[12px] border border-grey-20">
+    <div className="my-6 rounded-[12px] border border-grey-20">
       {/* Tab bar */}
       <div className="flex items-center gap-1 border-b border-grey-20 bg-grey-5 px-2">
         {title && (

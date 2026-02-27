@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 1440 502" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Hero background">
+<mask id="mask0_0_487" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="280" y="-496" width="880" height="880">
+<circle id="Mask" cx="720" cy="-56" r="440" fill="var(--fill-0, #C2C0C0)"/>
+</mask>
+<g mask="url(#mask0_0_487)">
+<rect id="Pattern" width="1440" height="486" fill="url(#pattern0_0_487)"/>
+</g>
+</g>
+<defs>
+<pattern id="pattern0_0_487" patternUnits="userSpaceOnUse" patternTransform="matrix(6 0 0 6 0 0)" preserveAspectRatio="none" viewBox="0 0 6 6" width="1" height="1">
+<g id="pattern0_0_487_inner">
+<circle id="Ellipse 62" cx="1" cy="1" r="1" fill="var(--fill-0, #E7E1FA)"/>
+</g>
+</pattern></defs>
+</svg>
